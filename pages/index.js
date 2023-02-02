@@ -6,14 +6,11 @@ import { Navigation, Autoplay } from "swiper"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "swiper/css/thumbs"
-import React, { useEffect } from "react"
+import React from "react"
 import MenuCard from "../components/MenuCard"
 import { BiRightArrowCircle } from "react-icons/bi"
 import axios from "axios"
 export default function Home({ menus }) {
-  // useEffect(() => {
-
-  // }, [])
   return (
     <div className=" h-full w-full">
       <Head>

@@ -5,13 +5,13 @@ import React from "react"
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <SessionProvider>
-      <main>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </main>
-    </SessionProvider>
+    // <SessionProvider>
+    <main>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </main>
+    // </SessionProvider>
   )
 }
 

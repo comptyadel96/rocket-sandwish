@@ -1,5 +1,5 @@
 import Link from "next/link"
-import React, { useContext, useEffect } from "react"
+import React from "react"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 
