@@ -140,13 +140,13 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   
   const res = await axios(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/user/isAdmin?id=${session.user.id}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/isAdmin?id=${session.user.id}`
   )
   const user = res.data
   // console.log(user)
   //  get all menus
   const menus = await (
-    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/menus/getMenus`)
+    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
   ).data
 
   return { props: { user, menus } }
