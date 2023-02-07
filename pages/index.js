@@ -73,7 +73,7 @@ export default function Home({ menus }) {
             </div>
           </div>
 
-          {/* <Swiper
+          <Swiper
             spaceBetween={2}
             breakpoints={{
               1200: {
@@ -98,7 +98,7 @@ export default function Home({ menus }) {
             className="xl:w-[95%] w-full py-10"
           >
             {/* bg-[#fdedc9]  */}
-            {/* {menus.map((menu, index) => (
+            {menus.map((menu, index) => (
               <SwiperSlide key={index}>
                 <MenuCard
                   description={menu.description}
@@ -109,8 +109,8 @@ export default function Home({ menus }) {
                   prixPoints={menu.prixPoints}
                 />
               </SwiperSlide>
-            ))} */}
-          {/* </Swiper>  */}
+            ))}
+          </Swiper>
         </section>
         <div className="lg:my-8 my-5 relative">
           <h1 className="xl:text-7xl lg:text-5xl text-xl font-bold">
@@ -207,12 +207,12 @@ export default function Home({ menus }) {
     </div>
   )
 }
-// export async function getServerSideProps(context) {
-//   //  get all menus
-//   const menus = await (
-//     await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
-//   ).data
-//   return { props: { menus } }
-//   // console.log(context.req.headers.host) 
-//   // bb
-// }
+export async function getServerSideProps(context) {
+  //  get all menus
+  const menus = await (
+    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
+  ).data
+  return { props: { menus } }
+  // console.log(context.req.headers.host) 
+  // bb
+}
