@@ -1,10 +1,10 @@
 import Link from "next/link"
 import React from "react"
 import Image from "next/image"
-// import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
 function Navbar() {
-  // const { status } = useSession()
+  const { status } = useSession()
   return (
     <>
       {/* mobile nav */}
@@ -22,19 +22,13 @@ function Navbar() {
         <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/menu">
           Menus
         </Link>
-        <Link
-          className="lg:mx-5 font-semibold hover:text-red-600"
-          href="/contact"
-        >
+        <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/contact">
           Contactez nous
         </Link>
-        <Link
-          className="lg:mx-5 font-semibold hover:text-red-600"
-          href="/infos"
-        >
+        <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/infos">
           Infos
         </Link>
-        {/* {status !== "authenticated" ? (
+        {status !== "authenticated" ? (
           <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/Login">
             Se connecter
           </Link>
@@ -42,13 +36,7 @@ function Navbar() {
           <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/Login">
             Profil
           </Link>
-        )} */}
-        <Link
-          className="lg:mx-5 font-semibold hover:text-red-600"
-          href="/Login"
-        >
-          Se connecter
-        </Link>
+        )}
       </div>
     </>
   )

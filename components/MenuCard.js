@@ -13,7 +13,7 @@ function MenuCard({
   onModify,
 }) {
   return (
-    <div className="flex flex-col items-center  cursor-pointer lg:py-3 py-1 lg:px-5 px-2 md:max-w-fit my-10 bg-white mx-4 rounded-md shadow-lg border  relative">
+    <div className="flex flex-col items-center cursor-pointer lg:py-3 py-1 lg:px-5 px-2 md:max-w-[20rem] my-10 bg-white mx-4 rounded-md shadow-lg border  relative">
       <Image
         alt={alt}
         src={src}
@@ -23,12 +23,15 @@ function MenuCard({
       />
 
       <p className="font-bold lg:text-2xl  ">{title} </p>
-      <p className=" flex flex-wrap max-w-[19rem] font-semibold  text-sm text-gray-400 ">
-        {description}{" "}
+
+      <p className=" text-clip overflow-hidden  text-center font-semibold  text-sm text-gray-400 ">
+        {description}
       </p>
+
       <p className="font-bold text-lg rounded-md my-1  w-full text-center  text-">
         {price} <span className="">Da</span>{" "}
       </p>
+      <div></div>
       <p className="text-sm font-semibold text-red-600">
         {prixPoints} <span className="">Points rocket</span>{" "}
       </p>

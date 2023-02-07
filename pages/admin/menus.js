@@ -5,12 +5,14 @@ import React, { useRef, useState } from "react"
 import AddMenu from "../../form/AddMenu"
 import MenuCard from "../../components/MenuCard"
 import { useRouter } from "next/router"
-
+import ModifyMenu from "../../form/ModifyMenu"
+import { IoMdCloseCircle } from "react-icons/io"
 function menus({ menus, user }) {
   const router = useRouter()
   const modalRef = useRef(null)
   const modifyRef = useRef(null)
   const [menuId, setMenuId] = useState("")
+  const [singleMenu, setSingleMenu] = useState({})
   // delete menu
   const deleteMenu = async () => {
     try {
@@ -23,15 +25,15 @@ function menus({ menus, user }) {
     }
   }
   // modify menu
-  const modifyMenu = async () => {}
+
   // toggle delete modal
-  const toggleModal = () => {
-    if (modalRef.current.classList.contains("hidden")) {
-      modalRef.current.classList.remove("hidden")
-      modalRef.current.classList.add("block")
+  const toggleModal = (ref) => {
+    if (ref.current.classList.contains("hidden")) {
+      ref.current.classList.remove("hidden")
+      ref.current.classList.add("block")
     } else {
-      modalRef.current.classList.add("hidden")
-      modalRef.current.classList.remove("block")
+      ref.current.classList.add("hidden")
+      ref.current.classList.remove("block")
     }
   }
 
@@ -50,14 +52,14 @@ function menus({ menus, user }) {
             <button
               onClick={() => {
                 deleteMenu()
-                toggleModal()
+                toggleModal(modalRef)
               }}
               className="px-3 py-1 rounded-md bg-red-600 text-white"
             >
               Oui
             </button>
             <button
-              onClick={toggleModal}
+              onClick={() => toggleModal(modalRef)}
               className="px-3 py-1 rounded-md bg-black text-white"
             >
               Annuler
@@ -65,7 +67,31 @@ function menus({ menus, user }) {
           </div>
         </div>
       </div>
-
+      {/* modify menu */}
+      <div
+        ref={modifyRef}
+        className="fixed z-10 inset-0 hidden w-full h-full bg-black/40 pt-10"
+      >
+        <div className="relative max-w-fit mx-auto">
+          <div className="md:mt-6 bg-black/70 rounded-xl  flex flex-col pb-4 items-center">
+            <ModifyMenu
+              menuId={menuId}
+              userId={user._id}
+              onModifyComplete={() => toggleModal(modifyRef)}
+              defaultPic={singleMenu.photo}
+              defPrice={singleMenu.prix}
+              defDescription={singleMenu.description}
+              defTitle={singleMenu.nom}
+              defPricePoint={singleMenu.prixPoints}
+            />
+          </div>
+          <IoMdCloseCircle
+            className="absolute right-2 top-2 text-red-600 z-40 cursor-pointer"
+            size={24}
+            onClick={() => toggleModal(modifyRef)}
+          />
+        </div>
+      </div>
       {/* all menus */}
       <h1 className="md:text-5xl font-bold text-center">Tous les menus</h1>
       <div className="flex items-center flex-wrap justifiy-evenly md:p-5 p-3 md:mb-24">
@@ -79,8 +105,14 @@ function menus({ menus, user }) {
             isDash={true}
             prixPoints={menu.prixPoints}
             onDelete={() => {
-              toggleModal()
+              toggleModal(modalRef)
               setMenuId(menu._id)
+            }}
+            onModify={() => {
+              toggleModal(modifyRef)
+              setMenuId(menu._id)
+              setSingleMenu(menu)
+              console.log(menu)
             }}
           />
         ))}
@@ -106,14 +138,15 @@ function menus({ menus, user }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
+  
   const res = await axios(
-    `http:localhost:3000/api/user/isAdmin?id=${session.user.id}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/isAdmin?id=${session.user.id}`
   )
   const user = res.data
   // console.log(user)
   //  get all menus
   const menus = await (
-    await axios("http:localhost:3000/api/menus/getMenus")
+    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/menus/getMenus`)
   ).data
 
   return { props: { user, menus } }

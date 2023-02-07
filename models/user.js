@@ -1,30 +1,33 @@
 import mongoose from "mongoose"
 
-const userSchema = new mongoose.Schema({
-  userId: String,
-  email: {
-    type: String,
-    required: true,
-    unique: [true, "Un utilisateur avec cet email existe déja"],
-  },
-  name: String,
-  role: {
-    type: String,
-    default: "user",
-    enum: {
-      values: ["client", "modérateur", "administrateur"],
+const userSchema = new mongoose.Schema(
+  {
+    userId: String,
+    email: {
+      type: String,
+      required: true,
+      unique: [true, "Un utilisateur avec cet email existe déja"],
+    },
+    name: String,
+    phoneNumber: {
+      type: String,
+      unique: [true, "Un utilisateur avec ce numéro de téléphone existe déja"],
+    },
+    role: {
+      type: String,
+      default: "user",
+      enum: {
+        values: ["client", "modérateur", "administrateur"],
+      },
+    },
+    picture: String,
+    commandes: [],
+    rocketPts: {
+      type: String,
+      default: 0,
     },
   },
-  picture: String,
-  commandes: [],
-  rocketPts: {
-    type: Number,
-    default: 0,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-})
+  { timestamps: true }
+)
 
 export default mongoose.models.User || mongoose.model("User", userSchema)

@@ -66,7 +66,7 @@ function AddMenu() {
         }}
       >
         {({ setFieldValue, handleChange, touched, errors }) => (
-          <Form className="flex flex-col max-w-fit self-center justify-evenly md:py-5 md:px-10 rounded-lg border shadow-md mx-10  my-10">
+          <Form className="flex flex-col max-w-fit bg-white self-center justify-evenly md:py-5 md:px-10 rounded-lg border shadow-md mx-10  my-10">
             {/* image */}
             {hasUploadPhoto ? (
               <Image
