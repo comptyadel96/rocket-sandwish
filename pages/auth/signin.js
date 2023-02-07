@@ -13,11 +13,12 @@ export default function Login({ providers }) {
           {provider.name === "Google" ? (
             <button
               className="mb-5 mt-14 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault()
                 signIn(provider.id, {
                   callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
                 })
-              }
+              }}
             >
               Se connecter avec {provider.name}{" "}
               <FcGoogle className="text-2xl ml-1" />
@@ -25,11 +26,12 @@ export default function Login({ providers }) {
           ) : (
             <button
               className="my-3 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
-              onClick={() =>
+              onClick={() => {
+                e.preventDefault()
                 signIn(provider.id, {
                   callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
                 })
-              }
+              }}
             >
               Se connecter avec {provider.name}{" "}
               <BsFacebook className="text-2xl ml-1 text-blue-500" />

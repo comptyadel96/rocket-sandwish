@@ -209,14 +209,10 @@ export default function Home({ menus }) {
 }
 export async function getServerSideProps(context) {
   //  get all menus
-  try {
-    const menus = await (
-      await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/menus/getMenus`)
-    ).data 
-    return { props: { menus } }
-    // console.log(context.req.headers.host)
-  } catch (error) {
-    console.log(error.message)
-  }
- 
+
+  const menus = await (
+    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/menus/getMenus`)
+  ).data
+  return { props: { menus } }
+  // console.log(context.req.headers.host)
 }
