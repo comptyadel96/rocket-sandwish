@@ -211,7 +211,7 @@ export async function getServerSideProps(context) {
   //  get all menus
 
   const menus = await (
-    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/menus/getMenus`)
+    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
   ).data
   return { props: { menus } }
   // console.log(context.req.headers.host)
