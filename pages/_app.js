@@ -5,7 +5,7 @@ import React from "react"
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <SessionProvider>
+    <SessionProvider basePath={`${process.env.NEXTAUTH_URL}`}>
       <main>
         <Layout>
           <Component {...pageProps} />
