@@ -109,7 +109,7 @@ export default function Home({ menus }) {
         </section>
         <div className="lg:my-8 my-5 relative">
           <h1 className="xl:text-7xl lg:text-5xl text-xl font-bold">
-            Vos plats préférés livrés chez vous!
+            Vos plats préférés livrés chez vous
           </h1>
           <div className="absolute left-0 md:-bottom-1 bottom-0 w-full md:h-5 h-2 -z-10 bg-[#fdedc9] " />
         </div>
@@ -202,13 +202,13 @@ export default function Home({ menus }) {
     </div>
   )
 }
-// export async function getServerSideProps(context) {
-//   //  get all menus
-//   // const menus = await (
-//   //   await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
-//   // ).data
+export async function getServerSideProps(context) {
+  //  get all menus
+  // const menus = await (
+  //   await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
+  // ).data
 
-//   await clientPromise()
-//   const menus = await Menu.find({})
-//   return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
-// }
+  await clientPromise()
+  const menus = await Menu.find({})
+  return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
+}
