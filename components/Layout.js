@@ -1,4 +1,4 @@
-import Navbar from "../pages/Navbar"
+import Navbar from "./Navbar"
 import Footer from "./Footer"
 export default function Layout({ children }) {
   return (

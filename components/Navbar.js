@@ -19,7 +19,7 @@ function Navbar() {
           />
         </Link>
 
-        <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/menu">
+        <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/menus">
           Menus
         </Link>
         <Link className="lg:mx-5 font-semibold hover:text-red-600" href="/contact">

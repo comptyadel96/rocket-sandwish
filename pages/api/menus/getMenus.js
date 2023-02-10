@@ -1,6 +1,6 @@
 import clientPromise from "../../../lib/dbConnect"
 import Menu from "../../../models/menu"
-export default async (req, res) => {
+export default async function handler(req, res) {
   try {
     await clientPromise()
     const menus = await Menu.find()

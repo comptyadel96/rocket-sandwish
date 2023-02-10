@@ -10,15 +10,10 @@ import React from "react"
 import MenuCard from "../components/MenuCard"
 import { BiRightArrowCircle } from "react-icons/bi"
 import axios from "axios"
-export default function Home({ menus }) {
-  // algeria map coordinates :
+import clientPromise from "../lib/dbConnect"
+import Menu from "../models/menu"
 
-  // {
-  //"type": "Polygon",
-  //"arcs": [[260, 261, 262, 263, 264, 265, 266, 267]],
-  //"id": "DZA",
-  //"properties": { "name": "Algeria" }
-  //  }
+export default function Home({ menus }) {
   return (
     <div className=" h-full w-full">
       <Head>
@@ -209,10 +204,11 @@ export default function Home({ menus }) {
 }
 export async function getServerSideProps(context) {
   //  get all menus
-  const menus = await (
-    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
-  ).data
-  return { props: { menus } }
-  // console.log(context.req.headers.host) 
-  // bb
+  // const menus = await (
+  //   await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
+  // ).data
+
+  await clientPromise()
+  const menus = await Menu.find()
+  return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
 }
