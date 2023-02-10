@@ -209,6 +209,6 @@ export async function getServerSideProps(context) {
   // ).data
 
   await clientPromise()
-  const menus = await Menu.find()
+  const menus = await Menu.find({})
   return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
 }
