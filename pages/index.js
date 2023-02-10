@@ -207,7 +207,12 @@ export async function getServerSideProps(context) {
   // const menus = await (
   //   await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
   // ).data
-
+  try {
+    await clientPromise()
+    await Menu.find({})
+  } catch (error) {
+    console.log(error)
+  }
   await clientPromise()
   const menus = await Menu.find({})
   return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
