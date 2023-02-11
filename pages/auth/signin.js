@@ -14,7 +14,7 @@ export default function Login({ providers }) {
             <button
               className="mb-5 mt-14 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
               onClick={(e) => {
-                e.preventDefault()
+                // e.preventDefault()
                 signIn(provider.id, {
                   callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
                 })
@@ -27,7 +27,7 @@ export default function Login({ providers }) {
             <button
               className="my-3 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
               onClick={(e) => {
-                e.preventDefault()
+                // e.preventDefault()
                 signIn(provider.id, {
                   callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
                 })
