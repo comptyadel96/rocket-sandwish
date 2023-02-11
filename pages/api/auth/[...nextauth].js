@@ -63,13 +63,5 @@ export default NextAuth({
       session.user.id = token.sub
       return session
     },
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      // if (url.startsWith("/"))
-       return `${baseUrl}${url}/Login`
-      // Allows callback URLs on the same origin
-      // else if (new URL(url).origin === baseUrl) return url
-      // return baseUrl
-    },
   },
 })
