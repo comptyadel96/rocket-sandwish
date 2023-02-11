@@ -27,14 +27,15 @@ function MenuCard({
       <p className=" text-clip overflow-hidden  text-center font-semibold  text-sm text-gray-400 ">
         {description}
       </p>
+      <div className="flex items-center justify-center my-1 w-full">
+        <span className="w-3 h-3 rounded-full bg-red-600 mr-1"></span>
+        <p className="font-bold text-lg  text-center">{price} Da</p>
+      </div>
 
-      <p className="font-bold text-lg rounded-md my-1  w-full text-center  text-">
-        {price} <span className="">Da</span>{" "}
-      </p>
       <div></div>
-      <p className="text-sm font-semibold text-red-600">
+      {/* <p className="text-sm font-semibold text-red-600">
         {prixPoints} <span className="">Points rocket</span>{" "}
-      </p>
+      </p> */}
       {!isDash ? (
         <button className="absolute lg:-right-9 -right-4 lg:-bottom-6 -bottom-8 border-red-600 border-2 shadow-md shadow-red-200 rounded-lg font-semibold bg-white px-2 text-red-600 hover:bg-red-600 hover:text-white">
           + Commander

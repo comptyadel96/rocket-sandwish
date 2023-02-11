@@ -9,7 +9,7 @@ import "swiper/css/thumbs"
 import React from "react"
 import MenuCard from "../components/MenuCard"
 import { BiRightArrowCircle } from "react-icons/bi"
-import axios from "axios"
+
 import clientPromise from "../lib/dbConnect"
 import Menu from "../models/menu"
 
@@ -25,11 +25,11 @@ export default function Home({ menus }) {
         <link rel="icon" href="/rocket.ico" />
       </Head>
 
-      <main className="flex flex-col items-center lg:pt-10 mx-auto">
+      <main className="flex flex-col items-center lg:pt-12 mx-auto">
         <Image
           alt=" fast food vente de sandwishs et nourriture algèrie"
           className=" md:block hidden object-cover "
-          src="/images/head.png"
+          src="/images/banner1.jpg"
           height={1400}
           width={1720}
         />
@@ -203,10 +203,6 @@ export default function Home({ menus }) {
   )
 }
 export async function getServerSideProps(context) {
-  //  get all menus
-  // const menus = await (
-  //   await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
-  // ).data
   try {
     await clientPromise()
     await Menu.find({})
