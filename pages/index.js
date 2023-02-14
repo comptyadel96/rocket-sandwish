@@ -1,5 +1,6 @@
 import Head from "next/head"
 import Image from "next/image"
+import Link from "next/link"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import { Navigation, Autoplay } from "swiper"
@@ -95,14 +96,16 @@ export default function Home({ menus }) {
             {/* bg-[#fdedc9]  */}
             {menus.map((menu, index) => (
               <SwiperSlide key={index}>
-                <MenuCard
-                  description={menu.description}
-                  src={menu.photo}
-                  price={menu.prix}
-                  title={menu.nom}
-                  key={index}
-                  prixPoints={menu.prixPoints}
-                />
+                <Link href={`/menus/${menu._id}`} key={index}>
+                  <MenuCard
+                    description={menu.description}
+                    src={menu.photo}
+                    price={menu.prix}
+                    title={menu.nom}
+                    key={index}
+                    prixPoints={menu.prixPoints}
+                  />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -174,6 +177,7 @@ export default function Home({ menus }) {
               className="rounded-xl z-10"
             />
             <div className="absolute -right-7 -bottom-5 w-full h-[50%]  bg-[#fdedc9] rounded-xl -z-50" />
+            <div className="absolute -left-10 -top-5 w-full h-[50%]  bg-gray-100 rounded-xl -z-50" />
           </div>
           <div className="flex flex-col self-start">
             <p className="font-semibold md:text-4xl">Soyez les bienvenues</p>
@@ -203,12 +207,6 @@ export default function Home({ menus }) {
   )
 }
 export async function getServerSideProps(context) {
-  try {
-    await clientPromise()
-    await Menu.find({})
-  } catch (error) {
-    console.log(error)
-  }
   await clientPromise()
   const menus = await Menu.find({})
   return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
