@@ -1,5 +1,5 @@
 import Image from "next/image"
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import clientPromise from "../../lib/dbConnect"
 import Menu from "../../models/menu"
 import { BsTelephone, BsPinMap } from "react-icons/bs"
@@ -36,6 +36,13 @@ function menu({ menu }) {
   const gouda = useRef()
   const kiri = useRef()
   const camambert = useRef()
+  //  state
+  // const [numbMenu, setNumbMenu] = useState(0)
+  const [numbCoca, setNumbCoca] = useState(0)
+  const [numbPepsi, setNumbPepsi] = useState(0)
+  const [numbSelecto, setNumbSelecto] = useState(0)
+  const [numbMirinda, setNumbMirinda] = useState(0)
+  const [numbSchweppes, setNumbSchweppes] = useState(0)
 
   const toggleSauce = (ref) => {
     if (ref.current.classList.contains("bg-white")) {
@@ -69,7 +76,7 @@ function menu({ menu }) {
         width={600}
         src={menu.photo}
         alt={`menu rocket ${menu.nom} `}
-        className="rounded-3xl"
+        className="rounded-3xl self-start"
       />
 
       {/* commande details */}
@@ -189,6 +196,124 @@ function menu({ menu }) {
             >
               Kiri
             </button>
+          </div>
+          {/* boissons */}
+          <div className="flex items-center justify-evenly flex-wrap md:my-5">
+            <div className="flex flex-col items-center  md:mx-3 mx-2">
+              <Image src="/images/selecto.jpg" height={40} width={40} />
+              <p className="font-semibold">Selecto</p>
+              <div className="flex items-center text-lg font-semibold text-red-600">
+                <button
+                  onClick={() => {
+                    setNumbSelecto((prev) => (prev > 0 ? prev - 1 : 0))
+                  }}
+                  className=" text-2xl"
+                >
+                  -
+                </button>
+                <p className="mx-2 text-black">{numbSelecto} </p>
+                <button
+                  onClick={() => {
+                    setNumbSelecto((prev) => prev + 1)
+                  }}
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center  md:mx-3 mx-2">
+              <Image src="/images/coca.png" height={40} width={40} />
+              <p className="font-semibold">Coca cola</p>
+              <div className="flex items-center text-lg font-semibold text-red-600">
+                <button
+                  onClick={() => {
+                    setNumbCoca((prev) => (prev > 0 ? prev - 1 : 0))
+                  }}
+                  className=" text-2xl"
+                >
+                  -
+                </button>
+                <p className="mx-2 text-black">{numbCoca}</p>
+                <button
+                  onClick={() => {
+                    setNumbCoca((prev) => prev + 1)
+                  }}
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center  md:mx-3 mx-2">
+              <Image src="/images/pepsi.jpg" height={45} width={45} />
+              <p className="font-semibold">Pepsi</p>
+              <div className="flex items-center text-lg font-semibold text-red-600">
+                <button
+                  onClick={() => {
+                    setNumbPepsi((prev) => (prev > 0 ? prev - 1 : 0))
+                  }}
+                  className=" text-2xl"
+                >
+                  -
+                </button>
+                <p className="mx-2 text-black">{numbPepsi} </p>
+                <button
+                  onClick={() => {
+                    setNumbPepsi((prev) => prev + 1)
+                  }}
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center  md:mx-3 mx-2">
+              <Image src="/images/schweppes.jpeg" height={45} width={45} />
+              <p className="font-semibold">Schweppes</p>
+              <div className="flex items-center text-lg font-semibold text-red-600">
+                <button
+                  onClick={() => {
+                    setNumbSchweppes((prev) => (prev > 0 ? prev - 1 : 0))
+                  }}
+                  className=" text-2xl"
+                >
+                  -
+                </button>
+                <p className="mx-2 text-black">{numbSchweppes} </p>
+                <button
+                  onClick={() => {
+                    setNumbSchweppes((prev) => prev + 1)
+                  }}
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center  md:mx-3 mx-2">
+              <Image src="/images/mirinda.jpg" height={60} width={60} />
+              <p className="font-semibold">Mirinda</p>
+              <div className="flex items-center text-lg font-semibold text-red-600">
+                <button
+                  onClick={() => {
+                    setNumbMirinda((prev) => (prev > 0 ? prev - 1 : 0))
+                  }}
+                  className=" text-2xl"
+                >
+                  -
+                </button>
+                <p className="mx-2 text-black">{numbMirinda} </p>
+                <button
+                  onClick={() => {
+                    setNumbMirinda((prev) => prev + 1)
+                  }}
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* infos personnelle client */}
