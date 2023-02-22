@@ -43,16 +43,24 @@ function menu({ menu }) {
   const [numbSelecto, setNumbSelecto] = useState(0)
   const [numbMirinda, setNumbMirinda] = useState(0)
   const [numbSchweppes, setNumbSchweppes] = useState(0)
+  const [suppléments, setSupléments] = useState([])
+  const [sauce, setSauce] = useState([])
+  const [boissons, setBoissons] = useState([{}])
+  const [totalPrice, setTotalPrice] = useState(parseInt(menu.prix))
 
   const toggleSauce = (ref) => {
     if (ref.current.classList.contains("bg-white")) {
       ref.current.classList.remove("bg-white")
       ref.current.classList.add("bg-red-600")
       ref.current.classList.add("text-white")
+      setSauce((prevSauce) => [...prevSauce, ref.current.value])
+
+      console.log(sauce)
     } else {
       ref.current.classList.add("bg-white")
       ref.current.classList.remove("text-white")
       ref.current.classList.remove("bg-red-600")
+      setSauce(sauce.filter((sauce) => sauce !== ref.current.value))
     }
   }
   const toggleSup = (ref) => {
@@ -60,15 +68,19 @@ function menu({ menu }) {
       ref.current.classList.remove("bg-white")
       ref.current.classList.add("bg-amber-300")
       ref.current.classList.add("text-white")
+      setSupléments((prevSup) => [...prevSup, ref.current.value])
+      setTotalPrice((prevPrice) => prevPrice + 10)
     } else {
       ref.current.classList.add("bg-white")
       ref.current.classList.remove("text-white")
       ref.current.classList.remove("bg-amber-300")
+      setSupléments(suppléments.filter((sup) => sup !== ref.current.value))
+      setTotalPrice((prevPrice) => prevPrice - 10)
     }
   }
 
   return (
-    <div className="md:py-16 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">
+    <div className="md:py-16 py-10 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">
       {/* menu card */}
 
       <Image
@@ -76,31 +88,36 @@ function menu({ menu }) {
         width={600}
         src={menu.photo}
         alt={`menu rocket ${menu.nom} `}
-        className="rounded-3xl self-start"
+        className="md:rounded-3xl self-start"
       />
 
       {/* commande details */}
       <div className="flex flex-col self-start">
-        <p className="font-bold md:text-6xl capitalize"> {menu.nom} </p>
-        <div className="flex flex-wrap md:mt-7 md:text-lg md:px-3 md:py-2  bg-white rounded-lg shadow font-bold">
+        <p className="font-bold md:text-6xl text-2xl capitalize md:mt-0 mt-3 md:ml-0 ml-4">
+          {" "}
+          {menu.nom}{" "}
+        </p>
+        <div className="flex flex-wrap md:mt-7 mt-4 md:text-lg px-3 py-2  bg-white rounded-lg shadow font-bold">
           <p className=" text-red-600">Ingrédients:</p>
           <p className="md:max-w-md ml-2 font-semibold">{menu.description} </p>
         </div>
-        <div className="flex items-center flex-wrap text-sm justify-evenly md:mt-5">
-          <p className=" font-semibold bg-red-600 px-3 py-1 rounded-xl text-white">
+        <div className="flex items-center flex-wrap text-sm justify-evenly mt-5">
+          <p className=" font-semibold md:my-0 my-2 bg-red-600 px-3 py-1 rounded-xl text-white">
             menu personnalisable
           </p>
-          <p className=" font-semibold bg-black px-3 py-1 rounded-xl text-white">
+          <p className=" font-semibold md:my-0 my-2 bg-black px-3 py-1 rounded-xl text-white">
             plusieurs formats
           </p>
-          <p className=" font-semibold bg-[#f6d485] px-3 py-1 rounded-xl">
+          <p className=" font-semibold md:my-0 my-2 bg-[#f6d485] px-3 py-1 rounded-xl">
             à partir de {menu.prix} Da
           </p>
         </div>
 
         {/* commande form */}
         <div className="flex flex-col items-center md:mt-6 md:py-4 py-2">
-          <p className="md:text-5xl  md:mb-4 mb-2 ">Alors ça vous tente ? </p>
+          <p className="md:text-5xl text-2xl md:mb-4 mb-2 ">
+            Alors ça vous tente ?{" "}
+          </p>
           {/* sauce */}
           <p className="font-semibold">
             une sauce ?{" "}
@@ -116,6 +133,7 @@ function menu({ menu }) {
                 toggleSauce(mayoRef)
               }}
               ref={mayoRef}
+              value="Mayonnaise"
               className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
             >
               Mayonnaise
@@ -127,6 +145,7 @@ function menu({ menu }) {
               onClick={() => {
                 toggleSauce(ketchupRef)
               }}
+              value="ketchup"
               ref={ketchupRef}
               className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
             >
@@ -140,6 +159,7 @@ function menu({ menu }) {
                 toggleSauce(maisonRef)
               }}
               ref={maisonRef}
+              value="Sauce maison"
               className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
             >
               Sauce maison
@@ -152,6 +172,7 @@ function menu({ menu }) {
                 toggleSauce(hrissaRef)
               }}
               ref={hrissaRef}
+              value="Hrissa"
               className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
             >
               Hrissa
@@ -162,6 +183,7 @@ function menu({ menu }) {
           <div className="flex flex-wrap items-center">
             <button
               ref={gruyére}
+              value="Gruyére"
               onClick={() => {
                 toggleSup(gruyére)
               }}
@@ -171,6 +193,7 @@ function menu({ menu }) {
             </button>
             <button
               ref={gouda}
+              value="Gouda"
               onClick={() => {
                 toggleSup(gouda)
               }}
@@ -180,6 +203,7 @@ function menu({ menu }) {
             </button>
             <button
               ref={camambert}
+              value="Camambert"
               onClick={() => {
                 toggleSup(camambert)
               }}
@@ -189,6 +213,7 @@ function menu({ menu }) {
             </button>
             <button
               ref={kiri}
+              value="Kiri"
               onClick={() => {
                 toggleSup(kiri)
               }}
@@ -199,7 +224,7 @@ function menu({ menu }) {
           </div>
           {/* boissons */}
           <div className="flex items-center justify-evenly flex-wrap md:my-5">
-            <div className="flex flex-col items-center  md:mx-3 mx-2">
+            <div className="flex flex-col items-center  md:mx-4 mx-2">
               <Image src="/images/selecto.jpg" height={40} width={40} />
               <p className="font-semibold">Selecto</p>
               <div className="flex items-center text-lg font-semibold text-red-600">
@@ -222,7 +247,7 @@ function menu({ menu }) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col items-center  md:mx-3 mx-2">
+            <div className="flex flex-col items-center  md:mx-4 mx-2">
               <Image src="/images/coca.png" height={40} width={40} />
               <p className="font-semibold">Coca cola</p>
               <div className="flex items-center text-lg font-semibold text-red-600">
@@ -245,7 +270,7 @@ function menu({ menu }) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col items-center  md:mx-3 mx-2">
+            <div className="flex flex-col items-center  md:mx-4 mx-2">
               <Image src="/images/pepsi.jpg" height={45} width={45} />
               <p className="font-semibold">Pepsi</p>
               <div className="flex items-center text-lg font-semibold text-red-600">
@@ -268,7 +293,7 @@ function menu({ menu }) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col items-center  md:mx-3 mx-2">
+            <div className="flex flex-col items-center  md:mx-4 mx-2">
               <Image src="/images/schweppes.jpeg" height={45} width={45} />
               <p className="font-semibold">Schweppes</p>
               <div className="flex items-center text-lg font-semibold text-red-600">
@@ -291,7 +316,7 @@ function menu({ menu }) {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col items-center  md:mx-3 mx-2">
+            <div className="flex flex-col items-center  md:mx-4 mx-2">
               <Image src="/images/mirinda.jpg" height={60} width={60} />
               <p className="font-semibold">Mirinda</p>
               <div className="flex items-center text-lg font-semibold text-red-600">
@@ -317,7 +342,7 @@ function menu({ menu }) {
           </div>
 
           {/* infos personnelle client */}
-          <div className="flex items-center md:my-3">
+          <div className="flex items-center my-3">
             <BsPinMap className="mr-2 text-xl" />
             <input
               type="text"
@@ -325,7 +350,7 @@ function menu({ menu }) {
               placeholder="Adresse de livraison"
             />
           </div>
-          <div className="flex items-center md:my-3">
+          <div className="flex items-center my-3">
             <BsTelephone className="mr-2 text-xl" />
             <input
               type="text"
@@ -333,6 +358,7 @@ function menu({ menu }) {
               placeholder="Ex: 05577049.."
             />
           </div>
+          <p className="font-semibold mb-2">Totale à payer: {totalPrice} Da </p>
           <button className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white">
             Commander
           </button>

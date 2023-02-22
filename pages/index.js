@@ -179,7 +179,7 @@ export default function Home({ menus }) {
             <div className="absolute -right-7 -bottom-5 w-full h-[50%]  bg-[#fdedc9] rounded-xl -z-50" />
             <div className="absolute -left-10 -top-5 w-full h-[50%]  bg-gray-100 rounded-xl -z-50" />
           </div>
-          <div className="flex flex-col self-start">
+          <div className="flex flex-col self-start md:pl-4 pl-2 border-l-4 border-l-red-500">
             <p className="font-semibold md:text-4xl">Soyez les bienvenues</p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
               Que vous soyez en famille ou bien juste entre amis, vous trouverez
@@ -198,7 +198,7 @@ export default function Home({ menus }) {
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
               Notre équipe se chargera non seulement de vous préparer les
               meilleurs des sandwishs mais aussi de vous le servir avec joie et
-              la bonne humeur
+              de la bonne humeur
             </p>
           </div>
         </div>

@@ -10,12 +10,13 @@ import {
 } from "react-icons/bs"
 function Footer() {
   return (
-    <div className="flex flex-col md:py-4 md:px-5 bg-black text-white font-semibold">
+    <div className="flex flex-col py-4 md:px-5 bg-black text-white font-semibold">
       <Image
         src="/images/logo-white.png"
         height={100}
         width={100}
         alt="rocket food algèrie"
+        className="md:ml-0 ml-4 md:mb-0 mb-2"
       />
       <div className="flex items-center flex-wrap self-center justify-evenly w-full">
         <div className="flex-col flex ">
@@ -28,20 +29,19 @@ function Footer() {
         <div className="flex items-center">
           <a
             href="https://www.facebook.com/profile.php?id=100064220315886"
-            className="md:mx-2 flex flex-col items-center"
+            className="mx-2 flex flex-col items-center"
             rel="noopener noreferrer"
             target={"_blank"}
           >
-            <BsFacebook className="md:text-xl" /> Facebook
+            <BsFacebook className="text-xl" /> Facebook
           </a>
-
           <a
             href="https://www.instagram.com/rocket.sndwich/?hl=fr"
             target="_blank"
-            className="md:mx-2 flex flex-col items-center"
+            className="mx-2 flex flex-col items-center"
             rel="noopener noreferrer"
           >
-            <BsInstagram className="md:text-xl" /> Instagram
+            <BsInstagram className="text-xl" /> Instagram
           </a>
         </div>
         <div className="flex-col flex ">
