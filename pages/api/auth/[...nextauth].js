@@ -44,6 +44,7 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
       profile(profile, tokens) {
+        getCurrentUser(profile.id, profile)
         return {
           id: profile.id,
           email: profile.email,
