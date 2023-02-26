@@ -44,6 +44,7 @@ export default NextAuth({
 
       profile(profile, tokens) {
         getCurrentUser(profile.id, profile)
+        console.log(profile)
         return {
           id: profile.id,
           email: profile.email,

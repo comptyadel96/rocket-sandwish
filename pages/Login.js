@@ -46,11 +46,11 @@ export default function Login({ users }) {
                 </p>
               )}
             </div>
-            {users.role !== "user" && (
+            {/* {users.role !== "user" && (
               <p className="ml-4 px-3 py-1 bg-amber-300 rounded-full font-bold">
                 {users.role}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="flex items-center">
@@ -64,7 +64,7 @@ export default function Login({ users }) {
               </p>{" "}
               <GrLogout className="lg:text-2xl" />
             </button>
-            {status === "authenticated" &&
+            {/* {status === "authenticated" &&
               users &&
               users.role === "administrateur" && (
                 <Link
@@ -73,7 +73,7 @@ export default function Login({ users }) {
                 >
                   Tableau administrateur
                 </Link>
-              )}
+              )} */}
           </div>
         </div>
         <div className="flex items-center flex-wrap justify-evenly w-full">
