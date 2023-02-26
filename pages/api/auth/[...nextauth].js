@@ -13,7 +13,7 @@ const getCurrentUser = async (id, profile) => {
     await User.create({
       name: profile.name,
       email: profile.email,
-      picture: profile.picture,
+      picture: profile.picture || profile.picture.data.url,
       userId: profile.sub || profile.id,
     })
   } else {
@@ -29,7 +29,6 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       profile(profile, tokens) {
         getCurrentUser(profile.sub, profile)
-
         return {
           id: profile.sub,
           email: profile.email,
