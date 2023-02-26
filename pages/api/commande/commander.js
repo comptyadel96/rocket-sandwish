@@ -1,17 +1,21 @@
 import clientPromise from "../../../lib/dbConnect"
 import Commande from "../../../models/commande"
-import User from "../../../models/user"
+// import User from "../../../models/user"
 
 export default async function (req, res) {
   try {
     await clientPromise()
-    const { userId, menuId } = req.query
+    const { menuId } = req.query
+    const { numClient, adresseClient, sauces, suppléments, boisson } = req.body
     const commande = await Commande.create({
       menu: menuId,
-      commanderPar: userId,
+      numClient,
+      adresseClient,
+      sauces,
+      suppléments,
+      boisson,
     })
-    const currUser = await User.findById(userId)
-    await currUser.commandes.push(commande)
+   
     res.status(200).send(commande)
   } catch (e) {
     console.error(e)

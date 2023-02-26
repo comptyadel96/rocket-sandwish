@@ -1,5 +1,5 @@
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { RxHamburgerMenu } from "react-icons/rx"
@@ -7,10 +7,19 @@ import { GrClose } from "react-icons/gr"
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const { status } = useSession()
+  const navRef = useRef(null)
+  const toggleNav = () => {
+    if (navRef.current.classList.contains("hidden")) {
+      navRef.current.classList.remove("hidden")
+      navRef.current.classList += " flex flex-col items-center"
+    } else {
+      navRef.current.classList.add("hidden")
+    }
+  }
   return (
     <>
       {/* mobile nav */}
-      <div className="md:hidden flex items-center w-full  py-2 bg-white shadow fixed top-0">
+      <div className="md:hidden z-50 flex items-center w-full  py-2 bg-white shadow fixed top-0">
         <div className="relative flex items-center w-full">
           <Link href="/" className="mr-auto ml-3">
             <Image
@@ -21,44 +30,43 @@ function Navbar() {
             />
           </Link>
           {!isOpen ? (
-            <RxHamburgerMenu className="ml-auto mr-3" size={31} />
+            <RxHamburgerMenu
+              className="ml-auto mr-3"
+              size={31}
+              onClick={() => {
+                toggleNav()
+                setIsOpen(!isOpen)
+              }}
+            />
           ) : (
-            <GrClose className="ml-auto mr-3" size={31} />
+            <GrClose className="ml-auto mr-3" size={31} onClick={() => {
+              toggleNav()
+              setIsOpen(!isOpen)
+            }} />
           )}
-          <div className="flex flex-col items-center w-full pb-2 bg-white shadow-md absolute left-0 -bottom-[100px]">
-          <Link
-          className="lg:mx-5 font-semibold hover:text-red-600"
-          href="/menus"
-        >
-          Menus
-        </Link>
-        <Link
-          className="lg:mx-5 font-semibold"
-          href="/contact"
-        >
-          Contactez nous
-        </Link>
-        <Link
-          className="lg:mx-5 font-semibold"
-          href="/infos"
-        >
-          Infos
-        </Link>
-        {status !== "authenticated" ? (
-          <Link
-            className="lg:mx-5 font-semibold"
-            href="/Login"
+          <div
+            ref={navRef}
+            className=" w-full pb-2 bg-white shadow-md absolute left-0 -bottom-[135px] hidden"
           >
-            Se connecter
-          </Link>
-        ) : (
-          <Link
-            className="lg:mx-5 font-semibold"
-            href="/Login"
-          >
-            Profil
-          </Link>
-        )}
+            <Link href="/" className="font-semibold my-1">
+              Acceuil
+            </Link>
+            <Link className="font-semibold my-1" href="/menus">
+              Menus
+            </Link>
+            <Link className="font-semibold my-1" href="/contact">
+              Contactez nous
+            </Link>
+
+            {status !== "authenticated" ? (
+              <Link className="font-semibold my-1" href="/Login">
+                Se connecter
+              </Link>
+            ) : (
+              <Link className="font-semibold my-1" href="/Login">
+                Profil
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -85,12 +93,7 @@ function Navbar() {
         >
           Contactez nous
         </Link>
-        <Link
-          className="lg:mx-5 font-semibold hover:text-red-600"
-          href="/infos"
-        >
-          Infos
-        </Link>
+       
         {status !== "authenticated" ? (
           <Link
             className="lg:mx-5 font-semibold hover:text-red-600"

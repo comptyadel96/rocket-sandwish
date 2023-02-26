@@ -109,8 +109,7 @@ function AddMenu() {
             </CldUploadWidget>
             {errors.photo ? (
               <p className="text-red-600 text-xs font-semibold">
-                {" "}
-                {errors.photo}{" "}
+                {errors.photo}
               </p>
             ) : null}
             <div className="flex items-center md:my-3  my-2">
@@ -125,10 +124,7 @@ function AddMenu() {
               />
             </div>
             {errors.nom && touched.nom ? (
-              <p className="text-red-600 text-xs font-semibold">
-                {" "}
-                {errors.nom}{" "}
-              </p>
+              <p className="text-red-600 text-xs font-semibold">{errors.nom}</p>
             ) : null}
             {/* prix */}
             <div className="flex items-center md:my-3 my-2">
@@ -149,8 +145,7 @@ function AddMenu() {
             </div>
             {errors.prix && touched.prix ? (
               <p className="text-red-600 text-xs font-semibold">
-                {" "}
-                {errors.prix}{" "}
+                {errors.prix}
               </p>
             ) : null}
             {/* prix points rocket */}

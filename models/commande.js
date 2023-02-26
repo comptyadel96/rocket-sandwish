@@ -2,7 +2,8 @@ import mongoose from "mongoose"
 const commandeSchema = new mongoose.Schema(
   {
     menu: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: "Menu",
     },
     // commanderPar: {
     //   type: mongoose.Types.ObjectId,
@@ -11,8 +12,8 @@ const commandeSchema = new mongoose.Schema(
     //   required: True,
     //   type: String,
     // },
-    numClient: String,
-    adresseClient: String,
+    numClient: { type: String, required: true },
+    adresseClient: { type: String, required: true },
     sauces: [String],
     suppléments: [String],
     boisson: [{ nom: String, nombre: String }],

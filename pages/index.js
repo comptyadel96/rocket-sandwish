@@ -40,7 +40,7 @@ export default function Home({ menus }) {
           src="/images/head-mobile.png"
           height={400}
           width={400}
-          className="md:hidden"
+          className="md:hidden mt-10"
         />
         {/* <button className="px-3 py-2 transition-colors duration-700 border-red-600 border mt-5 lg:text-xl text-red-600 hover:bg-red-600 hover:text-white font-semibold rounded-lg">
           Voir tous les menus
@@ -111,10 +111,13 @@ export default function Home({ menus }) {
           </Swiper>
         </section>
         <div className="lg:my-8 my-5 relative">
-          <h1 className="xl:text-7xl lg:text-5xl text-xl font-bold">
+          <h2 className="xl:text-7xl text-3xl lg:text-5xl text-center font-bold md:block hidden">
             Vos plats préférés livrés chez vous
-          </h1>
-          <div className="absolute left-0 md:-bottom-1 bottom-0 w-full md:h-5 h-2 -z-10 bg-[#fdedc9] " />
+          </h2> 
+          <h2 className="md:hidden text-center font-bold text-2xl">
+            Vos plats préférés...
+          </h2>
+          <div className="absolute left-0 md:-bottom-1 -bottom-1 w-full md:h-5 h-3 -z-10 bg-[#fdedc9] " />
         </div>
         <p className="font-semibold my-10 md:text-3xl lg:max-w-2xl text-center">
           Rocket sandwish s'engage à vous préparer les meuilleurs des sandwishs
@@ -164,7 +167,7 @@ export default function Home({ menus }) {
           </div>
         </div>
         {/* présentation magazin + formulaire de contacte */}
-        <p className="xl:text-7xl lg:text-5xl text-xl font-bold md:mt-16 md:mb-12">
+        <p className="xl:text-7xl lg:text-5xl text-xl font-bold md:mt-16 mt-10 md:mb-12">
           Le goût que vous méritez
         </p>
         <div className="flex items-center flex-wrap w-full justify-evenly md:px-4 md:py-2 p-2  md:mb-24 ">
@@ -177,22 +180,22 @@ export default function Home({ menus }) {
               className="rounded-xl z-10"
             />
             <div className="absolute -right-7 -bottom-5 w-full h-[50%]  bg-[#fdedc9] rounded-xl -z-50" />
-            <div className="absolute -left-10 -top-5 w-full h-[50%]  bg-gray-100 rounded-xl -z-50" />
+            <div className="absolute -left-10 md:-top-5 top-5 w-full h-[50%]  bg-gray-100 rounded-xl -z-50" />
           </div>
-          <div className="flex flex-col self-start md:pl-4 pl-2 border-l-4 border-l-red-500">
-            <p className="font-semibold md:text-4xl">Soyez les bienvenues</p>
+          <div className="flex flex-col self-start md:pl-4 pl-2 md:border-l-4 border-l-2 border-l-red-500">
+            <p className="font-semibold md:text-4xl text-xl md:mt-0 mt-8">Soyez les bienvenues</p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
               Que vous soyez en famille ou bien juste entre amis, vous trouverez
               surement votre plaisir chez rocket sandwish
             </p>
-            <p className="font-semibold md:text-4xl md:mt-7">
+            <p className="font-semibold md:text-4xl text-xl md:mt-7">
               Des sandwishs ...mais pas que!
             </p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
               Des sandwishs c&apos;est bien mais pleins d&apos;autres menus
               c&apos;est encore mieux,vous avez le choix!
             </p>
-            <p className="font-semibold md:text-4xl md:mt-7">
+            <p className="font-semibold md:text-4xl text-xl md:mt-7">
               Acceuil chaleureux
             </p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
