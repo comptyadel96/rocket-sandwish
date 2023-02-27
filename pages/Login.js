@@ -143,7 +143,7 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   await clientPromise()
   const users = await user.findOne({ userId: session ? session.user.id : null })
-  console.log(users)
+
   return {
     props: { session, users: JSON.parse(JSON.stringify(users)) },
   }

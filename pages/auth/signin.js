@@ -1,6 +1,7 @@
 import { getProviders, signIn } from "next-auth/react"
 import { FcGoogle } from "react-icons/fc"
 import { BsFacebook } from "react-icons/bs"
+import Link from "next/link"
 export default function Login({ providers }) {
   return (
     <div className="my-20 flex flex-col items-center  h-screen">
@@ -39,6 +40,10 @@ export default function Login({ providers }) {
           )}
         </div>
       ))}
+      <p className="text-xs  font-semibold mt-4">
+        en vous connectant sur notre site, vous acceptez nos{" "}
+        <Link className="text-red-600 border-b-[1px] border-b-red-600 " href="/Conf">Politique de confidentialité</Link>
+      </p>
     </div>
   )
 }
