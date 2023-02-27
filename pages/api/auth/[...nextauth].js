@@ -45,7 +45,7 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
       profile(profile, tokens) {
-        getCurrentUser(profile.id, profile,"facebook")
+        getCurrentUser(profile.id, profile, "facebook")
         console.log(profile)
         return {
           id: profile.id,
@@ -66,12 +66,8 @@ export default NextAuth({
       session.user.id = token.sub
       return session
     },
-    // async redirect({ url, baseUrl }) {
-    //   // Allows relative callback URLs
-    //   if (url.startsWith("/")) return `${baseUrl}${url}/Login`
-    //   // Allows callback URLs on the same origin
-    //   // else if (new URL(url).origin === baseUrl) return url
-    //   // return baseUrl
-    // },
+    async redirect({ url, baseUrl }) {
+      return `${process.env.NEXT_PUBLIC_BASE_URL}/Login`
+    },
   },
 })

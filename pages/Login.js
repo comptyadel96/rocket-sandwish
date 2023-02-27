@@ -46,7 +46,7 @@ export default function Login({ users }) {
                 </p>
               )}
             </div>
-            {users.role !== "user" && (
+            {users && users.role !== "user" && (
               <p className="ml-4 px-3 py-1 bg-amber-300 rounded-full font-bold">
                 {users.role}
               </p>
