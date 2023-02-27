@@ -9,7 +9,7 @@ import user from "../models/user"
 export default function Login({ users }) {
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
-  const profilPic = session?.user.image
+  const profilPic = users ? users.picture : session?.user.image
   const userName = session?.user.name
 
   if (status === "loading") {
@@ -46,11 +46,11 @@ export default function Login({ users }) {
                 </p>
               )}
             </div>
-            {/* {users.role !== "user" && (
+            {users.role !== "user" && (
               <p className="ml-4 px-3 py-1 bg-amber-300 rounded-full font-bold">
                 {users.role}
               </p>
-            )} */}
+            )}
           </div>
 
           <div className="flex items-center">
@@ -64,7 +64,7 @@ export default function Login({ users }) {
               </p>{" "}
               <GrLogout className="lg:text-2xl" />
             </button>
-            {/* {status === "authenticated" &&
+            {status === "authenticated" &&
               users &&
               users.role === "administrateur" && (
                 <Link
@@ -73,7 +73,7 @@ export default function Login({ users }) {
                 >
                   Tableau administrateur
                 </Link>
-              )} */}
+              )}
           </div>
         </div>
         <div className="flex items-center flex-wrap justify-evenly w-full">
@@ -143,7 +143,8 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   await clientPromise()
   const users = await user.findOne({ userId: session ? session.user.id : null })
+  console.log(users)
   return {
-    props: { session, users },
+    props: { session, users: JSON.parse(JSON.stringify(users)) },
   }
 }

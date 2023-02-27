@@ -109,7 +109,7 @@ function dashboard({ users }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const res = await axios(
-    `http:localhost:3000/api/user/currentUser?id=${
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/currentUser?id=${
       session ? session.user.id : null
     }`
     // "http:localhost:3000/api/user/getUsers"

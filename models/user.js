@@ -5,8 +5,8 @@ const userSchema = new mongoose.Schema(
     userId: String,
     email: {
       type: String,
-      required: true,
-      unique: [true, "Un utilisateur avec cet email existe déja"],
+      // required: true,
+      // unique: [true, "Un utilisateur avec cet email existe déja"],
     },
     name: String,
     phoneNumber: {
@@ -16,9 +16,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: {
-        values: ["client", "modérateur", "administrateur"],
-      },
+   
     },
     picture: String,
     commandes: [],
