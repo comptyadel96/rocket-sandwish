@@ -66,8 +66,8 @@ export default NextAuth({
       session.user.id = token.sub
       return session
     },
-    async redirect({ url, baseUrl }) {
-      return `${process.env.NEXT_PUBLIC_BASE_URL}/Login`
-    },
+    // async redirect({ url, baseUrl }) {
+    //   return `${process.env.NEXT_PUBLIC_BASE_URL}/Login`
+    // },
   },
 })
