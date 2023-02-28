@@ -17,7 +17,7 @@ function menus({ menus, user }) {
   const deleteMenu = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
       )
       router.reload()
     } catch (error) {
@@ -138,7 +138,7 @@ function menus({ menus, user }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-  
+
   const res = await axios(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/isAdmin?id=${session.user.id}`
   )

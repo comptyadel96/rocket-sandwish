@@ -2,11 +2,12 @@ import React, { useRef, useState } from "react"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
 import Image from "next/image"
-import axios from "axios"
+
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
-
+import clientPromise from "../lib/dbConnect"
+import Menu from "../models/menu"
 function Commande({ menu, prix = "400" }) {
   const validationSchema = Yup.object().shape({
     numClient: Yup.string().min(
@@ -89,9 +90,15 @@ function Commande({ menu, prix = "400" }) {
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values) => {
-          //   await addMenu(values)
-
-          console.log(values)
+          try {
+            await clientPromise()
+            await Menu.create(values)
+            toast.success("Votre commande a bien été reçu", {
+              position: toast.POSITION.BOTTOM_CENTER,
+            })
+          } catch (error) {
+            console.log(error.message)
+          }
         }}
       >
         {({ setFieldValue, handleChange, touched, errors }) => (
