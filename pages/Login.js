@@ -5,7 +5,7 @@ import Link from "next/link"
 import React from "react"
 import { GrLogout } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
-import user from "../models/user"
+import User from "../models/user"
 export default function Login({ users }) {
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
@@ -142,8 +142,8 @@ export default function Login({ users }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   await clientPromise()
-  const users = await user.findOne({ userId: session ? session.user.id : null })
-
+  const users = await User.findOne({ userId: session ? session.user.id : null })
+  
   return {
     props: { session, users: JSON.parse(JSON.stringify(users)) },
   }
