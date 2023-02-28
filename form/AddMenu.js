@@ -35,7 +35,10 @@ function AddMenu() {
 
   const addMenu = async (values) => {
     try {
-      await axios.post("http://localhost:3000/api/menus/addMenu", values)
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/addMenu`,
+        values
+      )
       toast.success("Menu ajouter avec succées ! ", {
         position: toast.POSITION.BOTTOM_CENTER,
       })

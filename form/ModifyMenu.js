@@ -45,7 +45,7 @@ function ModifyMenu({
   const addMenu = async (values) => {
     try {
       await axios.post(
-        `http://localhost:3000/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
         values
       )
       toast.success("Menu modifier avec succées !", {
