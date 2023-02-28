@@ -30,7 +30,7 @@ export default function Login({ providers }) {
               onClick={(e) => {
                 // e.preventDefault()
                 signIn(provider.id, {
-                  callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
+                  // callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
                 })
               }}
             >

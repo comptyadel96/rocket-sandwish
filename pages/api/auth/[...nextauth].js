@@ -60,7 +60,7 @@ export default NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
-  // adapter: MongoDBAdapter(clientPromise),
+ 
   callbacks: {
     async session({ session, token, user }) {
       session.user.id = token.sub
