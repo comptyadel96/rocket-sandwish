@@ -28,9 +28,9 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      async profile(profile, tokens) {
+    async profile(profile, tokens) {
         console.log(profile)
-        await getCurrentUser(profile.sub, profile)
+       await getCurrentUser(profile.sub, profile)
         return {
           id: profile.sub,
           email: profile.email,
@@ -61,10 +61,11 @@ export default NextAuth({
     signIn: "/auth/signin",
   },
  
-  callbacks: {
-    async session({ session, token, user }) {
-      session.user.id = token.sub
-      return session
-    },
-  },
+  // callbacks: {
+  //   async session({ session, token, user }) {
+  //     session.user.id = token.sub
+  //     console.log(user.id)
+  //     return session
+  //   },
+  // },
 })

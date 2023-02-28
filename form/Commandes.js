@@ -103,7 +103,7 @@ function Commandes({ menu, prix = "400" }) {
           }
         }}
       >
-        {({ setFieldValue, handleChange, touched, errors }) => (
+        {({ setFieldValue, handleChange, touched, errors, handleSubmit }) => (
           <Form className="flex flex-col items-center md:mt-6 md:py-4 py-2">
             <p className="md:text-5xl text-2xl md:mb-4 mb-2 ">
               Alors ça vous tente ?{" "}
@@ -405,7 +405,7 @@ function Commandes({ menu, prix = "400" }) {
               Totale à payer: {totalPrice} Da{" "}
             </p>
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white"
             >
               Commander
