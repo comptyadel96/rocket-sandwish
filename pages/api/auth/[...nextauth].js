@@ -7,7 +7,7 @@ import User from "../../../models/user"
 
 // créer un nouvel utilisateur si il n'a pas encore un compte sur le site
 const getCurrentUser = async (id, profile, provider = "google") => {
-  await clientPromise()
+  clientPromise()
   const currUser = await User.findOne({ userId: id })
   if (!currUser) {
     await User.create({
@@ -28,9 +28,9 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      profile(profile, tokens) {
+      async profile(profile, tokens) {
         console.log(profile)
-        getCurrentUser(profile.sub, profile)
+        await getCurrentUser(profile.sub, profile)
         return {
           id: profile.sub,
           email: profile.email,
@@ -67,5 +67,4 @@ export default NextAuth({
       return session
     },
   },
-  
 })

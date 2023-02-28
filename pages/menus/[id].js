@@ -2,7 +2,7 @@ import Image from "next/image"
 import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Menu from "../../models/menu"
-import Commande from "../../form/Commande"
+import Commande from "../../form/Commandes"
 
 export const getStaticPaths = async () => {
   await clientPromise()
@@ -20,7 +20,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id
-  await clientPromise()
+   clientPromise()
   const menu = await Menu.findById(id)
   return {
     props: { menu: JSON.parse(JSON.stringify(menu)) },

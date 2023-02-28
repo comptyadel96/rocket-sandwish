@@ -6,9 +6,10 @@ import Image from "next/image"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
-import clientPromise from "../lib/dbConnect"
-import Menu from "../models/menu"
-function Commande({ menu, prix = "400" }) {
+// import clientPromise from "../lib/dbConnect"
+// import Commande from "../models/commande"
+
+function Commandes({ menu, prix = "400" }) {
   const validationSchema = Yup.object().shape({
     numClient: Yup.string().min(
       10,
@@ -91,11 +92,12 @@ function Commande({ menu, prix = "400" }) {
         enableReinitialize
         onSubmit={async (values) => {
           try {
-            await clientPromise()
-            await Menu.create(values)
+            // clientPromise()
+            // await Commande.create(values)
             toast.success("Votre commande a bien été reçu", {
               position: toast.POSITION.BOTTOM_CENTER,
             })
+            console.log(values)
           } catch (error) {
             console.log(error.message)
           }
@@ -415,4 +417,4 @@ function Commande({ menu, prix = "400" }) {
   )
 }
 
-export default Commande
+export default Commandes
