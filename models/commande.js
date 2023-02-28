@@ -2,8 +2,9 @@ import mongoose from "mongoose"
 const commandeSchema = new mongoose.Schema(
   {
     menu: {
-      type: mongoose.Types.ObjectId,
-      ref: "Menu",
+      // type: mongoose.Types.ObjectId,
+      // ref: "Menu",
+      type: String,
     },
     // commanderPar: {
     //   type: mongoose.Types.ObjectId,

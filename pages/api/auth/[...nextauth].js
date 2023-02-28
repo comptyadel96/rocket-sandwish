@@ -15,7 +15,7 @@ const getCurrentUser = async (id, profile, provider = "google") => {
       email: profile.email,
       picture:
         provider === "google" ? profile.picture : profile.picture.data.url,
-      userId: profile.sub || profile.id,
+      userId: provider === "google" ? profile.sub : profile.id,
     })
   } else {
     return null

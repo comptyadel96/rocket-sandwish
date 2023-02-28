@@ -66,6 +66,15 @@ function Commande({ menu, prix = "400" }) {
       setTotalPrice((prevPrice) => prevPrice - 100)
     }
   }
+
+  const addBoisson = (nom, nombre) => {
+    const currBoisson = boisson.find((boisson) => boisson.nom === nom)
+    if (currBoisson) {
+      currBoisson.nombre = nombre
+    } else {
+      setBoisson((prev) => [...prev, { nom, nombre }])
+    }
+  }
   return (
     <>
       <ToastContainer />
@@ -221,6 +230,10 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbSelecto((prev) => (prev > 0 ? prev - 1 : 0))
+                      addBoisson(
+                        "Selecto",
+                        numbSelecto > 0 ? numbSelecto - 1 : 0
+                      )
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -231,10 +244,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbSelecto((prev) => prev + 1)
-                      setBoisson((prevBoissons) => [
-                        ...prevBoissons,
-                        { nom: "Selecto", nombre: numbSelecto },
-                      ])
+                      addBoisson("Selecto", numbSelecto + 1)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -250,6 +260,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbCoca((prev) => (prev > 0 ? prev - 1 : 0))
+                      addBoisson("Coca cola", numbCoca > 0 ? numbCoca - 1 : 0)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -260,10 +271,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbCoca((prev) => prev + 1)
-                      setBoisson((prevBoissons) => [
-                        ...prevBoissons,
-                        { nom: "Coca cola", nombre: numbCoca },
-                      ])
+                      addBoisson("Coca cola", numbCoca + 1)
                     }}
                     className="text-2xl"
                     name="boissons"
@@ -279,6 +287,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbPepsi((prev) => (prev > 0 ? prev - 1 : 0))
+                      addBoisson("Pepsi", numbPepsi > 0 ? numbPepsi - 1 : 0)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -289,10 +298,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbPepsi((prev) => prev + 1)
-                      setBoisson((prevBoissons) => [
-                        ...prevBoissons,
-                        { nom: "Pepsi", nombre: numbPepsi },
-                      ])
+                      addBoisson("Pepsi", numbPepsi + 1)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -308,6 +314,10 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbSchweppes((prev) => (prev > 0 ? prev - 1 : 0))
+                      addBoisson(
+                        "Schweppes",
+                        numbSchweppes > 0 ? numbSchweppes - 1 : 0
+                      )
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -319,11 +329,8 @@ function Commande({ menu, prix = "400" }) {
                     onClick={(e) => {
                       e.preventDefault()
                       setNumbSchweppes((prev) => prev + 1)
-                      const boisson = setBoisson((prevBoissons) => [
-                        ...prevBoissons,
-                        { nom: "Schweppes", nombre: numbSchweppes + 1 },
-                      ])
-                      setFieldValue("boisson", boisson)
+                      addBoisson("Schweppes", numbSchweppes + 1)
+                      // setFieldValue("boisson", boisson)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -339,16 +346,10 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbMirinda((prev) => (prev > 0 ? prev - 1 : 0))
-                      const boisson = setBoisson((prevBoissons) =>
-                        prevBoissons.filter(
-                          (boisson) =>
-                            boisson.nom === "Mirinda" &&
-                            boisson.nombre > 0 &&
-                            boisson.nombre - 1
-                        )
+                      addBoisson(
+                        "Mirinda",
+                        numbMirinda > 0 ? numbMirinda - 1 : 0
                       )
-                      setFieldValue("boisson", boisson)
-                      // console.log(boissons.slice(-1))
                     }}
                     className=" text-2xl"
                   >
@@ -358,12 +359,7 @@ function Commande({ menu, prix = "400" }) {
                   <button
                     onClick={() => {
                       setNumbMirinda((prev) => prev + 1)
-                
-                      const boisson = setBoisson((prevBoissons) => [
-                        ...prevBoissons,
-                        { nom: "Mirinda", nombre: numbMirinda + 1 },
-                      ])
-                      setFieldValue("boissons", boisson)
+                      addBoisson("Mirinda", numbMirinda + 1)
                     }}
                     className="text-2xl"
                   >
