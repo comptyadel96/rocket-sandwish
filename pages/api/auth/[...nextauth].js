@@ -6,7 +6,7 @@ import clientPromise from "../../../lib/dbConnect"
 import User from "../../../models/user"
 
 // créer un nouvel utilisateur si il n'a pas encore un compte sur le site
-const getCurrentUser = async (id, profile, provider = "google") => {
+async function getCurrentUser(id, profile, provider = "google") {
   clientPromise()
   const currUser = await User.findOne({ userId: id })
   if (!currUser) {
