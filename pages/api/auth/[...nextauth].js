@@ -13,9 +13,9 @@ async function getCurrentUser(id, profile, provider = "google") {
     await User.create({
       name: profile.name,
       email: profile.email,
-      // picture:
-      //   provider === "google" ? profile.picture : profile.picture.data.url,
-      // userId: provider === "google" ? profile.sub : profile.id,
+      picture:
+        provider === "google" ? profile.picture : profile.picture.data.url,
+      userId: provider === "google" ? profile.sub : profile.id,
     })
   } else {
     return null
@@ -44,7 +44,7 @@ export default NextAuth({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
-      async profile(profile, tokens) {
+       profile(profile, tokens) {
         await getCurrentUser(profile.id, profile, "facebook")
         return {
           id: profile.id,
