@@ -44,15 +44,16 @@ export default NextAuth({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
-     async profile(profile, tokens) {
-       await getCurrentUser(profile.id, profile, "facebook")
+      profile(profile, tokens) {
+        getCurrentUser(profile.id, profile, "facebook")
         console.log(profile)
         return {
           id: profile.id,
           email: profile.email,
           name: profile.name,
           accessToken: tokens.access_token,
-          picture: profile.picture.data.url,
+          image: profile.picture.data.url,
+
         }
       },
     }),
