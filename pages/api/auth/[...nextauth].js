@@ -13,9 +13,9 @@ const getCurrentUser = async (id, profile, provider = "google") => {
     await User.create({
       name: profile.name,
       email: profile.email,
-      picture:
-        provider === "google" ? profile.picture : profile.picture.data.url,
-      userId: provider === "google" ? profile.sub : profile.id,
+      // picture:
+      //   provider === "google" ? profile.picture : profile.picture.data.url,
+      // userId: provider === "google" ? profile.sub : profile.id,
     })
   } else {
     return null
