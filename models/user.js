@@ -5,8 +5,6 @@ const userSchema = new mongoose.Schema(
     userId: String,
     email: {
       type: String,
-      // required: true,
-      // unique: [true, "Un utilisateur avec cet email existe déja"],
     },
     name: String,
     phoneNumber: {
@@ -16,7 +14,6 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-   
     },
     picture: String,
     commandes: [],

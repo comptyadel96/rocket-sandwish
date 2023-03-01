@@ -72,10 +72,11 @@ export default NextAuth({
           account.provider === "google" ? profile.picture : profile.picture.data.url,
           userId: account.provider  === "google" ? profile.sub : profile.id,
         })
-      } else {
-        return null
-      }
+      } 
       return true
+    },
+    async redirect({ url, baseUrl }) {
+      return  `${baseUrl}/Login`
     },
   },
 })
