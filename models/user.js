@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema(
     name: String,
     phoneNumber: {
       type: String,
-      // unique: [true, "Un utilisateur avec ce numéro de téléphone existe déja"],
+      unique: [true, "Un utilisateur avec ce numéro de téléphone existe déja"],
+      default: null,
     },
     role: {
       type: String,
