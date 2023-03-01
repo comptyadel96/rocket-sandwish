@@ -9,8 +9,9 @@ const userSchema = new mongoose.Schema(
     name: String,
     phoneNumber: {
       type: String,
-      unique: [true, "Un utilisateur avec ce numéro de téléphone existe déja"],
-      default: null,
+      index: true,
+      unique: true,
+      sparse: true,
     },
     role: {
       type: String,
