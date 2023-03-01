@@ -6,21 +6,21 @@ import clientPromise from "../../../lib/dbConnect"
 import User from "../../../models/user"
 
 // créer un nouvel utilisateur si il n'a pas encore un compte sur le site
-async function getCurrentUser(id, profile, provider = "google") {
-  clientPromise()
-  const currUser = await User.findOne({ userId: id })
-  if (!currUser) {
-    await User.create({
-      name: profile.name,
-      email: profile.email,
-      picture:
-        provider === "google" ? profile.picture : profile.picture.data.url,
-      userId: provider === "google" ? profile.sub : profile.id,
-    })
-  } else {
-    return null
-  }
-}
+// async function getCurrentUser(id, profile, provider = "google") {
+//   clientPromise()
+//   const currUser = await User.findOne({ userId: id })
+//   if (!currUser) {
+//     await User.create({
+//       name: profile.name,
+//       email: profile.email,
+//       picture:
+//         provider === "google" ? profile.picture : profile.picture.data.url,
+//       userId: provider === "google" ? profile.sub : profile.id,
+//     })
+//   } else {
+//     return null
+//   }
+// }
 
 export default NextAuth({
   secret: process.env.SECRET,
@@ -45,7 +45,7 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
       profile(profile, tokens) {
-        getCurrentUser(profile.id, profile, "facebook")
+        // getCurrentUser(profile.id, profile, "facebook")
         return {
           id: profile.id,
           email: profile.email,
@@ -75,6 +75,7 @@ export default NextAuth({
       } else {
         return null
       }
+      return true
     },
   },
 })
