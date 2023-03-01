@@ -28,9 +28,9 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      async profile(profile, tokens) {
+      profile(profile, tokens) {
         console.log(profile)
-        await getCurrentUser(profile.sub, profile)
+        getCurrentUser(profile.sub, profile)
         return {
           id: profile.sub,
           email: profile.email,
@@ -44,8 +44,8 @@ export default NextAuth({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
-       profile(profile, tokens) {
-        await getCurrentUser(profile.id, profile, "facebook")
+      profile(profile, tokens) {
+        getCurrentUser(profile.id, profile, "facebook")
         return {
           id: profile.id,
           email: profile.email,
@@ -60,11 +60,21 @@ export default NextAuth({
     signIn: "/auth/signin",
   },
 
-  // callbacks: {
-  //   async session({ session, token, user }) {
-  //     session.user.id = token.sub
-  //     console.log(user.id)
-  //     return session
-  //   },
-  // },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      clientPromise()
+      const currUser = await User.findOne({ userId: user.id })
+      if (!currUser) {
+        await User.create({
+          name: profile.name,
+          email: profile.email,
+          picture:
+          account.provider === "google" ? profile.picture : profile.picture.data.url,
+          userId: account.provider  === "google" ? profile.sub : profile.id,
+        })
+      } else {
+        return null
+      }
+    },
+  },
 })
