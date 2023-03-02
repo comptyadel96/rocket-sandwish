@@ -6,8 +6,7 @@ import Image from "next/image"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
-// import clientPromise from "../lib/dbConnect"
-// import Commande from "../models/commande"
+import axios from "axios"
 
 function Commandes({ menu, prix = "400" }) {
   const validationSchema = Yup.object().shape({
@@ -77,6 +76,18 @@ function Commandes({ menu, prix = "400" }) {
       setBoisson((prev) => [...prev, { nom, nombre }])
     }
   }
+
+  // commander
+  const commander = async (values) => {
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/commande/commander`,
+        values
+      )
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <>
       <ToastContainer />
@@ -92,8 +103,7 @@ function Commandes({ menu, prix = "400" }) {
         enableReinitialize
         onSubmit={async (values) => {
           try {
-            // clientPromise()
-            // await Commande.create(values)
+            commander(values)
             toast.success("Votre commande a bien été reçu", {
               position: toast.POSITION.BOTTOM_CENTER,
             })
@@ -405,7 +415,7 @@ function Commandes({ menu, prix = "400" }) {
               Totale à payer: {totalPrice} Da{" "}
             </p>
             <button
-              onClick={handleSubmit}
+              onClick={() => handleSubmit()}
               className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white"
             >
               Commander

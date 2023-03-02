@@ -37,7 +37,7 @@ function AddMenu() {
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/addMenu`,
-        values
+        values,
       )
       toast.success("Menu ajouter avec succées ! ", {
         position: toast.POSITION.BOTTOM_CENTER,
