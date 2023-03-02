@@ -38,6 +38,13 @@ function AddMenu() {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/addMenu`,
         values,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        }
       )
       toast.success("Menu ajouter avec succées ! ", {
         position: toast.POSITION.BOTTOM_CENTER,
