@@ -44,6 +44,7 @@ function AddMenu() {
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Credentials": "true",
           },
+          withCredentials: true,
         }
       )
       toast.success("Menu ajouter avec succées ! ", {
