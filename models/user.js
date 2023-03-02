@@ -7,12 +7,8 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     name: String,
-    phoneNumber: {
-      type: String,
-      index: true,
-      unique: true,
-      sparse: true,
-    },
+    phoneNumber: String,
+
     role: {
       type: String,
       default: "user",

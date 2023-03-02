@@ -16,7 +16,7 @@ export default function Login({ users }) {
     return <div className="h-screen"></div>
   }
 
-  if (status === "authenticated") {
+  if (status === "authenticated" ) {
     return (
       <div className="lg:my-16  flex flex-col items-center">
         <Head>
@@ -64,16 +64,14 @@ export default function Login({ users }) {
               </p>{" "}
               <GrLogout className="lg:text-2xl" />
             </button>
-            {status === "authenticated" &&
-              users &&
-              users.role === "administrateur" && (
-                <Link
-                  className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
-                  href="/dashboard"
-                >
-                  Tableau administrateur
-                </Link>
-              )}
+            {users && users.role === "administrateur" && (
+              <Link
+                className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
+                href="/dashboard"
+              >
+                Tableau administrateur
+              </Link>
+            )}
           </div>
         </div>
         <div className="flex items-center flex-wrap justify-evenly w-full">
@@ -141,9 +139,9 @@ export default function Login({ users }) {
 }
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-  await clientPromise()
+  clientPromise()
   const users = await User.findOne({ userId: session ? session.user.id : null })
-  
+
   return {
     props: { session, users: JSON.parse(JSON.stringify(users)) },
   }

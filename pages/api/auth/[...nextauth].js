@@ -45,7 +45,6 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 
       profile(profile, tokens) {
-        // getCurrentUser(profile.id, profile, "facebook")
         return {
           id: profile.id,
           email: profile.email,
@@ -69,14 +68,20 @@ export default NextAuth({
           name: profile.name,
           email: profile.email,
           picture:
-          account.provider === "google" ? profile.picture : profile.picture.data.url,
-          userId: account.provider  === "google" ? profile.sub : profile.id,
+            account.provider === "google"
+              ? profile.picture
+              : profile.picture.data.url,
+          userId: account.provider === "google" ? profile.sub : profile.id,
         })
-      } 
+      }
       return true
     },
     async redirect({ url, baseUrl }) {
-      return  `${baseUrl}/Login`
+      return `${baseUrl}/Login`
+    },
+    async session({ session, user, token }) {
+      session.user.id = token.sub
+      return session
     },
   },
 })
