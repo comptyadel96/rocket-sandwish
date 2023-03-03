@@ -5,7 +5,7 @@ import Menu from "../../models/menu"
 import Commande from "../../form/Commandes"
 
 export const getStaticPaths = async () => {
-  await clientPromise()
+  clientPromise()
   const menus = await Menu.find({})
   const paths = menus.map((menu) => {
     return {
@@ -20,7 +20,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id
-   clientPromise()
+  clientPromise()
   const menu = await Menu.findById(id)
   return {
     props: { menu: JSON.parse(JSON.stringify(menu)) },
@@ -61,7 +61,7 @@ function menu({ menu }) {
             à partir de {menu.prix} Da
           </p>
         </div>
-        <Commande prix={menu.prix} />
+        <Commande prix={menu.prix} menu={menu.nom} />
       </div>
     </div>
   )

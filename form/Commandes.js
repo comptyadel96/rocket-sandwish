@@ -10,14 +10,12 @@ import axios from "axios"
 
 function Commandes({ menu, prix = "400" }) {
   const validationSchema = Yup.object().shape({
-    numClient: Yup.string().min(
-      10,
-      "veuillez saisir un numéro de téléphone valide svp"
-    ),
-    adresseClient: Yup.string().min(
-      10,
-      "l'adresse doit au-moins contenir 10 lettres"
-    ),
+    numClient: Yup.string()
+      .min(10, "veuillez saisir un numéro de téléphone valide svp")
+      .required(),
+    adresseClient: Yup.string()
+      .min(10, "l'adresse doit au-moins contenir 10 lettres")
+      .required(),
   })
   const mayoRef = useRef()
   const ketchupRef = useRef()
@@ -98,12 +96,13 @@ function Commandes({ menu, prix = "400" }) {
           sauces: sauce,
           suppléments,
           boisson,
+          menu,
         }}
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values) => {
           try {
-           await commander(values)
+            await commander(values)
             toast.success("Votre commande a bien été reçu", {
               position: toast.POSITION.BOTTOM_CENTER,
             })
@@ -391,7 +390,7 @@ function Commandes({ menu, prix = "400" }) {
             {/* infos personnelle client */}
             <div className="flex items-center my-3">
               <BsPinMap className="mr-2 text-xl" />
-              <Field
+              <input
                 onChange={(e) => {
                   handleChange(e)
                 }}
@@ -415,7 +414,7 @@ function Commandes({ menu, prix = "400" }) {
               Totale à payer: {totalPrice} Da{" "}
             </p>
             <button
-              onClick={() => handleSubmit()}
+              type="submit"
               className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white"
             >
               Commander
