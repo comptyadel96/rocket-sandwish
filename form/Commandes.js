@@ -81,7 +81,7 @@ function Commandes({ menu, prix = "400" }) {
   const commander = async (values) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/commande/commander`,
+        `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
         values
       )
     } catch (error) {
@@ -103,7 +103,7 @@ function Commandes({ menu, prix = "400" }) {
         enableReinitialize
         onSubmit={async (values) => {
           try {
-            commander(values)
+           await commander(values)
             toast.success("Votre commande a bien été reçu", {
               position: toast.POSITION.BOTTOM_CENTER,
             })
