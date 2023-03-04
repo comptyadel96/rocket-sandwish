@@ -4,8 +4,8 @@ import { getSession } from "next-auth/react"
 import Link from "next/link"
 import axios from "axios"
 
-function dashboard({ users }) {
-  if (users.role !== "administrateur") {
+function Dashboard({ users }) {
+  if (users && users.role !== "administrateur") {
     return (
       <p className="my-16 mx-24 h-screen text-center md:text-4xl font-bold">
         Vous n&apos;avez pas la persmission d&apos;acceder à cette page{" "}
@@ -15,7 +15,7 @@ function dashboard({ users }) {
   return (
     <div className="md:my-20 flex flex-col h-full">
       <h1 className="text-center md:text-6xl font-bold">
-        Bienvenue {users.name}{" "}
+        Bienvenue {users && users.name}{" "}
       </h1>
       <h2 className="md:mt-20 md:text-4xl font-semibold ml-5">
         1-Gérer le magasin
@@ -118,4 +118,4 @@ export async function getServerSideProps(context) {
 
   return { props: { users } }
 }
-export default dashboard
+export default Dashboard

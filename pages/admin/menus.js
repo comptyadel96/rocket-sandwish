@@ -7,6 +7,8 @@ import MenuCard from "../../components/MenuCard"
 import { useRouter } from "next/router"
 import ModifyMenu from "../../form/ModifyMenu"
 import { IoMdCloseCircle } from "react-icons/io"
+
+
 function menus({ menus, user }) {
   const router = useRouter()
   const modalRef = useRef(null)

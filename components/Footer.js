@@ -53,8 +53,8 @@ function Footer() {
             <BsMailbox className="mr-2 md:text-xl" /> rocketsandwich39@gmail.com
           </div>
           <div className="flex items-center my-2">
-            <BsPinMap className="mr-2 md:text-xl" /> Rue du SAHEL, Hydra,
-            Algiers, Algeria
+            <BsPinMap className="mr-2 md:text-xl" /> Rue du SAHEL, Hydra, Alger,
+            Algérie
           </div>
         </div>
       </div>

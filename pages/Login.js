@@ -6,6 +6,7 @@ import React from "react"
 import { GrLogout } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
 import User from "../models/user"
+import Dashboard from "./dashboard"
 export default function Login({ users }) {
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
@@ -16,7 +17,19 @@ export default function Login({ users }) {
     return <div className="h-screen"></div>
   }
 
-  if (status === "authenticated" ) {
+  if (
+    status === "authenticated" &&
+    users &&
+    users.role !== "administrateur"
+    // && (
+    //   <Link
+    //     className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
+    //     href="/dashboard"
+    //   >
+    //     Tableau administrateur
+    //   </Link>
+    // )
+  ) {
     return (
       <div className="lg:my-16  flex flex-col items-center">
         <Head>
@@ -28,7 +41,7 @@ export default function Login({ users }) {
           <link rel="icon" href="/rocket.ico" />
         </Head>
         {/* user infos and logout */}
-        <div className="flex items-center md:px-10 md:pb-1 justify-between w-full shadow-md">
+        <div className="flex flex-wrap md:mt-0 mt-16 md:mb-8 mb-4 items-center md:px-10 md:pb-1 justify-between w-full shadow-md">
           <div className="flex items-center">
             <Image
               // src={`http://graph.facebook.com/${userId}/picture?type=large`}
@@ -59,24 +72,24 @@ export default function Login({ users }) {
               onClick={() => signOut()}
               title="Se déconnecter"
             >
-              <p className="text-xs text-gray-400  md:mr-2 font-semibold">
+              <p className="text-xs text-gray-400  mr-2 font-semibold">
                 Se déconnecter
               </p>{" "}
               <GrLogout className="lg:text-2xl" />
             </button>
-            {users && users.role === "administrateur" && (
+            {/* {users && users.role === "administrateur" && (
               <Link
                 className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
                 href="/dashboard"
               >
                 Tableau administrateur
               </Link>
-            )}
+            )} */}
           </div>
         </div>
         <div className="flex items-center flex-wrap justify-evenly w-full">
           {/* commande du client */}
-          <div className="flex flex-col items-center md:p-5 border shadow-lg rounded-xl md:mt-12">
+          <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 md:my-2 my-4 border shadow-lg rounded-xl md:mt-12">
             <Image
               src="/images/no-commande.png"
               height={550}
@@ -90,11 +103,11 @@ export default function Login({ users }) {
               vous trouverez ici la liste de vos commande(s) en cours ainsi que
               votre historique de commande sur le site{" "}
             </p>{" "}
-            <button className="md:px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
+            <button className="px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
               Passer une commande
             </button>
           </div>
-          <div className="flex flex-col items-center md:p-5 border shadow-lg rounded-xl md:mt-12">
+          <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 border shadow-lg rounded-xl md:mt-12 mt-6">
             <Image
               src="/images/rocket-pts.png"
               height={400}
@@ -111,25 +124,41 @@ export default function Login({ users }) {
             </p>
           </div>
         </div>
-        <div className="md:mt-16">
-          <p className="font-bold lg:text-6xl mb-2">Besoin d&apos;aide ?</p>
-          <p className="font-semibold text-center">
+        <div className="md:mt-16 mt-5">
+          <p className="font-bold lg:text-6xl text-2xl mb-2 text-center">
+            Besoin d&apos;aide ?
+          </p>
+          <p className="font-semibold text-center md:mx-2 mx-3">
             Avez-vous des questions ou bien vous avez des réclamations ? <br />
             contactez nous sur le service client
           </p>
         </div>
-        <button className=" rounded-lg mt-4 px-3 py-1 font-semibold bg-[#ffe6ac] hover:bg-[#ffde92]">
+        <Link
+          href={"/contact"}
+          className=" rounded-lg my-4 px-3 py-1 font-semibold bg-[#ffe6ac] hover:bg-[#ffde92]"
+        >
           Contactez-nous
-        </button>
+        </Link>
       </div>
     )
   }
-
+  //  if admin
+  if (status === "authenticated" && users && users.role === "administrateur") {
+    return <Dashboard />
+  }
+  // if not authenticated
   return (
-    <div className="font-semibold lg:m-20 h-screen">
-      <p>Vous n'etes pas connecter</p>
+    <div className="font-semibold flex flex-col  items-center lg:m-20 mt-16 mx-auto px-10 h-screen">
+      <Image src="/images/login.png" height={230} width={230} />
+      <p className="font-semibold text-2xl mt-3 mb-2">
+        Vous n'etes pas connecter
+      </p>
+      <p className="text-gray-500  ">
+        Inscrivez vous ou bien connecter vous à votre compte pour commander plus
+        rapidement et profiter d'autres aventages
+      </p>
       <button
-        className=" my-5 px-3 py-1 rounded-md bg-indigo-500 hover:bg-indigo-600 text-white"
+        className=" my-5 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
         onClick={() => signIn()}
       >
         Se connecter
