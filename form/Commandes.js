@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
 import Image from "next/image"
-
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
@@ -242,7 +241,7 @@ function Commandes({ menu, prix = "400" }) {
             {/* boissons */}
             <div className="flex items-center justify-evenly flex-wrap md:my-5">
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image src="/images/selecto.jpg" height={40} width={40} />
+                <Image alt="boisson" src="/images/selecto.jpg" height={40} width={40} />
                 <p className="font-semibold">Selecto</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -272,7 +271,7 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image src="/images/coca.png" height={40} width={40} />
+                <Image alt="boisson" src="/images/coca.png" height={40} width={40} />
                 <p className="font-semibold">Coca cola</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -299,7 +298,7 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image src="/images/pepsi.jpg" height={45} width={45} />
+                <Image alt="boisson" src="/images/pepsi.jpg" height={45} width={45} />
                 <p className="font-semibold">Pepsi</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -326,7 +325,7 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image src="/images/schweppes.jpeg" height={45} width={45} />
+                <Image alt="boisson" src="/images/schweppes.jpeg" height={45} width={45} />
                 <p className="font-semibold">Schweppes</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -358,7 +357,7 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image src="/images/mirinda.jpg" height={60} width={60} />
+                <Image alt="boisson" src="/images/mirinda.jpg" height={60} width={60} />
                 <p className="font-semibold">Mirinda</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button

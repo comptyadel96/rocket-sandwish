@@ -7,6 +7,7 @@ import axios from "axios"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { MdAddAPhoto } from "react-icons/md"
+
 function AddMenu() {
   const [hasUploadPhoto, setHasUploadPhoto] = useState(false)
   const [uploadUrl, setUploadUrl] = useState("")
@@ -25,9 +26,10 @@ function AddMenu() {
       .required("La description est obligatoire pour un menu"),
 
     prix: Yup.string().required("Veuillez spécifer un prix pour le menu"),
-    prixPoints: Yup.string().required(
-      "le prix en points rocket est obligatoire "
-    ),
+    prixPoints: Yup.string(),
+    // .required(
+    //   "le prix en points rocket est obligatoire "
+    // )
     photo: Yup.string().required(
       "un menu sans photo ... c'est pas une bonne idée !"
     ),

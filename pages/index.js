@@ -120,7 +120,7 @@ export default function Home({ menus }) {
           <div className="absolute left-0 md:-bottom-1 -bottom-1 w-full md:h-5 h-3 -z-10 bg-[#fdedc9] " />
         </div>
         <p className="font-semibold my-10 md:text-3xl lg:max-w-2xl text-center">
-          Rocket sandwish s'engage à vous préparer les meuilleurs des sandwishs
+          Rocket food s'engage à vous préparer les meuilleurs des sandwishs
           et vous faire la livraison de votre commande dans un temps record
         </p>
         <div className="flex items-center flex-wrap justify-evenly">

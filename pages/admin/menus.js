@@ -17,7 +17,7 @@ function menus({ menus, user }) {
   const deleteMenu = async () => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
+        `https://rocket-sandwish-2.vercel.app/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
       )
       router.reload()
     } catch (error) {
@@ -138,15 +138,15 @@ function menus({ menus, user }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-
+// verfifer si c'est l'admin qui publie le nouveau menu
   const res = await axios(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/isAdmin?id=${session.user.id}`
+    `https://rocket-sandwish-2.vercel.app/api/user/isAdmin?id=${session.user.id}`
   )
   const user = res.data
-  // console.log(user)
+ 
   //  get all menus
   const menus = await (
-    await axios(`${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/getMenus`)
+    await axios(`https://rocket-sandwish-2.vercel.app/api/menus/getMenus`)
   ).data
 
   return { props: { user, menus } }
