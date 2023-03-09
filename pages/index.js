@@ -10,11 +10,13 @@ import "swiper/css/thumbs"
 import React from "react"
 import MenuCard from "../components/MenuCard"
 import { BiRightArrowCircle } from "react-icons/bi"
-
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import clientPromise from "../lib/dbConnect"
 import Menu from "../models/menu"
 
 export default function Home({ menus }) {
+  const { t } = useTranslation("common")
   return (
     <div className=" h-full w-full">
       <Head>
@@ -50,7 +52,8 @@ export default function Home({ menus }) {
             <div className="m-5 relative max-w-fit ">
               <div className="flex items-center">
                 <h2 className="font-semibold md:text-2xl text-xl">
-                  Découvrer nos menus
+                  {/* Découvrer nos menus */}
+                  {t("decouvrezNosMenus")}
                 </h2>
                 <Image
                   src="/images/burger.png"
@@ -64,7 +67,7 @@ export default function Home({ menus }) {
               <div className="absolute left-0 w-[23%] h-[3px] bg-red-600" />
             </div>
             <div className="mr-10 flex items-center cursor-pointer hover:text-red-600">
-              <p className="font-bold mr-1">Voir tous les menus</p>
+              <p className="font-bold mr-1">{t("voirTousLesMenus")}</p>
               <BiRightArrowCircle size={22} className="mt-1" />
             </div>
           </div>
@@ -112,16 +115,15 @@ export default function Home({ menus }) {
         </section>
         <div className="lg:my-8 my-5 relative">
           <h2 className="xl:text-7xl text-3xl lg:text-5xl text-center font-bold md:block hidden">
-            Vos plats préférés livrés chez vous
-          </h2> 
+            {t("platsPrefLivrChezVous")}
+          </h2>
           <h2 className="md:hidden text-center font-bold text-2xl">
             Vos plats préférés...
           </h2>
           <div className="absolute left-0 md:-bottom-1 -bottom-1 w-full md:h-5 h-3 -z-10 bg-[#fdedc9] " />
         </div>
         <p className="font-semibold my-10 md:text-3xl lg:max-w-2xl text-center">
-          Rocket food s'engage à vous préparer les meuilleurs des sandwishs
-          et vous faire la livraison de votre commande dans un temps record
+          {t("subPlatPref")}
         </p>
         <div className="flex items-center flex-wrap justify-evenly">
           <div className="flex flex-col items-center px-3 py-2">
@@ -131,11 +133,8 @@ export default function Home({ menus }) {
               height={200}
               width={200}
             />
-            <p className="font-semibold my-3">Commander votre menu</p>
-            <p className="max-w-xs text-center">
-              faite la commande sur notre site ou bien sur l'application rocket
-              sandwish
-            </p>
+            <p className="font-semibold my-3">{t("commanderVotreMenu")} </p>
+            <p className="max-w-xs text-center">{t("commanderEnLigne")}</p>
           </div>
           <div className="flex flex-col items-center px-3 py-2 lg:my-10">
             <Image
@@ -144,13 +143,8 @@ export default function Home({ menus }) {
               height={200}
               width={200}
             />
-            <p className="font-semibold my-3">
-              Nous préparerons votre commande
-            </p>
-            <p className="max-w-xs text-center">
-              Notre équipe vous préparera le plat avec soins et les mettera dans
-              des boites pour afin de garantir qu'il reste intacte
-            </p>
+            <p className="font-semibold my-3">{t("preparVotreCommande")}</p>
+            <p className="max-w-xs text-center">{t("subPreparCommande")}</p>
           </div>
           <div className="flex flex-col items-center px-3 py-2">
             <Image
@@ -159,16 +153,13 @@ export default function Home({ menus }) {
               height={350}
               width={350}
             />
-            <p className="font-semibold my-3">Livraison à votre domicile</p>
-            <p className="max-w-xs text-center">
-              Votre commande vous sera livré dans un temps record + une facture
-              de ce que vous avez acheté
-            </p>
+            <p className="font-semibold my-3">{t("livraisonDomicile")} </p>
+            <p className="max-w-xs text-center">{t("subLivraisonDomicile")}</p>
           </div>
         </div>
         {/* présentation magazin + formulaire de contacte */}
         <p className="xl:text-7xl lg:text-5xl text-xl font-bold md:mt-16 mt-10 md:mb-12">
-          Le goût que vous méritez
+          {t("goutMeritez")}
         </p>
         <div className="flex items-center flex-wrap w-full justify-evenly md:px-4 md:py-2 p-2  md:mb-24 ">
           <div className="relative p-4">
@@ -183,25 +174,23 @@ export default function Home({ menus }) {
             <div className="absolute -left-10 md:-top-5 top-5 w-full h-[50%]  bg-gray-100 rounded-xl -z-50" />
           </div>
           <div className="flex flex-col self-start md:pl-4 pl-2 md:border-l-4 border-l-2 border-l-red-500">
-            <p className="font-semibold md:text-4xl text-xl md:mt-0 mt-8">Soyez les bienvenues</p>
+            <p className="font-semibold md:text-4xl text-xl md:mt-0 mt-8">
+              {t("soyezBienvenue")}
+            </p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
-              Que vous soyez en famille ou bien juste entre amis, vous trouverez
-              surement votre plaisir chez rocket sandwish
+              {t("subSoyezBienvenue")}
             </p>
             <p className="font-semibold md:text-4xl text-xl md:mt-7">
-              Des sandwishs ...mais pas que!
+              {t("sandwishPasQue")}
             </p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
-              Des sandwishs c&apos;est bien mais pleins d&apos;autres menus
-              c&apos;est encore mieux,vous avez le choix!
+              {t("subSandwishPasQue")}
             </p>
             <p className="font-semibold md:text-4xl text-xl md:mt-7">
-              Acceuil chaleureux
+              {t("acceuilChaleureux")}
             </p>
             <p className="lg:max-w-lg lg:mt-3 text-gray-500 text-lg">
-              Notre équipe se chargera non seulement de vous préparer les
-              meilleurs des sandwishs mais aussi de vous le servir avec joie et
-              de la bonne humeur
+              {t("subAcceuilChaleureux")}
             </p>
           </div>
         </div>
@@ -209,8 +198,14 @@ export default function Home({ menus }) {
     </div>
   )
 }
-export async function getServerSideProps(context) {
-  await clientPromise()
+
+export async function getStaticProps({ locale }) {
+  clientPromise()
   const menus = await Menu.find({})
-  return { props: { menus: JSON.parse(JSON.stringify(menus)) } }
+  return {
+    props: {
+      menus: JSON.parse(JSON.stringify(menus)),
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  }
 }

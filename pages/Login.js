@@ -7,6 +7,8 @@ import { GrLogout } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
 import User from "../models/user"
 import Dashboard from "./dashboard"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+
 export default function Login({ users }) {
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
@@ -172,6 +174,10 @@ export async function getServerSideProps(context) {
   const users = await User.findOne({ userId: session ? session.user.id : null })
 
   return {
-    props: { session, users: JSON.parse(JSON.stringify(users)) },
+    props: {
+      session,
+      users: JSON.parse(JSON.stringify(users)),
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    },
   }
 }

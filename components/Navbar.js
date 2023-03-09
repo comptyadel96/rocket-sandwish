@@ -4,7 +4,14 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { RxHamburgerMenu } from "react-icons/rx"
 import { GrClose } from "react-icons/gr"
+import { i18n, useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+
 function Navbar() {
+  const { t } = useTranslation("common")
+
+  const router = useRouter()
+  const changeTo = router.locale === "fr" ? "ar" : "fr"
   const [isOpen, setIsOpen] = useState(false)
   const { status } = useSession()
   const navRef = useRef(null)
@@ -15,6 +22,10 @@ function Navbar() {
     } else {
       navRef.current.classList.add("hidden")
     }
+  }
+  const onToggleLanguageClick = (newLocale) => {
+    const { pathname, asPath, query } = router
+    router.push({ pathname, query }, asPath, { locale: newLocale })
   }
   return (
     <>
@@ -39,10 +50,14 @@ function Navbar() {
               }}
             />
           ) : (
-            <GrClose className="ml-auto mr-3" size={31} onClick={() => {
-              toggleNav()
-              setIsOpen(!isOpen)
-            }} />
+            <GrClose
+              className="ml-auto mr-3"
+              size={31}
+              onClick={() => {
+                toggleNav()
+                setIsOpen(!isOpen)
+              }}
+            />
           )}
           <div
             ref={navRef}
@@ -85,29 +100,58 @@ function Navbar() {
           className="lg:mx-5 font-semibold hover:text-red-600"
           href="/menus"
         >
-          Menus
+          {t("menus")}
         </Link>
         <Link
           className="lg:mx-5 font-semibold hover:text-red-600"
           href="/contact"
         >
-          Contactez nous
+          {t("contactUs")}
         </Link>
-       
+
         {status !== "authenticated" ? (
           <Link
             className="lg:mx-5 font-semibold hover:text-red-600"
             href="/Login"
           >
-            Se connecter
+            {t("seConnecter")}
           </Link>
         ) : (
           <Link
             className="lg:mx-5 font-semibold hover:text-red-600"
             href="/Login"
           >
-            Profil
+            {t("profil")}
           </Link>
+        )}
+        {i18n && i18n.language === "fr" ? (
+          <button
+            className="mx-2 font-semibold flex items-center"
+            onClick={() => onToggleLanguageClick(changeTo)}
+          >
+            <Image
+              className="mr-2"
+              src="/images/alger.webp"
+              width={20}
+              height={20}
+              alt="drapeau algérie"
+            />
+            <p>العربية </p>
+          </button>
+        ) : (
+          <button
+            className="mx-2 font-semibold flex items-center"
+            onClick={() => onToggleLanguageClick(changeTo)}
+          >
+            <Image
+              className="mr-2"
+              src="/images/france.png"
+              width={20}
+              height={20}
+              alt="drapeau france"
+            />
+            <p>Français </p>
+          </button>
         )}
       </div>
     </>

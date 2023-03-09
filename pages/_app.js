@@ -2,13 +2,11 @@ import "../styles/globals.css"
 import Layout from "../components/Layout"
 import { SessionProvider } from "next-auth/react"
 import React from "react"
+import { appWithTranslation } from "next-i18next"
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <SessionProvider
-      // session={"session"}
-      // basePath={`${process.env.NEXTAUTH_URL}`}
-    >
+    <SessionProvider>
       <main>
         <Layout>
           <Component {...pageProps} />
@@ -18,4 +16,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   )
 }
 
-export default MyApp
+export default appWithTranslation(MyApp);

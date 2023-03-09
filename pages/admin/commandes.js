@@ -1,7 +1,7 @@
 import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Commande from "../../models/commande"
-import Image from "next/image"
+
 function commandes({ commandes }) {
   return (
     <div className="md:my-24 mt-10 flex flex-col items-center md:px-10 ">
