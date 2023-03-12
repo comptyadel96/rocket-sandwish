@@ -3,15 +3,25 @@ import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Menu from "../../models/menu"
 import Commande from "../../form/Commandes"
-
-export const getStaticPaths = async () => {
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+export const getStaticPaths = async ({ locales }) => {
   clientPromise()
   const menus = await Menu.find({})
-  const paths = menus.map((menu) => {
-    return {
-      params: { id: menu._id.toString() },
-    }
+  const ids = menus.map((menu) => {
+    // return {
+    //   params: { id: menu._id.toString() },
+    // }
+    return menu._id
   })
+  const paths = ids
+    .map((id) =>
+      locales.map((locale) => ({
+        params: { id: id.toString() },
+        locale, //locale should not be inside `params`
+      }))
+    )
+    .flat()
   return {
     paths,
     fallback: false,
@@ -23,11 +33,16 @@ export const getStaticProps = async (context) => {
   clientPromise()
   const menu = await Menu.findById(id)
   return {
-    props: { menu: JSON.parse(JSON.stringify(menu)) },
+    props: {
+      menu: JSON.parse(JSON.stringify(menu)),
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    },
   }
 }
 
+
 function menu({ menu }) {
+  const { t } = useTranslation("common")
   return (
     <div className="md:py-16 py-10 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">
       {/* menu card */}

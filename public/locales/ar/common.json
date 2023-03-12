@@ -22,6 +22,26 @@
   "contactUs": "اتصل بنا",
   "seConnecter": "تسجيل الدخول",
   "profil": "حساب",
-  "nonConnecter":"أنت لم تقم بتسجيل الدخول",
-  "subNonConnecter":"قم بتسجيل الدخول إلى حسابك للطلب بشكل أسرع والاستفادة من المزايا الأخرى"
+  "nonConnecter": "أنت لم تقم بتسجيل الدخول",
+  "subNonConnecter": "قم بتسجيل الدخول إلى حسابك للطلب بشكل أسرع والاستفادة من المزايا الأخرى",
+
+  "alorsCaVousTente": "هل تحب هذا الطبق؟",
+  "uneSauce": "صلصة ؟",
+  "subSauce": "اضغط على الصلصة لإضافتها إلى طبقك",
+  "supplement": "جبن اضافي؟",
+  "mayonnaise": "مايونيز",
+  "ketchup": "كاتشب",
+  "sauceMaison": "صلصة منزلية",
+  "hrissa": "هريسة",
+  "gruyére": "غرويير",
+  "gouda": "جبنة جودة",
+  "camambert": "جبن الكممبير",
+  "kiri": "جبنة كيري",
+  "adresseLivraison": "عنوان التسليم",
+  "numTelephone": "مثال: 05577049 ...",
+  "totalePayer": "الثمن",
+  "Da": "دج",
+  "commander": "اطلب الان",
+  "ingredients":"مكونات"
+
 }

@@ -23,6 +23,26 @@
   "seConnecter": "Se connecter",
   "profil": "Profil",
 
-  "nonConnecter":"Vous n'etes pas connecter",
-  "subNonConnecter":"Inscrivez vous ou bien connecter vous à votre compte pour commander plus rapidement et profiter d'autres aventages"
+  "nonConnecter": "Vous n'etes pas connecter",
+  "subNonConnecter": "Inscrivez vous ou bien connecter vous à votre compte pour commander plus rapidement et profiter d'autres aventages",
+
+  "alorsCaVousTente": "Alors ça vous tente ?",
+  "uneSauce": "Une sauce ?",
+  "subSauce": "Appuyez sur une sauce pour l'ajouter à votre menu",
+  "supplement": "Un supplément ?",
+  "mayonnaise": "Mayonnaise",
+  "ketchup": "Ketchup",
+  "sauceMaison": "Sauce maison",
+  "hrissa": "Hrissa",
+  "gruyére": "Gruyére",
+  "gouda": "Gouda",
+  "camambert": "Camambert",
+  "kiri": "Kiri",
+  "adresseLivraison": "Adresse livraion",
+  "numTelephone": "Ex:05577049...",
+  "totalePayer": "Totale à payer",
+  "Da": "Da",
+  "commander": "Commander",
+
+  "ingredients":"Ingrédients"
 }

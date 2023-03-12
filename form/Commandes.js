@@ -6,8 +6,11 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
 import axios from "axios"
+import { useTranslation } from "next-i18next"
 
 function Commandes({ menu, prix = "400" }) {
+  const { t } = useTranslation("common")
+
   const validationSchema = Yup.object().shape({
     numClient: Yup.string()
       .min(10, "veuillez saisir un numéro de téléphone valide svp")
@@ -114,13 +117,13 @@ function Commandes({ menu, prix = "400" }) {
         {({ setFieldValue, handleChange, touched, errors, handleSubmit }) => (
           <Form className="flex flex-col items-center md:mt-6 md:py-4 py-2">
             <p className="md:text-5xl text-2xl md:mb-4 mb-2 ">
-              Alors ça vous tente ?{" "}
+              {t("alorsCaVousTente")}
             </p>
             {/* sauce */}
             <p className="font-semibold">
-              une sauce ?{" "}
-              <span className="text-xs max-w-xs text-gray-500 font-normal">
-                Appuyez sur une sauce pour l'ajouter à votre menu
+              {t("uneSauce")}
+              <span className="text-xs max-w-xs mx-1 text-gray-500 font-normal">
+                {t("subSauce")}
               </span>
             </p>
             <div className="flex flex-wrap items-center justify-evenly my-3">
@@ -135,9 +138,9 @@ function Commandes({ menu, prix = "400" }) {
                 name="sauces"
                 ref={mayoRef}
                 value="Mayonnaise"
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Mayonnaise
+                {t("mayonnaise")}
               </button>
 
               {/* ketchup */}
@@ -150,9 +153,9 @@ function Commandes({ menu, prix = "400" }) {
                 name="sauces"
                 value="ketchup"
                 ref={ketchupRef}
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                ketchup
+                {t("ketchup")}
               </button>
 
               {/* sauce maison */}
@@ -165,9 +168,9 @@ function Commandes({ menu, prix = "400" }) {
                 ref={maisonRef}
                 value="Sauce maison"
                 name="sauces"
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Sauce maison
+                {t("sauceMaison")}
               </button>
 
               {/* hrissa */}
@@ -180,13 +183,13 @@ function Commandes({ menu, prix = "400" }) {
                 ref={hrissaRef}
                 value="Hrissa"
                 name="sauces"
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Hrissa
+                {t("hrissa")}
               </button>
             </div>
 
-            <p className="font-semibold">Un supplément ?</p>
+            <p className="font-semibold">{t("supplement")} </p>
             <div className="flex flex-wrap items-center">
               <button
                 ref={gruyére}
@@ -197,9 +200,9 @@ function Commandes({ menu, prix = "400" }) {
                   toggleSup(gruyére)
                   setFieldValue("suppléments", suppléments)
                 }}
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Gruyére
+                {t("gruyére")}
               </button>
               <button
                 ref={gouda}
@@ -209,9 +212,9 @@ function Commandes({ menu, prix = "400" }) {
                   toggleSup(gouda)
                   setFieldValue("suppléments", suppléments)
                 }}
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Gouda
+                {t("gouda")}
               </button>
               <button
                 ref={camambert}
@@ -221,9 +224,9 @@ function Commandes({ menu, prix = "400" }) {
                   toggleSup(camambert)
                   setFieldValue("suppléments", suppléments)
                 }}
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Camambert
+                {t("camambert")}
               </button>
               <button
                 ref={kiri}
@@ -233,15 +236,20 @@ function Commandes({ menu, prix = "400" }) {
                   toggleSup(kiri)
                   setFieldValue("suppléments", suppléments)
                 }}
-                className="px-3 py-1 rounded-md bg-white m-2 font-semibold cursor-pointer"
+                className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
-                Kiri
+                {t("kiri")}
               </button>
             </div>
             {/* boissons */}
             <div className="flex items-center justify-evenly flex-wrap md:my-5">
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image alt="boisson" src="/images/selecto.jpg" height={40} width={40} />
+                <Image
+                  alt="boisson"
+                  src="/images/selecto.jpg"
+                  height={40}
+                  width={40}
+                />
                 <p className="font-semibold">Selecto</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -271,7 +279,12 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image alt="boisson" src="/images/coca.png" height={40} width={40} />
+                <Image
+                  alt="boisson"
+                  src="/images/coca.png"
+                  height={40}
+                  width={40}
+                />
                 <p className="font-semibold">Coca cola</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -298,7 +311,12 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image alt="boisson" src="/images/pepsi.jpg" height={45} width={45} />
+                <Image
+                  alt="boisson"
+                  src="/images/pepsi.jpg"
+                  height={45}
+                  width={45}
+                />
                 <p className="font-semibold">Pepsi</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -325,7 +343,12 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image alt="boisson" src="/images/schweppes.jpeg" height={45} width={45} />
+                <Image
+                  alt="boisson"
+                  src="/images/schweppes.jpeg"
+                  height={45}
+                  width={45}
+                />
                 <p className="font-semibold">Schweppes</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -357,7 +380,12 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
               <div className="flex flex-col items-center  md:mx-4 mx-2">
-                <Image alt="boisson" src="/images/mirinda.jpg" height={60} width={60} />
+                <Image
+                  alt="boisson"
+                  src="/images/mirinda.jpg"
+                  height={60}
+                  width={60}
+                />
                 <p className="font-semibold">Mirinda</p>
                 <div className="flex items-center text-lg font-semibold text-red-600">
                   <button
@@ -395,7 +423,7 @@ function Commandes({ menu, prix = "400" }) {
                 }}
                 name="adresseClient"
                 className="bg-white px-3 py-1 rounded-md"
-                placeholder="Adresse de livraison"
+                placeholder={t("adresseLivraison")}
               />
             </div>
             <div className="flex items-center my-3">
@@ -406,17 +434,17 @@ function Commandes({ menu, prix = "400" }) {
                 }}
                 name="numClient"
                 className="bg-white px-3 py-1 rounded-md "
-                placeholder="Ex: 05577049.."
+                placeholder={t("numTelephone")}
               />
             </div>
             <p className="font-semibold mb-2">
-              Totale à payer: {totalPrice} Da{" "}
+              {t("totalePayer")}: {totalPrice} {t("Da")}{" "}
             </p>
             <button
               type="submit"
               className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white"
             >
-              Commander
+              {t("commander")}
             </button>
           </Form>
         )}
