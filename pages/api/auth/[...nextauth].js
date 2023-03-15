@@ -4,24 +4,12 @@ import GoogleProvider from "next-auth/providers/google"
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/dbConnect"
 import User from "../../../models/user"
+import { i18n } from "next-i18next"
 
-// créer un nouvel utilisateur si il n'a pas encore un compte sur le site
-// async function getCurrentUser(id, profile, provider = "google") {
-//   clientPromise()
-//   const currUser = await User.findOne({ userId: id })
-//   if (!currUser) {
-//     await User.create({
-//       name: profile.name,
-//       email: profile.email,
-//       picture:
-//         provider === "google" ? profile.picture : profile.picture.data.url,
-//       userId: provider === "google" ? profile.sub : profile.id,
-//     })
-//   } else {
-//     return null
-//   }
-// }
-
+const getLang = () => {
+  return i18n.language
+}
+console.log(getLang())
 export default NextAuth({
   secret: process.env.SECRET,
   providers: [
@@ -29,8 +17,6 @@ export default NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       profile(profile, tokens) {
-        // console.log(profile)
-        // getCurrentUser(profile.sub, profile)
         return {
           id: profile.sub,
           email: profile.email,

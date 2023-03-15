@@ -8,8 +8,10 @@ import clientPromise from "../lib/dbConnect"
 import User from "../models/user"
 import Dashboard from "./dashboard"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "react-i18next"
 
 export default function Login({ users }) {
+  const { t } = useTranslation("common")
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
   const profilPic = users ? users.picture : session?.user.image
@@ -152,18 +154,13 @@ export default function Login({ users }) {
   return (
     <div className="font-semibold flex flex-col  items-center lg:m-20 mt-16 mx-auto px-10 h-screen">
       <Image src="/images/login.png" height={230} width={230} />
-      <p className="font-semibold text-2xl mt-3 mb-2">
-        Vous n'etes pas connecter
-      </p>
-      <p className="text-gray-500  ">
-        Inscrivez vous ou bien connecter vous à votre compte pour commander plus
-        rapidement et profiter d'autres aventages
-      </p>
+      <p className="font-semibold text-2xl mt-3 mb-2">{t("nonConnecter")}</p>
+      <p className="text-gray-500  ">{t("subNonConnecter")}</p>
       <button
         className=" my-5 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
         onClick={() => signIn()}
       >
-        Se connecter
+        {t("seConnecter")}
       </button>
     </div>
   )

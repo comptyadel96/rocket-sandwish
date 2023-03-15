@@ -2,11 +2,15 @@ import { getProviders, signIn } from "next-auth/react"
 import { FcGoogle } from "react-icons/fc"
 import { BsFacebook } from "react-icons/bs"
 import Link from "next/link"
-export default function Login({ providers }) {
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+
+export default function Login({ providers, locale }) {
+  const { t } = useTranslation("common")
   return (
     <div className="my-20 flex flex-col items-center  h-screen">
       <h1 className="font-bold md:text-4xl text-2xl text-center">
-        Connecter vous à votre compte rocket
+        {t("connecterRocket")}
       </h1>
 
       {Object.values(providers).map((provider) => (
@@ -21,7 +25,7 @@ export default function Login({ providers }) {
                 })
               }}
             >
-              Se connecter avec {provider.name}{" "}
+              {t("connectGoogle")}
               <FcGoogle className="text-2xl ml-1" />
             </button>
           ) : (
@@ -34,15 +38,20 @@ export default function Login({ providers }) {
                 })
               }}
             >
-              Se connecter avec {provider.name}{" "}
+              {t("connectFacebook")}
               <BsFacebook className="text-2xl ml-1 text-blue-500" />
             </button>
           )}
         </div>
       ))}
       <p className="text-xs  font-semibold mt-4 md:mx-0 mx-10 text-center">
-        en vous connectant sur notre site, vous acceptez notre{" "}
-        <Link className="text-red-600 border-b-[1px] border-b-red-600 font-bold " href="/Conf">Politique de confidentialité</Link>
+        {t("connectRegle")}{" "}
+        <Link
+          className="text-red-600 border-b-[1px] border-b-red-600 font-bold "
+          href="/Conf"
+        >
+          {t("linkRegle")}
+        </Link>
       </p>
     </div>
   )
@@ -53,6 +62,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       providers,
+      ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }
 }

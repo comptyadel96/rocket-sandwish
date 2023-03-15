@@ -40,7 +40,6 @@ export const getStaticProps = async (context) => {
   }
 }
 
-
 function menu({ menu }) {
   const { t } = useTranslation("common")
   return (
@@ -62,18 +61,18 @@ function menu({ menu }) {
           {menu.nom}{" "}
         </p>
         <div className="flex flex-wrap md:mt-7 mt-4 md:text-lg px-3 py-2  bg-white rounded-lg shadow font-bold">
-          <p className=" text-red-600">Ingrédients:</p>
+          <p className=" text-red-600">{t("ingredients")}:</p>
           <p className="md:max-w-md ml-2 font-semibold">{menu.description} </p>
         </div>
         <div className="flex items-center flex-wrap text-sm justify-evenly mt-5">
           <p className=" font-semibold md:my-0 my-2 bg-red-600 px-3 py-1 rounded-xl text-white">
-            menu personnalisable
+            {t("menuPerso")}
           </p>
           <p className=" font-semibold md:my-0 my-2 bg-black px-3 py-1 rounded-xl text-white">
-            plusieurs formats
+            {t("plusiuersFormat")}
           </p>
           <p className=" font-semibold md:my-0 my-2 bg-[#f6d485] px-3 py-1 rounded-xl">
-            à partir de {menu.prix} Da
+            {t('apartirDe')} {menu.prix} {t('Da')}
           </p>
         </div>
         <Commande prix={menu.prix} menu={menu.nom} />

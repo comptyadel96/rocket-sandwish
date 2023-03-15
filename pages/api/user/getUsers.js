@@ -3,7 +3,7 @@ import User from "../../../models/user"
 
 export default async function (req, res) {
   try {
-    await clientPromise()
+    clientPromise()
 
     const users = await User.find()
     await res.status(200).send(users)

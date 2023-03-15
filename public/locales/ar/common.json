@@ -21,7 +21,7 @@
   "menus": "أطباقنا",
   "contactUs": "اتصل بنا",
   "seConnecter": "تسجيل الدخول",
-  "profil": "حساب",
+  "profil": "حسابي",
   "nonConnecter": "أنت لم تقم بتسجيل الدخول",
   "subNonConnecter": "قم بتسجيل الدخول إلى حسابك للطلب بشكل أسرع والاستفادة من المزايا الأخرى",
 
@@ -42,6 +42,16 @@
   "totalePayer": "الثمن",
   "Da": "دج",
   "commander": "اطلب الان",
-  "ingredients":"مكونات"
+
+  "ingredients":"مكونات",
+  "menuPerso":"طبق قابل للتخصيص",
+  "plusiuersFormat":"عدة أحجام",
+  "apartirDe":"ابتداء من",
+
+  "connecterRocket":"تسجيل الدخول إلى حسابك",
+  "connectGoogle":"تسجيل الدخول عبر جوجل",
+  "connectFacebook":"تسجيل الدخول باستخدام الفيسبوك",
+  "connectRegle":"من خلال الاتصال بموقعنا ، فإنك توافق على ",
+  "linkRegle":"سياسة الخصوصية"
 
 }

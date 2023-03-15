@@ -44,5 +44,14 @@
   "Da": "Da",
   "commander": "Commander",
 
-  "ingredients":"Ingrédients"
+  "ingredients":"Ingrédients",
+  "menuPerso":"menu personnalisable",
+  "plusiuersFormat":"Plusieurs formats",
+  "apartirDe":"à partir de ",
+
+  "connecterRocket":"Connecter vous à votre compte rocket",
+  "connectGoogle":"Se connecter avec Google",
+  "connectFacebook":"Se connecter avec Facebook",
+  "connectRegle":"en vous connectant sur notre site, vous acceptez notre ",
+  "linkRegle":"Politique de confidentialité"
 }

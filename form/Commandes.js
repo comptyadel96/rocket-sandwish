@@ -422,7 +422,7 @@ function Commandes({ menu, prix = "400" }) {
                   handleChange(e)
                 }}
                 name="adresseClient"
-                className="bg-white px-3 py-1 rounded-md"
+                className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none "
                 placeholder={t("adresseLivraison")}
               />
             </div>
@@ -433,7 +433,7 @@ function Commandes({ menu, prix = "400" }) {
                   handleChange(e)
                 }}
                 name="numClient"
-                className="bg-white px-3 py-1 rounded-md "
+                className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none"
                 placeholder={t("numTelephone")}
               />
             </div>

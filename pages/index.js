@@ -39,7 +39,7 @@ export default function Home({ menus }) {
         {/* mobile photo */}
         <Image
           alt="fast food vente de sandwishs et nourriture algèrie"
-          src="/images/head-mobile.png"
+          src="/images/rocket-mobile.jpg"
           height={400}
           width={400}
           className="md:hidden mt-10"
