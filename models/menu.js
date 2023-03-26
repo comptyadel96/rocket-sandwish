@@ -13,7 +13,7 @@ const menuSchema = new mongoose.Schema(
     },
     prixPoints: {
       type: String,
-      required: true,
+      // required: true,
     },
     nom: {
       type: String,

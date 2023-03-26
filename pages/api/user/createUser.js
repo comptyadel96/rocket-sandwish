@@ -3,9 +3,18 @@ import User from "../../../models/user"
 
 export default async function (req, res) {
   clientPromise()
-  const { name, email, role, picture, userId } = req.body
+  const { name, email, role, picture, userId, phoneNumber, adresseLivraison } =
+    req.body
   try {
-    const user = await User.create({ name, email, role, picture, userId })
+    const user = await User.create({
+      name,
+      email,
+      role,
+      picture,
+      userId,
+      phoneNumber,
+      adresseLivraison,
+    })
 
     await res.status(200).send(user)
   } catch (error) {

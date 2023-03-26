@@ -31,7 +31,7 @@ export default function Home({ menus }) {
       <main className="flex flex-col items-center lg:pt-12 mx-auto">
         <Image
           alt=" fast food vente de sandwishs et nourriture algèrie"
-          className=" md:block hidden object-cover "
+          className="md:block hidden object-cover "
           src="/images/banner1.jpg"
           height={1400}
           width={1720}

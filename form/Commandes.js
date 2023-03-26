@@ -14,10 +14,21 @@ function Commandes({ menu, prix = "400" }) {
   const validationSchema = Yup.object().shape({
     numClient: Yup.string()
       .min(10, "veuillez saisir un numéro de téléphone valide svp")
-      .required(),
+      .when("livrable", {
+        is: true,
+        then: Yup.string().required(
+          "Veuillez saisir une adresse de livraison valide"
+        ),
+      }),
     adresseClient: Yup.string()
       .min(10, "l'adresse doit au-moins contenir 10 lettres")
-      .required(),
+      .when("livrable", {
+        is: true,
+        then: Yup.string().required(
+          "Veuillez saisir une adresse de livraison valide"
+        ),
+      }),
+    livrable: Yup.boolean(),
   })
   const mayoRef = useRef()
   const ketchupRef = useRef()
@@ -37,6 +48,7 @@ function Commandes({ menu, prix = "400" }) {
   const [suppléments, setSupléments] = useState([])
   const [sauce, setSauce] = useState([])
   const [boisson, setBoisson] = useState([])
+  const [aTable, setAtable] = useState(false)
   const [totalPrice, setTotalPrice] = useState(parseInt(prix))
 
   const toggleSauce = (ref) => {
@@ -259,6 +271,7 @@ function Commandes({ menu, prix = "400" }) {
                         "Selecto",
                         numbSelecto > 0 ? numbSelecto - 1 : 0
                       )
+                      numbSelecto > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -270,6 +283,7 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbSelecto((prev) => prev + 1)
                       addBoisson("Selecto", numbSelecto + 1)
+                      setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -291,6 +305,7 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbCoca((prev) => (prev > 0 ? prev - 1 : 0))
                       addBoisson("Coca cola", numbCoca > 0 ? numbCoca - 1 : 0)
+                      numbCoca > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -302,6 +317,7 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbCoca((prev) => prev + 1)
                       addBoisson("Coca cola", numbCoca + 1)
+                      setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
                     name="boissons"
@@ -323,6 +339,7 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbPepsi((prev) => (prev > 0 ? prev - 1 : 0))
                       addBoisson("Pepsi", numbPepsi > 0 ? numbPepsi - 1 : 0)
+                      numbPepsi > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -334,6 +351,7 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbPepsi((prev) => prev + 1)
                       addBoisson("Pepsi", numbPepsi + 1)
+                      setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -358,6 +376,7 @@ function Commandes({ menu, prix = "400" }) {
                         "Schweppes",
                         numbSchweppes > 0 ? numbSchweppes - 1 : 0
                       )
+                      numbSchweppes > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
                     name="boisson"
@@ -370,7 +389,7 @@ function Commandes({ menu, prix = "400" }) {
                       e.preventDefault()
                       setNumbSchweppes((prev) => prev + 1)
                       addBoisson("Schweppes", numbSchweppes + 1)
-                      // setFieldValue("boisson", boisson)
+                      setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
                     name="boisson"
@@ -395,6 +414,7 @@ function Commandes({ menu, prix = "400" }) {
                         "Mirinda",
                         numbMirinda > 0 ? numbMirinda - 1 : 0
                       )
+                      numbMirinda > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
                   >
@@ -405,12 +425,22 @@ function Commandes({ menu, prix = "400" }) {
                     onClick={() => {
                       setNumbMirinda((prev) => prev + 1)
                       addBoisson("Mirinda", numbMirinda + 1)
+                      setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
                   >
                     +
                   </button>
                 </div>
+              </div>
+            </div>
+            {/* choix du type de commande */}
+            <div className="flex items-center flex-wrap">
+              <div className="flex flex-col items-center cursor-pointer shadow-md mx-5 my-5">
+                <Image src={"/images/delivery.png"} height={80} width={80} />
+              </div>
+              <div className="flex flex-col items-center cursor-pointer shadow-md mx-5 my-5">
+                <Image src={"/images/atable.png"} height={80} width={80} />
               </div>
             </div>
 

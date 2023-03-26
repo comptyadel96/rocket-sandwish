@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 0,
     },
+    adresseLivraison: String,
   },
   { timestamps: true }
 )

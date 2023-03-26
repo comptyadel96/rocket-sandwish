@@ -5,13 +5,17 @@ const commandeSchema = new mongoose.Schema(
       type: String,
     },
 
-    numClient: { type: String, required: true },
-    adresseClient: { type: String, required: true },
+    numClient: { type: String },
+    adresseClient: { type: String },
     sauces: [String],
     suppléments: [String],
     boisson: [{ nom: String, nombre: String }],
     état: [String],
-    typeLivraison: String,
+    typeLiv: {
+      type: String,
+      default: "moto",
+      enum: ["moto", "à table"],
+    },
   },
 
   { timestamps: true }
