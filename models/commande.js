@@ -11,10 +11,8 @@ const commandeSchema = new mongoose.Schema(
     suppléments: [String],
     boisson: [{ nom: String, nombre: String }],
     état: [String],
-    typeLiv: {
-      type: String,
-      default: "moto",
-      enum: ["moto", "à table"],
+    livrable: {
+      type: Boolean,
     },
   },
 

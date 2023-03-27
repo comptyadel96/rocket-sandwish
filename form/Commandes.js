@@ -38,6 +38,8 @@ function Commandes({ menu, prix = "400" }) {
   const gouda = useRef()
   const kiri = useRef()
   const camambert = useRef()
+  const livrableRef = useRef()
+  const nonLivrableRef = useRef()
   //  state
   // const [numbMenu, setNumbMenu] = useState(0)
   const [numbCoca, setNumbCoca] = useState(0)
@@ -89,6 +91,20 @@ function Commandes({ menu, prix = "400" }) {
     }
   }
 
+  // choisir le type de commande (à table ou bien livrer à domicile)
+  const toggleLivraison = (ref) => {
+    if (ref.current.classList.contains("bg-red-600")) {
+      ref.current.classList.add("bg-white")
+      ref.current.classList.add("text-black")
+      ref.current.classList.remove("bg-red-600")
+      ref.current.classList.remove("text-white")
+    } else {
+      ref.current.classList.add("bg-red-600")
+      ref.current.classList.add("text-white")
+      ref.current.classList.remove("bg-white")
+      ref.current.classList.remove("text-black")
+    }
+  }
   // commander
   const commander = async (values) => {
     try {
@@ -111,6 +127,7 @@ function Commandes({ menu, prix = "400" }) {
           suppléments,
           boisson,
           menu,
+          livrable: true,
         }}
         validationSchema={validationSchema}
         enableReinitialize
@@ -434,13 +451,41 @@ function Commandes({ menu, prix = "400" }) {
                 </div>
               </div>
             </div>
+
             {/* choix du type de commande */}
+            <p className="md:text-2xl font-semibold">
+              Comment voulez vous profiter de ce plat ?
+            </p>
             <div className="flex items-center flex-wrap">
-              <div className="flex flex-col items-center cursor-pointer shadow-md mx-5 my-5">
+              <div
+                ref={livrableRef}
+                className={`flex flex-col bg-${
+                  aTable ? "white" : "red-600"
+                }  items-center text-${
+                  aTable ? "black" : "white"
+                } cursor-pointer shadow-md mx-5 my-5 px-5 py-3 border`}
+                onClick={() => {
+                  setFieldValue("livrable", true)
+                  setAtable(false)
+                }}
+              >
                 <Image src={"/images/delivery.png"} height={80} width={80} />
+                <p className="font-semibold">Livrer à votre domicile</p>
               </div>
-              <div className="flex flex-col items-center cursor-pointer shadow-md mx-5 my-5">
+              <div
+                ref={nonLivrableRef}
+                className={`flex flex-col bg-${
+                  aTable ? "red-600" : "white"
+                }  items-center text-${
+                  aTable ? "white" : "black"
+                } cursor-pointer shadow-md mx-5 my-5 px-5 py-3 border`}
+                onClick={() => {
+                  setFieldValue("livrable", false)
+                  setAtable(true)
+                }}
+              >
                 <Image src={"/images/atable.png"} height={80} width={80} />
+                <p className="font-semibold">à table</p>
               </div>
             </div>
 
