@@ -2,16 +2,18 @@ import Image from "next/image"
 import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Menu from "../../models/menu"
+// import User from "../../models/user"
 import Commande from "../../form/Commandes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import { useSession } from "next-auth/react"
+
+import axios from "axios"
+
 export const getStaticPaths = async ({ locales }) => {
   clientPromise()
   const menus = await Menu.find({})
   const ids = menus.map((menu) => {
-    // return {
-    //   params: { id: menu._id.toString() },
-    // }
     return menu._id
   })
   const paths = ids
@@ -32,15 +34,18 @@ export const getStaticProps = async (context) => {
   const id = context.params.id
   clientPromise()
   const menu = await Menu.findById(id)
+
   return {
     props: {
       menu: JSON.parse(JSON.stringify(menu)),
+
       ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }
 }
 
 function menu({ menu }) {
+  const { data: session } = useSession()
   const { t } = useTranslation("common")
   return (
     <div className="md:py-16 py-10 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">
@@ -57,8 +62,7 @@ function menu({ menu }) {
       {/* commande details */}
       <div className="flex flex-col self-start">
         <p className="font-bold md:text-6xl text-2xl capitalize md:mt-0 mt-3 md:ml-0 ml-4">
-          {" "}
-          {menu.nom}{" "}
+          {menu.nom}
         </p>
         <div className="flex flex-wrap md:mt-7 mt-4 md:text-lg px-3 py-2  bg-white rounded-lg shadow font-bold">
           <p className=" text-red-600">{t("ingredients")}:</p>
@@ -72,10 +76,10 @@ function menu({ menu }) {
             {t("plusiuersFormat")}
           </p>
           <p className=" font-semibold md:my-0 my-2 bg-[#f6d485] px-3 py-1 rounded-xl">
-            {t('apartirDe')} {menu.prix} {t('Da')}
+            {t("apartirDe")} {menu.prix} {t("Da")}
           </p>
         </div>
-        <Commande prix={menu.prix} menu={menu.nom} />
+        <Commande prix={menu.prix} menu={menu.nom} photo={menu.photo} />
       </div>
     </div>
   )

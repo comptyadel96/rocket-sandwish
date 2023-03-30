@@ -7,17 +7,19 @@ import "react-toastify/dist/ReactToastify.css"
 import { BsPinMap, BsTelephone } from "react-icons/bs"
 import axios from "axios"
 import { useTranslation } from "next-i18next"
+import { useSession } from "next-auth/react"
 
-function Commandes({ menu, prix = "400" }) {
+function Commandes({ menu, prix = "400", photo }) {
   const { t } = useTranslation("common")
-
+  const { data: session, status } = useSession()
+  // validation schema
   const validationSchema = Yup.object().shape({
     numClient: Yup.string()
       .min(10, "veuillez saisir un numéro de téléphone valide svp")
       .when("livrable", {
         is: true,
         then: Yup.string().required(
-          "Veuillez saisir une adresse de livraison valide"
+          "Veuillez saisir un numéro de téléphone valide s'il vous plait"
         ),
       }),
     adresseClient: Yup.string()
@@ -52,6 +54,7 @@ function Commandes({ menu, prix = "400" }) {
   const [boisson, setBoisson] = useState([])
   const [aTable, setAtable] = useState(false)
   const [totalPrice, setTotalPrice] = useState(parseInt(prix))
+  const [loading, setLoading] = useState(false)
 
   const toggleSauce = (ref) => {
     if (ref.current.classList.contains("bg-white")) {
@@ -90,28 +93,20 @@ function Commandes({ menu, prix = "400" }) {
       setBoisson((prev) => [...prev, { nom, nombre }])
     }
   }
-
-  // choisir le type de commande (à table ou bien livrer à domicile)
-  const toggleLivraison = (ref) => {
-    if (ref.current.classList.contains("bg-red-600")) {
-      ref.current.classList.add("bg-white")
-      ref.current.classList.add("text-black")
-      ref.current.classList.remove("bg-red-600")
-      ref.current.classList.remove("text-white")
-    } else {
-      ref.current.classList.add("bg-red-600")
-      ref.current.classList.add("text-white")
-      ref.current.classList.remove("bg-white")
-      ref.current.classList.remove("text-black")
-    }
-  }
   // commander
   const commander = async (values) => {
     try {
-      await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
-        values
-      )
+      if (session && session.user) {
+        await axios.post(
+          `http://localhost:3000/api/commande/commander?_id=${session.user.id}`,
+          values
+        )
+      } else {
+        await axios.post(
+          `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
+          values
+        )
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -128,6 +123,8 @@ function Commandes({ menu, prix = "400" }) {
           boisson,
           menu,
           livrable: true,
+          photo,
+          price: totalPrice,
         }}
         validationSchema={validationSchema}
         enableReinitialize
@@ -167,6 +164,7 @@ function Commandes({ menu, prix = "400" }) {
                 name="sauces"
                 ref={mayoRef}
                 value="Mayonnaise"
+                type="button"
                 className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
                 {t("mayonnaise")}
@@ -180,6 +178,7 @@ function Commandes({ menu, prix = "400" }) {
                   setFieldValue("sauces", sauce)
                 }}
                 name="sauces"
+                type="button"
                 value="ketchup"
                 ref={ketchupRef}
                 className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
@@ -197,6 +196,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={maisonRef}
                 value="Sauce maison"
                 name="sauces"
+                type="button"
                 className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
                 {t("sauceMaison")}
@@ -212,6 +212,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={hrissaRef}
                 value="Hrissa"
                 name="sauces"
+                type="button"
                 className="px-3 py-1 rounded-md shadow-md bg-white m-2 font-semibold cursor-pointer"
               >
                 {t("hrissa")}
@@ -224,6 +225,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={gruyére}
                 value="Gruyére"
                 name="suppléments"
+                type="button"
                 onClick={(e) => {
                   e.preventDefault()
                   toggleSup(gruyére)
@@ -237,6 +239,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={gouda}
                 value="Gouda"
                 name="suppléments"
+                type="button"
                 onClick={() => {
                   toggleSup(gouda)
                   setFieldValue("suppléments", suppléments)
@@ -249,6 +252,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={camambert}
                 value="Camambert"
                 name="suppléments"
+                type="button"
                 onClick={() => {
                   toggleSup(camambert)
                   setFieldValue("suppléments", suppléments)
@@ -261,6 +265,7 @@ function Commandes({ menu, prix = "400" }) {
                 ref={kiri}
                 value="Kiri"
                 name="suppléments"
+                type="button"
                 onClick={() => {
                   toggleSup(kiri)
                   setFieldValue("suppléments", suppléments)
@@ -292,6 +297,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className=" text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     -
                   </button>
@@ -304,6 +310,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className="text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     +
                   </button>
@@ -326,6 +333,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className=" text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     -
                   </button>
@@ -337,7 +345,8 @@ function Commandes({ menu, prix = "400" }) {
                       setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
-                    name="boissons"
+                    name="boisson"
+                    type="button"
                   >
                     +
                   </button>
@@ -360,6 +369,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className=" text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     -
                   </button>
@@ -372,6 +382,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className="text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     +
                   </button>
@@ -397,6 +408,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className=" text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     -
                   </button>
@@ -410,6 +422,7 @@ function Commandes({ menu, prix = "400" }) {
                     }}
                     className="text-2xl"
                     name="boisson"
+                    type="button"
                   >
                     +
                   </button>
@@ -434,6 +447,7 @@ function Commandes({ menu, prix = "400" }) {
                       numbMirinda > 0 && setTotalPrice((prev) => prev - 100)
                     }}
                     className=" text-2xl"
+                    type="button"
                   >
                     -
                   </button>
@@ -445,6 +459,7 @@ function Commandes({ menu, prix = "400" }) {
                       setTotalPrice((prev) => prev + 100)
                     }}
                     className="text-2xl"
+                    type="button"
                   >
                     +
                   </button>
@@ -453,9 +468,7 @@ function Commandes({ menu, prix = "400" }) {
             </div>
 
             {/* choix du type de commande */}
-            <p className="md:text-2xl font-semibold">
-              Comment voulez vous profiter de ce plat ?
-            </p>
+            <p className="md:text-2xl font-semibold">{t("profiterPlat")}</p>
             <div className="flex items-center flex-wrap">
               <div
                 ref={livrableRef}
@@ -469,8 +482,13 @@ function Commandes({ menu, prix = "400" }) {
                   setAtable(false)
                 }}
               >
-                <Image src={"/images/delivery.png"} height={80} width={80} />
-                <p className="font-semibold">Livrer à votre domicile</p>
+                <Image
+                  src={"/images/delivery.png"}
+                  height={80}
+                  width={80}
+                  alt="livraison à votre domicile algérie"
+                />
+                <p className="font-semibold">{t("livreràdomicile")} </p>
               </div>
               <div
                 ref={nonLivrableRef}
@@ -484,38 +502,60 @@ function Commandes({ menu, prix = "400" }) {
                   setAtable(true)
                 }}
               >
-                <Image src={"/images/atable.png"} height={80} width={80} />
-                <p className="font-semibold">à table</p>
+                <Image
+                  src={"/images/atable.png"}
+                  height={80}
+                  width={80}
+                  alt="manger dans le fast food rocket sandwish"
+                />
+                <p className="font-semibold">{t("atable")}</p>
               </div>
             </div>
 
             {/* infos personnelle client */}
-            <div className="flex items-center my-3">
-              <BsPinMap className="mr-2 text-xl" />
-              <input
-                onChange={(e) => {
-                  handleChange(e)
-                }}
-                name="adresseClient"
-                className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none "
-                placeholder={t("adresseLivraison")}
-              />
-            </div>
-            <div className="flex items-center my-3">
-              <BsTelephone className="mr-2 text-xl" />
-              <Field
-                onChange={(e) => {
-                  handleChange(e)
-                }}
-                name="numClient"
-                className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none"
-                placeholder={t("numTelephone")}
-              />
-            </div>
+            {!aTable && (
+              <div>
+                <div className="flex items-center my-3">
+                  <BsPinMap className="mr-2 text-xl" />
+                  <input
+                    onChange={(e) => {
+                      handleChange(e)
+                    }}
+                    name="adresseClient"
+                    className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none "
+                    placeholder={t("adresseLivraison")}
+                  />
+                </div>
+                {errors.adresseClient && touched.adresseClient ? (
+                  <p className="text-red-600 text-xs font-semibold">
+                    {errors.adresseClient}
+                  </p>
+                ) : null}
+                <div className="flex items-center my-3">
+                  <BsTelephone className="mr-2 text-xl" />
+                  <Field
+                    onChange={(e) => {
+                      handleChange(e)
+                    }}
+                    name="numClient"
+                    className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none"
+                    placeholder={t("numTelephone")}
+                  />
+                </div>
+                {errors.numClient && touched.numClient ? (
+                  <p className="text-red-600 text-xs font-semibold">
+                    {errors.numClient}
+                  </p>
+                ) : null}
+              </div>
+            )}
+
+            {/* total à payer  */}
             <p className="font-semibold mb-2">
               {t("totalePayer")}: {totalPrice} {t("Da")}{" "}
             </p>
             <button
+              // onClick={handleSubmit}
               type="submit"
               className="px-2 py-[2px] font-semibold rounded-lg hover:bg-red-600 border border-red-600 text-red-600 hover:text-white"
             >

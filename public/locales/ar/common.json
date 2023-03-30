@@ -41,17 +41,19 @@
   "numTelephone": "مثال: 05577049 ...",
   "totalePayer": "الثمن",
   "Da": "دج",
-  "commander": "اطلب الان",
+  "commander": "+اطلب الان",
 
-  "ingredients":"مكونات",
-  "menuPerso":"طبق قابل للتخصيص",
-  "plusiuersFormat":"عدة أحجام",
-  "apartirDe":"ابتداء من",
+  "ingredients": "مكونات",
+  "menuPerso": "طبق قابل للتخصيص",
+  "plusiuersFormat": "عدة أحجام",
+  "apartirDe": "ابتداء من",
 
-  "connecterRocket":"تسجيل الدخول إلى حسابك",
-  "connectGoogle":"تسجيل الدخول عبر جوجل",
-  "connectFacebook":"تسجيل الدخول باستخدام الفيسبوك",
-  "connectRegle":"من خلال الاتصال بموقعنا ، فإنك توافق على ",
-  "linkRegle":"سياسة الخصوصية"
-
+  "connecterRocket": "تسجيل الدخول إلى حسابك",
+  "connectGoogle": "تسجيل الدخول عبر جوجل",
+  "connectFacebook": "تسجيل الدخول باستخدام الفيسبوك",
+  "connectRegle": "من خلال الاتصال بموقعنا ، فإنك توافق على ",
+  "linkRegle": "سياسة الخصوصية",
+  "livreràdomicile":"توصيل لمنزلك",
+  "atable":"في المطعم",
+  "profiterPlat":"كيف تريد الاستمتاع بهذا الطبق؟"
 }

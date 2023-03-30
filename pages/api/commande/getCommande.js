@@ -3,10 +3,9 @@ import Commande from "../../../models/commande"
 
 export default async function (req, res) {
   try {
-    await clientPromise()
+    clientPromise()
     const commandes = await Commande.find()
-      // .populate("User", "name  email phoneNumber ")
-      .populate("Menu")
+      .populate("commanderPar", "name  email phoneNumber adresseLivraison _id ")
       .sort({ createdAt: -1 })
     await res.status(200).send(commandes)
   } catch (e) {

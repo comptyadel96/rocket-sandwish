@@ -2,11 +2,6 @@ import mongoose from "mongoose"
 
 const menuSchema = new mongoose.Schema(
   {
-    // status: {
-    //   type: String,
-    //   enum: ["en cours", "terminer", "annuler"],
-    //   default: "en cours",
-    // },
     prix: {
       type: String,
       required: true,

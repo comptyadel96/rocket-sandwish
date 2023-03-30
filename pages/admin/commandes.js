@@ -1,3 +1,4 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Commande from "../../models/commande"
@@ -13,8 +14,8 @@ function commandes({ commandes }) {
         >
           <div className="flex items-center">
             <p className="font-semibold text-2xl capitalize">{commande.menu}</p>
-            {commande.sauces.map((sauce) => (
-              <p className="font-bold bg-red-100 px-2 rounded-lg text-red-600 ml-3">
+            {commande.sauces.map((sauce,index) => (
+              <p key={index} className="font-bold bg-red-100 px-2 rounded-lg text-red-600 ml-3">
                 {sauce}
               </p>
             ))}
@@ -57,7 +58,9 @@ function commandes({ commandes }) {
             <button className="px-3 py-1 mx-2 text-green-600 bg-green-200 rounded-lg text-sm">
               Livrer
             </button>
-            <button className="px-3 py-1 mx-2 text-red-600 bg-red-100 rounded-lg text-sm">Annuler</button>
+            <button className="px-3 py-1 mx-2 text-red-600 bg-red-100 rounded-lg text-sm">
+              Annuler
+            </button>
           </div>
         </div>
       ))}
@@ -66,10 +69,12 @@ function commandes({ commandes }) {
 }
 export const getServerSideProps = async (context) => {
   clientPromise()
-  const commandes = await Commande.find()
+  const commandes = await Commande.find().populate("commanderPar","name email adresseLivraison _id phoneNumber")
+  console.log(commandes)
   return {
     props: {
       commandes: JSON.parse(JSON.stringify(commandes)),
+      ...(await serverSideTranslations(context.locale, ["common"]))
     },
   }
 }

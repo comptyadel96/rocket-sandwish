@@ -4,16 +4,21 @@ const commandeSchema = new mongoose.Schema(
     menu: {
       type: String,
     },
-
+    photo: String,
     numClient: { type: String },
     adresseClient: { type: String },
     sauces: [String],
     suppléments: [String],
     boisson: [{ nom: String, nombre: String }],
-    état: [String],
+    état: String,
     livrable: {
       type: Boolean,
     },
+    commanderPar: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+    price: String,
   },
 
   { timestamps: true }

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import React from "react"
+import { useTranslation } from "react-i18next"
 
 function MenuCard({
   src = "/images/menu1.png",
@@ -12,6 +13,7 @@ function MenuCard({
   onDelete,
   onModify,
 }) {
+  const { t } = useTranslation("common")
   return (
     <div className="flex flex-col items-center cursor-pointer lg:py-3 py-1 lg:px-5 px-2 md:max-w-[20rem] my-10 bg-white mx-4 rounded-md shadow-lg border  relative">
       <Image
@@ -22,23 +24,24 @@ function MenuCard({
         className="rounded-lg"
       />
 
-      <p className="font-bold lg:text-2xl  ">{title} </p>
+      <p className="font-bold lg:text-2xl  ">{title}</p>
 
       <p className=" text-clip overflow-hidden  text-center font-semibold  text-sm text-gray-400 ">
         {description}
       </p>
       <div className="flex items-center justify-center my-1 w-full">
         <span className="w-3 h-3 rounded-full bg-red-600 mr-1"></span>
-        <p className="font-bold text-lg  text-center">{price} Da</p>
+        <p className="font-bold text-lg  text-center">
+          {price} {t("Da")}
+        </p>
       </div>
 
-      <div></div>
       {/* <p className="text-sm font-semibold text-red-600">
         {prixPoints} <span className="">Points rocket</span>{" "}
       </p> */}
       {!isDash ? (
         <button className="absolute lg:-right-9 -right-4 lg:-bottom-6 -bottom-8 border-red-600 border-2 shadow-md shadow-red-200 rounded-lg font-semibold bg-white px-2 text-red-600 hover:bg-red-600 hover:text-white">
-          + Commander
+          {t("commander")}
         </button>
       ) : null}
       {isDash && (

@@ -6,11 +6,12 @@ import React from "react"
 import { GrLogout } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
 import User from "../models/user"
+import Commande from "../models/commande"
 import Dashboard from "./dashboard"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "react-i18next"
 
-export default function Login({ users }) {
+export default function Login({ users, commandes }) {
   const { t } = useTranslation("common")
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
@@ -21,19 +22,7 @@ export default function Login({ users }) {
     return <div className="h-screen"></div>
   }
 
-  if (
-    status === "authenticated" &&
-    users &&
-    users.role !== "administrateur"
-    // && (
-    //   <Link
-    //     className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
-    //     href="/dashboard"
-    //   >
-    //     Tableau administrateur
-    //   </Link>
-    // )
-  ) {
+  if (status === "authenticated" && users && users.role !== "administrateur") {
     return (
       <div className="lg:my-16  flex flex-col items-center">
         <Head>
@@ -93,24 +82,91 @@ export default function Login({ users }) {
         </div>
         <div className="flex items-center flex-wrap justify-evenly w-full">
           {/* commande du client */}
-          <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 md:my-2 my-4 border shadow-lg rounded-xl md:mt-12">
-            <Image
-              src="/images/no-commande.png"
-              height={550}
-              width={550}
-              alt="ajouter votre commande içi"
-            />
-            <p className="my-3 md:text-3xl font-semibold">
-              Vous n&apos;avez pas encore de commande!
-            </p>
-            <p className="max-w-lg text-gray-400">
-              vous trouverez ici la liste de vos commande(s) en cours ainsi que
-              votre historique de commande sur le site{" "}
-            </p>{" "}
-            <button className="px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
-              Passer une commande
-            </button>
-          </div>
+          {commandes && commandes.length === 0 ? (
+            <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 md:my-2 my-4 border shadow-lg rounded-xl md:mt-12">
+              <Image
+                src="/images/no-commande.png"
+                height={550}
+                width={550}
+                alt="ajouter votre commande içi"
+              />
+              <p className="my-3 md:text-3xl font-semibold">
+                Vous n&apos;avez pas encore de commande!
+              </p>
+              <p className="max-w-lg text-gray-400">
+                vous trouverez ici la liste de vos commande(s) en cours ainsi
+                que votre historique de commande sur le site{" "}
+              </p>{" "}
+              <button className="px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
+                Passer une commande
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center  md:px-4 md:py-3 px-3 py-2">
+              <p className="md:text-4xl text-2xl font-semibold md:my-5">
+                Vos Commandes
+              </p>
+              {commandes.map((commande, index) => (
+                <div
+                  key={index}
+                  className="flex flex-wrap items-center my-4 bg-gray-100 px-3 py-2 rounded-xl shadow-md border"
+                >
+                  <Image
+                    src={commande.photo}
+                    height={100}
+                    width={100}
+                    alt={`menu ${commande.menu}`}
+                    className="rounded-full"
+                  />
+                  <div className="flex flex-col items-center">
+                    <p className="text-xl font-semibold mx-2">
+                      {" "}
+                      {commande.menu}{" "}
+                    </p>
+                    {/* sauces */}
+                    {commande.boisson && (
+                      <div className="flex items-center ">
+                        {commande.boisson.slice(0, 2).map((boisson, index) => (
+                          <div key={index} className="flex items-center">
+                            <p className="font-semibold text-red-600 text-xs mx-1">
+                              {boisson.nombre}
+                            </p>
+                            <p className="font-semibold text-gray-600 text-xs text-ellipsis">
+                              {boisson.nom}
+                            </p>
+                          </div>
+                        ))}
+                        {commande.boisson.length > 1 && <p>...</p>}
+                      </div>
+                    )}
+                    {commande.suppléments && (
+                      <div className="flex items-center">
+                        {commande.suppléments.slice(0, 2).map((sup, index) => (
+                          <p
+                            className="font-semibold text-gray-600 text-xs mx-1"
+                            key={index}
+                          >
+                            {sup}{" "}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                    <p className="font-semibold text-sm text-red-600 mt-1 bg-white px-2 shadow-md border border-red-600">
+                      {" "}
+                      {commande.price} {t("Da")}{" "}
+                    </p>
+                    <div className="flex items-center text-xs self-end mt-2 font-semibold"> 
+                      <p className="mr-1">Le</p>
+                      <p className=""> {new Date(commande.createdAt).getFullYear()}/ </p>
+                      <p className=""> {new Date(commande.createdAt).getMonth()+1}/ </p>
+                      <p className=""> {new Date(commande.createdAt).getUTCDate()} </p>
+                    </div>
+                    
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 border shadow-lg rounded-xl md:mt-12 mt-6">
             <Image
               src="/images/rocket-pts.png"
@@ -169,11 +225,13 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   clientPromise()
   const users = await User.findOne({ userId: session ? session.user.id : null })
-
+  const commandes = await Commande.find({ commanderPar: users && users._id })
+  console.log(commandes)
   return {
     props: {
       session,
       users: JSON.parse(JSON.stringify(users)),
+      commandes: JSON.parse(JSON.stringify(commandes)),
       ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }

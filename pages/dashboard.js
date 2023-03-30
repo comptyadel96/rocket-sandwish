@@ -1,10 +1,12 @@
 import Image from "next/image"
 import React from "react"
-import { getSession } from "next-auth/react"
+import { getSession, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import axios from "axios"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 function Dashboard({ users }) {
+  const { data: session, status } = useSession()
   if (users && users.role !== "administrateur") {
     return (
       <p className="my-16 mx-24 h-screen text-center md:text-4xl font-bold">
@@ -14,8 +16,14 @@ function Dashboard({ users }) {
   }
   return (
     <div className="md:my-20 flex flex-col h-full">
+      <div className="flex items-center">
+        <button title="se deconnecter" className="bg-red-200 px-4 py-1 rounded-md m-4 font-semibold">
+          {" "}
+          <span className="text-red-600">Se déconnecter </span>{" "}
+        </button>
+      </div>
       <h1 className="text-center md:text-6xl font-bold">
-        Bienvenue {users && users.name}{" "}
+        Bienvenue {session && session.user.name}{" "}
       </h1>
       <h2 className="md:mt-20 md:text-4xl font-semibold ml-5">
         1-Gérer le magasin
@@ -109,13 +117,18 @@ function Dashboard({ users }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const res = await axios(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/currentUser?id=${
+    `http://localhost:3000/api/user/currentUser?id=${
       session ? session.user.id : null
     }`
     // "http:localhost:3000/api/user/getUsers"
   )
   const users = res.data
 
-  return { props: { users } }
+  return {
+    props: {
+      users,
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    },
+  }
 }
 export default Dashboard
