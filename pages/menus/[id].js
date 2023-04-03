@@ -5,7 +5,6 @@ import Menu from "../../models/menu"
 import Commande from "../../form/Commandes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-import { useSession } from "next-auth/react"
 
 export const getStaticPaths = async ({ locales }) => {
   clientPromise()

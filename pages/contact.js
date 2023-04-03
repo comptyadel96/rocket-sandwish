@@ -2,6 +2,7 @@ import Image from "next/image"
 import React from "react"
 import FAQ from "../components/FAQ"
 import { MdOutlineMailOutline, MdCall, MdOutlinePlace } from "react-icons/md"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 function contact() {
   return (
     <div className="md:py-10  md:bg-gray-100">
@@ -58,5 +59,11 @@ function contact() {
     </div>
   )
 }
-
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  }
+}
 export default contact
