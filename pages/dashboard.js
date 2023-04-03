@@ -117,7 +117,7 @@ function Dashboard({ users }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const res = await axios(
-    `http://localhost:3000/api/user/currentUser?id=${
+    `https://rocket-sandwish-2.vercel.app/api/user/currentUser?id=${
       session ? session.user.id : null
     }`
     // "http:localhost:3000/api/user/getUsers"

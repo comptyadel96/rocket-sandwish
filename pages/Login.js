@@ -55,7 +55,7 @@ export default function Login({ users, commandes }) {
 
   if (status === "authenticated" && users && users.role !== "administrateur") {
     return (
-      <div className="lg:my-16  flex flex-col items-center">
+      <div className="lg:my-16 flex flex-col items-center">
         <Head>
           <title>Profil</title>
           <meta
@@ -352,28 +352,30 @@ export default function Login({ users, commandes }) {
     return <Dashboard />
   }
   // if not authenticated
-  return (
-    <div className="font-semibold flex flex-col  items-center lg:m-20 mt-16 mx-auto px-10 h-screen">
-      <Image src="/images/login.png" height={230} width={230} />
-      <p className="font-semibold text-2xl mt-3 mb-2">{t("nonConnecter")}</p>
-      <p className="text-gray-500  ">{t("subNonConnecter")}</p>
-      <button
-        className=" my-5 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
-        onClick={() => signIn()}
-      >
-        {t("seConnecter")}
-      </button>
-    </div>
-  )
+  if (status === "unauthenticated") {
+    return (
+      <div className="font-semibold flex flex-col  items-center lg:m-20 mt-16 mx-auto px-10 h-screen">
+        <Image src="/images/login.png" height={230} width={230} />
+        <p className="font-semibold text-2xl mt-3 mb-2">{t("nonConnecter")}</p>
+        <p className="text-gray-500  ">{t("subNonConnecter")}</p>
+        <button
+          className=" my-5 px-3 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white"
+          onClick={() => signIn()}
+        >
+          {t("seConnecter")}
+        </button>
+      </div>
+    )
+  }
 }
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const session = await getSession(context)
   clientPromise()
   const users = await User.findOne({ userId: session ? session.user.id : null })
   const commandes = await Commande.find({
     commanderPar: users && users._id,
   }).sort({ createdAt: -1 })
-  // console.log(users.adresseLivraison)
+  console.log(session)
   return {
     props: {
       session,
