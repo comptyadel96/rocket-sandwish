@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import { FiChevronDown, FiChevronUp } from "react-icons/fi"
 function FAQ({
   question = "est-ce-que rocket food assure la livraison ?",
-  reponse = "oui et non, parceque la et la et laaaaaaaa ggggggggggggggggggggggg fggfgg ffgfgfgf gfgfgfg fgfgfgfg",
+  reponse = "Oui, on vous fera la livraison si vous habitez sur la wilaya d'alger ",
 }) {
   const [isOpen, setIsOpen] = useState(false)
   return (
@@ -15,9 +15,15 @@ function FAQ({
         {isOpen && <p className="mt-2 text-gray-500 "> {reponse} </p>}
       </div>
       {!isOpen ? (
-        <FiChevronDown className="ml-auto mr-1 self-start mt-2 text-red-600"  size={27} />
+        <FiChevronDown
+          className="ml-auto mr-1 self-start mt-2 text-red-600"
+          size={27}
+        />
       ) : (
-        <FiChevronUp className="ml-auto mr-1 self-start mt-2 text-red-600"  size={27} />
+        <FiChevronUp
+          className="ml-auto mr-1 self-start mt-2 text-red-600"
+          size={27}
+        />
       )}
     </div>
   )
