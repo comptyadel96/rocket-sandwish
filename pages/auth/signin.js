@@ -5,7 +5,7 @@ import Link from "next/link"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 
-export default function Login({ providers, locale }) {
+export default function Login({ providers }) {
   const { t } = useTranslation("common")
   return (
     <div className="my-20 flex flex-col items-center  h-screen">
@@ -13,37 +13,31 @@ export default function Login({ providers, locale }) {
         {t("connecterRocket")}
       </h1>
 
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name} className="font-semibold">
-          {provider.name === "Google" ? (
-            <button
-              className="mb-5 mt-14 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
-              onClick={(e) => {
-                // e.preventDefault()
-                signIn(provider.id, {
-                  callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
-                })
-              }}
-            >
-              {t("connectGoogle")}
-              <FcGoogle className="text-2xl ml-1" />
-            </button>
-          ) : (
-            <button
-              className="my-3 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
-              onClick={(e) => {
-                e.preventDefault()
-                signIn(provider.id, {
-                  callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
-                })
-              }}
-            >
-              {t("connectFacebook")}
-              <BsFacebook className="text-2xl ml-1 text-blue-500" />
-            </button>
-          )}
-        </div>
-      ))}
+      <button
+        className="mb-5 font-semibold mt-14 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
+        onClick={(e) => {
+          signIn("google", {
+            callbackUrl: `https://rocket-sandwish-2.vercel.app/Login`,
+          })
+        }}
+      >
+        {t("connectGoogle")}
+        <FcGoogle className="text-2xl ml-1" />
+      </button>
+
+      <button
+        className="my-3 flex font-semibold items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
+        onClick={(e) => {
+          e.preventDefault()
+          signIn("facebook", {
+            callbackUrl: `https://rocket-sandwish-2.vercel.app/Login`,
+          })
+        }}
+      >
+        {t("connectFacebook")}
+        <BsFacebook className="text-2xl ml-1 text-blue-500" />
+      </button>
+
       <p className="text-xs  font-semibold mt-4 md:mx-0 mx-10 text-center">
         {t("connectRegle")}{" "}
         <Link

@@ -4,12 +4,9 @@ import GoogleProvider from "next-auth/providers/google"
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/dbConnect"
 import User from "../../../models/user"
-import { i18n } from "next-i18next"
 
-const getLang = () => {
-  return i18n.language
-}
-console.log(getLang())
+
+
 export default NextAuth({
   secret: process.env.SECRET,
   providers: [
