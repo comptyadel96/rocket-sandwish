@@ -366,7 +366,7 @@ export default function Login({ users, commandes }) {
     </div>
   )
 }
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const session = await getSession(context)
   clientPromise()
   const users = await User.findOne({ userId: session ? session.user.id : null })

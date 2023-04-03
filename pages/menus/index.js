@@ -47,7 +47,7 @@ function menus({ menus }) {
     </div>
   )
 }
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   clientPromise()
   const menus = await Menu.find()
   return {
