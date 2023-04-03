@@ -38,7 +38,7 @@ function AddMenu() {
   const addMenu = async (values) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/menus/addMenu`,
+        `https://rocket-sandwish.com/api/menus/addMenu`,
         values,
         {
           headers: {
