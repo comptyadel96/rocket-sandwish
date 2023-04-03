@@ -30,7 +30,7 @@ export default function Login({ users, commandes }) {
   const modifyUserInfos = async (values) => {
     try {
       await axios.post(
-        `https://rocket-sandwish.com/api/user/modifyProfil?id=${users._id}`,
+        `https://rocket-sandwish-2.vercel.app/api/user/modifyProfil?id=${users._id}`,
         values
       )
       setCompleteProfil(true)

@@ -17,7 +17,7 @@ function Commandes({ menu, prix = "400", photo }) {
     if (session) {
       try {
         const currUser = await axios.post(
-          `https://rocket-sandwish.com/api/user/currentUser`,
+          `https://rocket-sandwish-2.vercel.app/api/user/currentUser`,
           { id: session.user.id }
         )
         setCurrentUser(currUser.data)
@@ -121,12 +121,12 @@ function Commandes({ menu, prix = "400", photo }) {
     try {
       if (session && session.user) {
         await axios.post(
-          `https://rocket-sandwish.com/api/commande/commander?_id=${session.user.id}`,
+          `https://rocket-sandwish-2.vercel.app/api/commande/commander?_id=${session.user.id}`,
           values
         )
       } else {
         await axios.post(
-          `https://rocket-sandwish.com/api/commande/commander`,
+          `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
           values
         )
       }
