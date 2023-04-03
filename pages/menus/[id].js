@@ -2,13 +2,10 @@ import Image from "next/image"
 import React from "react"
 import clientPromise from "../../lib/dbConnect"
 import Menu from "../../models/menu"
-// import User from "../../models/user"
 import Commande from "../../form/Commandes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useSession } from "next-auth/react"
-
-import axios from "axios"
 
 export const getStaticPaths = async ({ locales }) => {
   clientPromise()
@@ -34,18 +31,15 @@ export const getStaticProps = async (context) => {
   const id = context.params.id
   clientPromise()
   const menu = await Menu.findById(id)
-
   return {
     props: {
       menu: JSON.parse(JSON.stringify(menu)),
-
       ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }
 }
 
 function menu({ menu }) {
-  const { data: session } = useSession()
   const { t } = useTranslation("common")
   return (
     <div className="md:py-16 py-10 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">

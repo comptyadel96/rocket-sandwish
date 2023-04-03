@@ -21,6 +21,7 @@ export default async function (req, res) {
       menu,
       photo,
       price,
+      livrable,
     } = req.body
     const currUser = await User.findOne({ userId: req.query._id })
     const userId = currUser._id
@@ -34,6 +35,7 @@ export default async function (req, res) {
       commanderPar: userId,
       photo,
       price,
+      livrable,
     })
 
     res.status(200).send(commande)

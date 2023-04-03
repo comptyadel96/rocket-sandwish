@@ -17,7 +17,7 @@ function Dashboard({ users }) {
   return (
     <div className="md:my-20 flex flex-col h-full">
       <div className="flex items-center">
-        <button title="se deconnecter" className="bg-red-200 px-4 py-1 rounded-md m-4 font-semibold">
+        <button title="se deconnecter" onClick={signOut} className="bg-red-200 px-4 py-1 rounded-md m-4 font-semibold">
           {" "}
           <span className="text-red-600">Se déconnecter </span>{" "}
         </button>

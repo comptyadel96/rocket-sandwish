@@ -12,13 +12,14 @@ export default async (req, res) => {
     })
 
     clientPromise()
-    const { nom, description, prix, photo, prixPoints } = req.body
+    const { nom, description, prix, photo, prixPoints,tag } = req.body
     const menu = await Menu.create({
       nom,
       description,
       prix,
       photo,
       prixPoints,
+      tag
     })
 
     res.status(200).json(menu)

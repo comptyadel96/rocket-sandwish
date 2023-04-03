@@ -56,7 +56,9 @@ function AddMenu() {
       setHasUploadPhoto(false)
     } catch (error) {
       console.log(error)
-      alert("une erreur est servenu, si le probléme persiste contactez rivuxo")
+      alert(
+        "une erreur est servenu, si le probléme persiste contactez sidali ou adel :)"
+      )
     }
   }
   return (
@@ -69,13 +71,12 @@ function AddMenu() {
           prix: "",
           prixPoints: "",
           photo: "",
+          tag: "",
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { resetForm }) => {
           await addMenu(values)
           resetForm({ values: "" })
-
-          console.log(values)
         }}
       >
         {({ setFieldValue, handleChange, touched, errors }) => (
@@ -204,6 +205,27 @@ function AddMenu() {
                 {errors.description}{" "}
               </p>
             ) : null}
+            <p className="mb-2 font-bold">Marquer comme:</p>
+            <div className="flex flex-wrap items-center justify-evenly">
+              <button
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-blue-500 text-white"
+                onClick={() => setFieldValue("tag", "nouveau")}
+              >
+                Nouveau
+              </button>
+              <button
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-red-500 text-white"
+                onClick={() => setFieldValue("tag", "le plus vendu")}
+              >
+                Le plus vendu
+              </button>
+              <button
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-orange-400 text-white"
+                onClick={() => setFieldValue("tag", "en feu!")}
+              >
+                En feu !
+              </button>
+            </div>
             <button
               type="submit"
               className="transition-all duration-500 px-3 py-1 max-w-fit self-center mt-3 rounded-lg  bg-black text-amber-400 md:py-2 font-semibold "

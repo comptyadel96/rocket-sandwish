@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
 import Image from "next/image"
@@ -10,14 +10,37 @@ import { useTranslation } from "next-i18next"
 import { useSession } from "next-auth/react"
 
 function Commandes({ menu, prix = "400", photo }) {
-  const { t } = useTranslation("common")
+  const [currentUser, setCurrentUser] = useState()
   const { data: session, status } = useSession()
+  // get current user informations
+  const getInfos = async () => {
+    if (session) {
+      try {
+        const currUser = await axios.post(
+          `https://rocket-sandwish.com/api/user/currentUser`,
+          { id: session.user.id }
+        )
+        setCurrentUser(currUser.data)
+        console.log(session.user.id)
+        console.log(currUser.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+  useEffect(() => {
+    getInfos()
+  }, [session])
+
+  const { t } = useTranslation("common")
+
   // validation schema
   const validationSchema = Yup.object().shape({
     numClient: Yup.string()
       .min(10, "veuillez saisir un numéro de téléphone valide svp")
       .when("livrable", {
         is: true,
+
         then: Yup.string().required(
           "Veuillez saisir un numéro de téléphone valide s'il vous plait"
         ),
@@ -52,7 +75,7 @@ function Commandes({ menu, prix = "400", photo }) {
   const [suppléments, setSupléments] = useState([])
   const [sauce, setSauce] = useState([])
   const [boisson, setBoisson] = useState([])
-  const [aTable, setAtable] = useState(false)
+  const [aTable, setAtable] = useState(true)
   const [totalPrice, setTotalPrice] = useState(parseInt(prix))
   const [loading, setLoading] = useState(false)
 
@@ -98,12 +121,12 @@ function Commandes({ menu, prix = "400", photo }) {
     try {
       if (session && session.user) {
         await axios.post(
-          `http://localhost:3000/api/commande/commander?_id=${session.user.id}`,
+          `https://rocket-sandwish.com/api/commande/commander?_id=${session.user.id}`,
           values
         )
       } else {
         await axios.post(
-          `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
+          `https://rocket-sandwish.com/api/commande/commander`,
           values
         )
       }
@@ -116,19 +139,20 @@ function Commandes({ menu, prix = "400", photo }) {
       <ToastContainer />
       <Formik
         initialValues={{
-          numClient: "",
-          adresseClient: "",
+          numClient: currentUser ? currentUser.phoneNumber : "",
+          adresseClient: currentUser ? currentUser.adresseLivraison : "",
           sauces: sauce,
           suppléments,
           boisson,
           menu,
-          livrable: true,
+          livrable: aTable,
           photo,
           price: totalPrice,
         }}
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values) => {
+          console.log(values)
           try {
             await commander(values)
             toast.success("Votre commande a bien été reçu", {
@@ -140,7 +164,7 @@ function Commandes({ menu, prix = "400", photo }) {
           }
         }}
       >
-        {({ setFieldValue, handleChange, touched, errors, handleSubmit }) => (
+        {({ setFieldValue, handleChange, touched, errors }) => (
           <Form className="flex flex-col items-center md:mt-6 md:py-4 py-2">
             <p className="md:text-5xl text-2xl md:mb-4 mb-2 ">
               {t("alorsCaVousTente")}
@@ -479,6 +503,7 @@ function Commandes({ menu, prix = "400", photo }) {
                 } cursor-pointer shadow-md mx-5 my-5 px-5 py-3 border`}
                 onClick={() => {
                   setFieldValue("livrable", true)
+                  // setValues({  livrable: true })
                   setAtable(false)
                 }}
               >
@@ -517,7 +542,7 @@ function Commandes({ menu, prix = "400", photo }) {
               <div>
                 <div className="flex items-center my-3">
                   <BsPinMap className="mr-2 text-xl" />
-                  <input
+                  <Field
                     onChange={(e) => {
                       handleChange(e)
                     }}

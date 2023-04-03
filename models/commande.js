@@ -10,9 +10,13 @@ const commandeSchema = new mongoose.Schema(
     sauces: [String],
     suppléments: [String],
     boisson: [{ nom: String, nombre: String }],
-    état: String,
+    état: {
+      type: String,
+      default: "En cours",
+    },
     livrable: {
       type: Boolean,
+      default:true
     },
     commanderPar: {
       type: mongoose.Types.ObjectId,

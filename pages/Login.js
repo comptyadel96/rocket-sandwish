@@ -2,22 +2,53 @@ import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
-import { GrLogout } from "react-icons/gr"
+import React, { useState } from "react"
+import { GrLogout, GrMail, GrPhone, GrMapLocation } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
 import User from "../models/user"
 import Commande from "../models/commande"
 import Dashboard from "./dashboard"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "react-i18next"
+import axios from "axios"
+import { Field, Form, Formik } from "formik"
+import * as Yup from "yup"
+import { useRouter } from "next/router"
 
 export default function Login({ users, commandes }) {
+  const router = useRouter()
   const { t } = useTranslation("common")
   const { data: session, status } = useSession()
   const userEmail = session?.user.email
   const profilPic = users ? users.picture : session?.user.image
   const userName = session?.user.name
 
+  const [completProfil, setCompleteProfil] = useState(false)
+  const [modify, setModify] = useState(false)
+
+  // modify user infos
+  const modifyUserInfos = async (values) => {
+    try {
+      await axios.post(
+        `https://rocket-sandwish.com/api/user/modifyProfil?id=${users._id}`,
+        values
+      )
+      setCompleteProfil(true)
+      setModify(false)
+      router.reload()
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  const validationSchema = Yup.object().shape({
+    adresseLivraison: Yup.string()
+      .required("veuillez fournir une adresse de livraison")
+      .min(10, "adresse doit comporter au moins 10 lettres")
+      .max(500, "l'adresse ne peut pas dépasser les 500 lettres/chiffres"),
+    phoneNumber: Yup.string()
+      .required("veuillez entrer votre numéro de téléphone")
+      .min(10, "veuillez entrer un numéro de téléphone valide"),
+  })
   if (status === "loading") {
     return <div className="h-screen"></div>
   }
@@ -37,7 +68,6 @@ export default function Login({ users, commandes }) {
         <div className="flex flex-wrap md:mt-0 mt-16 md:mb-8 mb-4 items-center md:px-10 md:pb-1 justify-between w-full shadow-md">
           <div className="flex items-center">
             <Image
-              // src={`http://graph.facebook.com/${userId}/picture?type=large`}
               src={profilPic}
               height={50}
               width={50}
@@ -45,7 +75,7 @@ export default function Login({ users, commandes }) {
               className=" rounded-full"
             />
             <div className="flex flex-col">
-              <p className="font-semibold ml-2">{userName} </p>{" "}
+              <p className="font-semibold ml-2">{userName} </p>
               {userEmail && (
                 <p className="font-semibold text-xs text-gray-400 ml-2 ">
                   {userEmail}
@@ -70,46 +100,154 @@ export default function Login({ users, commandes }) {
               </p>{" "}
               <GrLogout className="lg:text-2xl" />
             </button>
-            {/* {users && users.role === "administrateur" && (
-              <Link
-                className="lg:mx-5 text-sm font-semibold bg-yellow-300 hover:bg-yellow-400 px-3 py-1 rounded-xl"
-                href="/dashboard"
-              >
-                Tableau administrateur
-              </Link>
-            )} */}
           </div>
         </div>
-        <div className="flex items-center flex-wrap justify-evenly w-full">
-          {/* commande du client */}
-          {commandes && commandes.length === 0 ? (
-            <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 md:my-2 my-4 border shadow-lg rounded-xl md:mt-12">
-              <Image
-                src="/images/no-commande.png"
-                height={550}
-                width={550}
-                alt="ajouter votre commande içi"
-              />
-              <p className="my-3 md:text-3xl font-semibold">
-                Vous n&apos;avez pas encore de commande!
+
+        <Formik
+          initialValues={{
+            adresseLivraison: users.adresseLivraison || "",
+            phoneNumber: users.phoneNumber || "",
+            hasCompletedProfil: users.hasCompletedProfil || completProfil,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values) => {
+            modifyUserInfos(values)
+          }}
+        >
+          {({ touched, errors }) => (
+            <Form className="flex flex-col items-center  w-full md:py-10">
+              <p className="md:text-5xl font-bold text-2xl">
+                Informations profil
               </p>
-              <p className="max-w-lg text-gray-400">
-                vous trouverez ici la liste de vos commande(s) en cours ainsi
-                que votre historique de commande sur le site{" "}
-              </p>{" "}
-              <button className="px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
-                Passer une commande
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center  md:px-4 md:py-3 px-3 py-2">
-              <p className="md:text-4xl text-2xl font-semibold md:my-5">
-                Vos Commandes
-              </p>
-              {commandes.map((commande, index) => (
+              {users.adresseLivraison == undefined ||
+              users.adresseLivraison == undefined ? (
+                <p className="text-xs font-semibold my-2">
+                  Completez les informations sur votre profil pour faire des
+                  commandes plus rapidement et plus facilement
+                </p>
+              ) : null}
+              {users.email && (
+                <div className="flex items-center font-semibold mb-2 mt-3">
+                  <GrMail size={25} className="mr-1" />
+                  <p> {users.email} </p>
+                </div>
+              )}
+              {users.phoneNumber && !modify ? (
+                <div className="flex items-center font-semibold my-2">
+                  <GrPhone size={25} className="mr-1" />
+                  <p> {users.phoneNumber}</p>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <GrPhone size={25} className="mr-2" />
+                  <Field
+                    className="border-b border-b-black bg-transparent  px-2 focus:outline-none my-2"
+                    placeholder="numéro de téléphone"
+                    name="phoneNumber"
+                  />
+                </div>
+              )}
+              {errors.phoneNumber && touched.phoneNumber ? (
+                <p className="text-red-600 text-xs font-semibold">
+                  {errors.phoneNumber}
+                </p>
+              ) : null}
+              {users.adresseLivraison && !modify ? (
+                <div className="flex items-center font-semibold my-2">
+                  <GrMapLocation size={25} className="mr-2" />
+                  <p> {users.adresseLivraison} </p>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <GrMapLocation size={25} className="mr-2" />
+                  <Field
+                    className="border-b border-b-black bg-transparent  px-2 focus:outline-none my-2"
+                    placeholder="adresse de livraison"
+                    name="adresseLivraison"
+                  />
+                </div>
+              )}{" "}
+              {errors.adresseLivraison && touched.adresseLivraison ? (
+                <p className="text-red-600 text-xs font-semibold">
+                  {errors.adresseLivraison}
+                </p>
+              ) : null}
+              {users.hasCompletedProfil === undefined ? (
+                <button
+                  onClick={() => modifyUserInfos()}
+                  className="px-3 py-1 mt-2 rounded-md font-semibold bg-[#ffe6ac] hover:bg-[#ffde92]"
+                >
+                  Completez le profil
+                </button>
+              ) : (
+                !modify && (
+                  <button
+                    onClick={() => setModify(true)}
+                    className="px-3 py-1 mt-2 rounded-md font-semibold bg-[#ffe6ac] hover:bg-[#ffde92]"
+                  >
+                    Modifier vos informations
+                  </button>
+                )
+              )}
+              {modify && (
+                <div className="flex items-center">
+                  <button
+                    onClick={() => modifyUserInfos()}
+                    className="px-3 py-1 mt-2 rounded-md font-semibold bg-[#ffe6ac] hover:bg-[#ffde92]"
+                  >
+                    Confirmer modifications
+                  </button>
+                  <button
+                    onClick={() => setModify(false)}
+                    className="px-3 py-1 mt-2 rounded-md font-semibold bg-[#ffacac] hover:bg-[#ff9292] mx-2"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              )}
+            </Form>
+          )}
+        </Formik>
+
+        {/* commande du client */}
+        {commandes && commandes.length === 0 ? (
+          <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 md:my-2 my-4 border shadow-lg rounded-xl md:mt-12">
+            <Image
+              src="/images/no-commande.png"
+              height={550}
+              width={550}
+              alt="ajouter votre commande içi"
+            />
+            <p className="my-3 md:text-3xl font-semibold">
+              Vous n&apos;avez pas encore de commande!
+            </p>
+            <p className="max-w-lg text-gray-400">
+              vous trouverez ici la liste de vos commande(s) en cours ainsi que
+              votre historique de commande sur le site{" "}
+            </p>{" "}
+            <button className="px-3 rounded-md bg-red-600 text-white font-semibold py-1 mt-3">
+              Passer une commande
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center w-full  md:px-4 md:py-3 px-3 py-2">
+            <Image
+              src="/images/da-commande.png"
+              height={220}
+              width={220}
+              alt="commande client rocket food"
+            />
+            <p className="md:text-4xl text-2xl font-bold md:mt-5 mt-3">
+              Vos Commandes
+            </p>
+            <p className="text-gray-500 mb-5 mt-3">
+              Historique de vos 20 dernières commandes{" "}
+            </p>
+            <div className="flex items-center flex-wrap w-full self-start ">
+              {commandes.slice(0, 20).map((commande, index) => (
                 <div
                   key={index}
-                  className="flex flex-wrap items-center my-4 bg-gray-100 px-3 py-2 rounded-xl shadow-md border"
+                  className="flex flex-wrap items-center my-4 mx-3 bg-gray-100 px-3 py-2 rounded-xl shadow-md border"
                 >
                   <Image
                     src={commande.photo}
@@ -136,7 +274,7 @@ export default function Login({ users, commandes }) {
                             </p>
                           </div>
                         ))}
-                        {commande.boisson.length > 1 && <p>...</p>}
+                        {commande.boisson.length > 2 && <p>...</p>}
                       </div>
                     )}
                     {commande.suppléments && (
@@ -151,23 +289,28 @@ export default function Login({ users, commandes }) {
                         ))}
                       </div>
                     )}
-                    <p className="font-semibold text-sm text-red-600 mt-1 bg-white px-2 shadow-md border border-red-600">
-                      {" "}
-                      {commande.price} {t("Da")}{" "}
+                    <p className="font-semibold text-sm text-red-600 rounded-xl mt-1 bg-white px-2 shadow-md border border-red-600">
+                      {commande.price} {t("Da")}
                     </p>
-                    <div className="flex items-center text-xs self-end mt-2 font-semibold"> 
+                    <div className="flex items-center text-xs self-end mt-2 font-semibold">
                       <p className="mr-1">Le</p>
-                      <p className=""> {new Date(commande.createdAt).getFullYear()}/ </p>
-                      <p className=""> {new Date(commande.createdAt).getMonth()+1}/ </p>
-                      <p className=""> {new Date(commande.createdAt).getUTCDate()} </p>
+                      <p className="">
+                        {new Date(commande.createdAt).getFullYear()}/
+                      </p>
+                      <p className="">
+                        {new Date(commande.createdAt).getMonth() + 1}/
+                      </p>
+                      <p className="">
+                        {new Date(commande.createdAt).getUTCDate()}
+                      </p>
                     </div>
-                    
                   </div>
                 </div>
               ))}
             </div>
-          )}
-          <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 border shadow-lg rounded-xl md:mt-12 mt-6">
+          </div>
+        )}
+        {/* <div className="flex flex-col items-center md:p-5 p-3 md:mx-0 mx-3 border shadow-lg rounded-xl md:mt-12 mt-6">
             <Image
               src="/images/rocket-pts.png"
               height={400}
@@ -182,8 +325,10 @@ export default function Login({ users, commandes }) {
               vous pourrez par la suite convertir en solde afin d'avoir des
               menus gratuits
             </p>
-          </div>
-        </div>
+          </div> */}
+
+        {/* client personnelle informations */}
+
         <div className="md:mt-16 mt-5">
           <p className="font-bold lg:text-6xl text-2xl mb-2 text-center">
             Besoin d&apos;aide ?
@@ -225,8 +370,10 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   clientPromise()
   const users = await User.findOne({ userId: session ? session.user.id : null })
-  const commandes = await Commande.find({ commanderPar: users && users._id })
-  console.log(commandes)
+  const commandes = await Commande.find({
+    commanderPar: users && users._id,
+  }).sort({ createdAt: -1 })
+  // console.log(users.adresseLivraison)
   return {
     props: {
       session,

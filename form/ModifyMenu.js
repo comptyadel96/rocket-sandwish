@@ -6,12 +6,13 @@ import Image from "next/image"
 import axios from "axios"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { useRouter } from "next/router"
 
 function ModifyMenu({
   userId,
   menuId,
   onModifyComplete,
-  defaultPic = "",
+  defaultPic = "/images/menu1.png",
   defTitle = "",
   defPrice = "",
   defPricePoint = "",
@@ -41,11 +42,11 @@ function ModifyMenu({
       "un menu sans photo ... c'est pas une bonne idée !"
     ),
   })
-
+  const route = useRouter()
   const addMenu = async (values) => {
     try {
       await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
+        `http://localhost:3000/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
         values
       )
       toast.success("Menu modifier avec succées !", {
@@ -54,6 +55,7 @@ function ModifyMenu({
       setUploadUrl("")
       setHasUploadPhoto(false)
       onModifyComplete()
+      route.reload({ scroll: false })
     } catch (error) {
       console.log(error)
       alert("une erreur est servenu, si le probléme persiste contactez rivuxo")
@@ -70,11 +72,11 @@ function ModifyMenu({
           prix: defPrice,
           prixPoints: defPricePoint,
           photo: defaultPic,
+          tag: "",
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           await addMenu(values)
-
           console.log(values)
         }}
       >
@@ -85,16 +87,16 @@ function ModifyMenu({
               <Image
                 src={uploadUrl}
                 alt="menu"
-                height={220}
-                width={220}
+                height={200}
+                width={200}
                 className="my-3 self-center"
               />
             ) : (
               <Image
                 src={defaultPic}
                 alt="menu"
-                height={220}
-                width={220}
+                height={200}
+                width={200}
                 className="my-3 self-center"
               />
             )}
@@ -133,10 +135,8 @@ function ModifyMenu({
               </label>
               <Field
                 className="bg-transparent placeholder:text-xs placeholder:text-amber-500 outline-none border-b border-b-black  px-2 py-1"
-                // id="nom"
                 placeholder={defTitle}
                 name="nom"
-               defaultValue={defTitle}
               />
             </div>
             {errors.nom && touched.nom ? (
@@ -150,7 +150,6 @@ function ModifyMenu({
               <Field
                 className="bg-transparent placeholder:text-xs placeholder:text-amber-500 w-[20%] outline-none border-b border-b-black  px-2 py-1"
                 placeholder={defPrice}
-                defaultValue={defPrice}
                 name="prix"
                 onChange={(e) => {
                   const domain = e.target.value.toLowerCase().replace("da", "")
@@ -166,7 +165,7 @@ function ModifyMenu({
               </p>
             ) : null}
             {/* prix points rocket */}
-            <div className="flex items-center md:my-3 my-2">
+            <div className="flex items-center md:mt-3 my-2">
               <label className="font-semibold mr-2" htmlFor="prixPoints">
                 Prix en points
               </label>
@@ -174,7 +173,6 @@ function ModifyMenu({
                 className="bg-transparent placeholder:text-xs placeholder:text-amber-500 w-[20%] outline-none border-b border-b-black  px-2 py-1"
                 name="prixPoints"
                 placeholder={defPricePoint}
-                defaultValue={defPricePoint}
                 onChange={(e) => {
                   const domain = e.target.value
                     .toLowerCase()
@@ -191,7 +189,7 @@ function ModifyMenu({
               </p>
             ) : null}
             {/* description */}
-            <div className="flex flex-col self-center items-center md:my-3 max-w-fit my-2">
+            <div className="flex flex-col self-center items-center md:mb-3 max-w-fit my-2">
               <label className="font-semibold mb-2" htmlFor="description">
                 description du menu (contenu)
               </label>
@@ -200,7 +198,6 @@ function ModifyMenu({
                 onChange={handleChange}
                 name="description"
                 placeholder={defDescription}
-                defaultValue={defDescription}
               />
             </div>
             {errors.description && touched.description ? (
@@ -208,6 +205,30 @@ function ModifyMenu({
                 {errors.description}
               </p>
             ) : null}
+            <p className="mb-2 font-bold">Marquer comme:</p>
+            <div className="flex flex-wrap items-center justify-evenly">
+              <button
+                type="button"
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-blue-500 text-white"
+                onClick={() => setFieldValue("tag", "nouveau")}
+              >
+                Nouveau
+              </button>
+              <button
+                type="button"
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-red-500 text-white"
+                onClick={() => setFieldValue("tag", "le plus vendu")}
+              >
+                Le plus vendu
+              </button>
+              <button
+                type="button"
+                className="px-2 rounded-md text-sm font-semibold py-[1px] bg-orange-400 text-white"
+                onClick={() => setFieldValue("tag", "en feu!")}
+              >
+                En feu !
+              </button>
+            </div>
             <button
               type="submit"
               className="transition-all duration-500 px-3 py-1 max-w-fit self-center mt-1 rounded-lg  bg-black text-amber-400 md:py-2 font-semibold "

@@ -29,10 +29,7 @@ const menuSchema = new mongoose.Schema(
       max: [5000, "le menu ne peut pas dépasser les 5000 lettres / chiffres"],
       required: true,
     },
-    // commanderPar: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: "User",
-    // },
+    tag: String,
   },
   { timestamps: true }
 )

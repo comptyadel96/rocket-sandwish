@@ -1,6 +1,6 @@
 import Image from "next/image"
 import React from "react"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 
 function MenuCard({
   src = "/images/menu1.png",
@@ -12,10 +12,24 @@ function MenuCard({
   isDash = false,
   onDelete,
   onModify,
+  tag = null,
 }) {
   const { t } = useTranslation("common")
   return (
-    <div className="flex flex-col items-center cursor-pointer lg:py-3 py-1 lg:px-5 px-2 md:max-w-[20rem] my-10 bg-white mx-4 rounded-md shadow-lg border  relative">
+    <div className="flex flex-col items-center cursor-pointer lg:py-3 py-1 lg:px-5 px-2 md:max-w-[20rem] my-10 bg-white mx-4 rounded-md shadow-lg border relative">
+      {tag !== null && (
+        <p
+          className={`text-white absolute left-0 md:-top-4 animate-pulse -top-3 px-2  rounded-md capitalize bg-${
+            tag == "nouveau"
+              ? "blue-600"
+              : tag === "le plus vendu"
+              ? "bg-yellow-400"
+              : "red-600"
+          }`}
+        >
+          {tag}
+        </p>
+      )}
       <Image
         alt={alt}
         src={src}
@@ -63,5 +77,10 @@ function MenuCard({
     </div>
   )
 }
-
+  // "scripts": {
+  //   "dev": "next dev",
+  //   "build": "next build",
+  //   "start": "next start",
+  //   "lint": "next lint"
+  // },
 export default MenuCard

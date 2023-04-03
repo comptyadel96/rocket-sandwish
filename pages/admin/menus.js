@@ -7,7 +7,7 @@ import MenuCard from "../../components/MenuCard"
 import { useRouter } from "next/router"
 import ModifyMenu from "../../form/ModifyMenu"
 import { IoMdCloseCircle } from "react-icons/io"
-
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 function menus({ menus, user }) {
   const router = useRouter()
@@ -19,7 +19,7 @@ function menus({ menus, user }) {
   const deleteMenu = async () => {
     try {
       await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
+        `https://rocket-sandwish.com/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
       )
       router.reload()
     } catch (error) {
@@ -129,9 +129,6 @@ function menus({ menus, user }) {
           alt="ajouter un menu rocket food"
         />
         <p className="font-bold md:text-4xl">Ajouter un menu</p>
-        {/* <button className="px-3 py-1 bg-amber-200 hover:bg-amber-300 font-semibold shadow-md mt-3 rounded-xl">
-          +Ajouter
-        </button> */}
       </div>
       <AddMenu />
     </div>
@@ -140,17 +137,25 @@ function menus({ menus, user }) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context)
-// verfifer si c'est l'admin qui publie le nouveau menu
+  // verfifer si c'est l'admin qui publie le nouveau menu
   const res = await axios(
-    `https://rocket-sandwish-2.vercel.app/api/user/isAdmin?id=${session.user.id}`
+    `https://rocket-sandwish.com/api/user/isAdmin?id=${
+      session ? session.user.id : null
+    }`
   )
   const user = res.data
- 
+
   //  get all menus
   const menus = await (
-    await axios(`https://rocket-sandwish-2.vercel.app/api/menus/getMenus`)
+    await axios(`https://rocket-sandwish.com/api/menus/getMenus`)
   ).data
 
-  return { props: { user, menus } }
+  return {
+    props: {
+      user,
+      menus,
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    },
+  }
 }
 export default menus

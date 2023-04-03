@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema(
       default: 0,
     },
     adresseLivraison: String,
+    hasCompletedProfil: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 )

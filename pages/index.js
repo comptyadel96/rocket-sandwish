@@ -52,7 +52,6 @@ export default function Home({ menus }) {
             <div className="m-5 relative max-w-fit ">
               <div className="flex items-center">
                 <h2 className="font-semibold md:text-2xl text-xl">
-                  {/* Découvrer nos menus */}
                   {t("decouvrezNosMenus")}
                 </h2>
                 <Image
@@ -67,7 +66,9 @@ export default function Home({ menus }) {
               <div className="absolute left-0 w-[23%] h-[3px] bg-red-600" />
             </div>
             <div className="mr-10 flex items-center cursor-pointer hover:text-red-600">
-              <p className="font-bold mr-1">{t("voirTousLesMenus")}</p>
+              <Link href={"/menus"} className="font-bold mr-1">
+                {t("voirTousLesMenus")}
+              </Link>
               <BiRightArrowCircle size={22} className="mt-1" />
             </div>
           </div>
@@ -96,8 +97,7 @@ export default function Home({ menus }) {
             }}
             className="xl:w-[95%] w-full py-10"
           >
-            {/* bg-[#fdedc9]  */}
-            {menus.map((menu, index) => (
+            {menus.slice(0,5).map((menu, index) => (
               <SwiperSlide key={index}>
                 <Link href={`/menus/${menu._id}`} key={index}>
                   <MenuCard
@@ -107,6 +107,7 @@ export default function Home({ menus }) {
                     title={menu.nom}
                     key={index}
                     prixPoints={menu.prixPoints}
+                    tag={menu.tag}
                   />
                 </Link>
               </SwiperSlide>
@@ -118,7 +119,7 @@ export default function Home({ menus }) {
             {t("platsPrefLivrChezVous")}
           </h2>
           <h2 className="md:hidden text-center font-bold text-2xl">
-            Vos plats préférés...
+            {t("platPref")}
           </h2>
           <div className="absolute left-0 md:-bottom-1 -bottom-1 w-full md:h-5 h-3 -z-10 bg-[#fdedc9] " />
         </div>
@@ -153,7 +154,7 @@ export default function Home({ menus }) {
               height={350}
               width={350}
             />
-            <p className="font-semibold my-3">{t("livraisonDomicile")} </p>
+            <p className="font-semibold my-3">{t("livraisonDomicile")}</p>
             <p className="max-w-xs text-center">{t("subLivraisonDomicile")}</p>
           </div>
         </div>
