@@ -40,7 +40,6 @@ function Commandes({ menu, prix = "400", photo }) {
       .min(10, "veuillez saisir un numéro de téléphone valide svp")
       .when("livrable", {
         is: true,
-
         then: Yup.string().required(
           "Veuillez saisir un numéro de téléphone valide s'il vous plait"
         ),
@@ -503,7 +502,6 @@ function Commandes({ menu, prix = "400", photo }) {
                 } cursor-pointer shadow-md mx-5 my-5 px-5 py-3 border`}
                 onClick={() => {
                   setFieldValue("livrable", true)
-                  // setValues({  livrable: true })
                   setAtable(false)
                 }}
               >

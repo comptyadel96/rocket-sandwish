@@ -369,8 +369,8 @@ export default function Login({ users, commandes }) {
   }
 }
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
   clientPromise()
+  const session=await getSession(context)
   const users = await User.findOne({ userId: session ? session.user.id : null })
   const commandes = await Commande.find({
     commanderPar: users && users._id,
