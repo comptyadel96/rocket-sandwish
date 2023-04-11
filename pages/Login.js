@@ -2,11 +2,9 @@ import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { useState, useEffect, useLayoutEffect } from "react"
 import { GrLogout, GrMail, GrPhone, GrMapLocation } from "react-icons/gr"
 import clientPromise from "../lib/dbConnect"
-import User from "../models/user"
-import Commande from "../models/commande"
 import Dashboard from "./dashboard"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
@@ -15,22 +13,63 @@ import { Field, Form, Formik } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/router"
 
-export default function Login({ users, commandes }) {
+export default function Login() {
   const router = useRouter()
   const { t } = useTranslation("common")
   const { data: session, status } = useSession()
-  const userEmail = session?.user.email
-  const profilPic = users ? users.picture : session?.user.image
-  const userName = session?.user.name
 
   const [completProfil, setCompleteProfil] = useState(false)
   const [modify, setModify] = useState(false)
+  const [users, setUsers] = useState()
+  const [commandes, setCommandes] = useState([])
+  const [userFetched, setUserFetched] = useState(false)
+  const userEmail = session?.user.email
+  const profilPic = users ? users.picture : session?.user.image
+  const userName = session?.user.name
+  // get currentUser
+  const getUserInfos = async () => {
+    try {
+      const user = await axios.post(
+        `https://rocket-sandwish-2.vercel.app/api/user/currentUser`,
+        {
+          id: session && session.user ? session.user.id : null,
+        }
+      )
+      setUsers(user.data)
+      setUserFetched(true)
+      console.log("reached")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // get User Commandes
+  const getCommandes = async () => {
+    try {
+      const commande = await axios.get(
+        `https://rocket-sandwish-2.vercel.app/api/commande/userCommandes?id=${
+          users && users._id
+        }`
+      )
+      setCommandes(commande.data)
+      console.log(commande.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useLayoutEffect(() => {
+    getUserInfos()
+  }, [userFetched])
 
+  useEffect(() => {
+    getCommandes()
+  }, [users])
   // modify user infos
   const modifyUserInfos = async (values) => {
     try {
       await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/user/modifyProfil?id=${users._id}`,
+        `https://rocket-sandwish-2.vercel.app/api/user/modifyProfil?id=${
+          users && users._id
+        }`,
         values
       )
       setCompleteProfil(true)
@@ -119,8 +158,7 @@ export default function Login({ users, commandes }) {
               <p className="md:text-5xl font-bold text-2xl">
                 Informations profil
               </p>
-              {users.adresseLivraison == undefined ||
-              users.adresseLivraison == undefined ? (
+              {users.adresseLivraison == undefined ? (
                 <p className="text-xs font-semibold my-2">
                   Completez les informations sur votre profil pour faire des
                   commandes plus rapidement et plus facilement
@@ -355,7 +393,12 @@ export default function Login({ users, commandes }) {
   if (status === "unauthenticated") {
     return (
       <div className="font-semibold flex flex-col  items-center lg:m-20 mt-16 mx-auto px-10 h-screen">
-        <Image src="/images/login.png" height={230} width={230} />
+        <Image
+          src="/images/login.png"
+          height={230}
+          width={230}
+          alt="connecter vous"
+        />
         <p className="font-semibold text-2xl mt-3 mb-2">{t("nonConnecter")}</p>
         <p className="text-gray-500  ">{t("subNonConnecter")}</p>
         <button
@@ -368,19 +411,20 @@ export default function Login({ users, commandes }) {
     )
   }
 }
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   clientPromise()
-  const session=await getSession(context)
-  const users = await User.findOne({ userId: session ? session.user.id : null })
-  const commandes = await Commande.find({
-    commanderPar: users && users._id,
-  }).sort({ createdAt: -1 })
-  console.log(session)
+  // const session = await getSession(context)
+  // const users = await User.findOne({ userId: session ? session.user.id : null })
+
+  // const commandes = await Commande.find({
+  //   commanderPar: users && users._id,
+  // }).sort({ createdAt: -1 })
+  // console.log(session)
   return {
     props: {
-      session,
-      users: JSON.parse(JSON.stringify(users)),
-      commandes: JSON.parse(JSON.stringify(commandes)),
+      // session,
+      // users: JSON.parse(JSON.stringify(users)),
+      // commandes: JSON.parse(JSON.stringify(commandes)),
       ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }

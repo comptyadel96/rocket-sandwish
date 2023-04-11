@@ -18,7 +18,7 @@ function Commandes({ menu, prix = "400", photo }) {
       try {
         const currUser = await axios.post(
           `https://rocket-sandwish-2.vercel.app/api/user/currentUser`,
-          { id: session.user.id }
+          { id: session ? session.user.id : null }
         )
         setCurrentUser(currUser.data)
         console.log(session.user.id)
