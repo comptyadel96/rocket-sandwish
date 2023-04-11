@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema(
     },
     name: String,
     phoneNumber: String,
-
     role: {
       type: String,
       default: "user",
@@ -25,6 +24,7 @@ const userSchema = new mongoose.Schema(
     adresseLivraison: String,
     hasCompletedProfil: {
       type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
