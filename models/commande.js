@@ -16,13 +16,24 @@ const commandeSchema = new mongoose.Schema(
     },
     livrable: {
       type: Boolean,
-      default:true
+      default: true,
     },
     commanderPar: {
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
     price: String,
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"], // Utiliser le type de données GeoJSON "Point"
+        required: true,
+      },
+      coordinates: {
+        type: [Number], // Tableau de deux nombres : la longitude et la latitude
+        required: true,
+      },
+    },
   },
 
   { timestamps: true }
