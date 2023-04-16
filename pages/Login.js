@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut, getSession } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
@@ -23,6 +23,7 @@ export default function Login() {
   const [users, setUsers] = useState()
   const [commandes, setCommandes] = useState([])
   const [userFetched, setUserFetched] = useState(false)
+
   const userEmail = session?.user.email
   const profilPic = users ? users.picture : session?.user.image
   const userName = session?.user.name
@@ -37,7 +38,6 @@ export default function Login() {
       )
       setUsers(user.data)
       setUserFetched(true)
-      console.log("reached")
     } catch (error) {
       console.log(error)
     }
@@ -51,12 +51,13 @@ export default function Login() {
         }`
       )
       setCommandes(commande.data)
+
       console.log(commande.data)
     } catch (error) {
       console.log(error)
     }
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     getUserInfos()
   }, [userFetched])
 
@@ -410,7 +411,16 @@ export default function Login() {
       </div>
     )
   }
+
+  return (
+    <div className="h-screen flex justify-center items-center">
+      <p className="lg:text-6xl md:text-4xl text-3xl font-semibold">
+        Chargement...
+      </p>
+    </div>
+  )
 }
+
 export async function getStaticProps(context) {
   clientPromise()
   // const session = await getSession(context)

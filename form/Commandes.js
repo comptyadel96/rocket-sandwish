@@ -130,7 +130,7 @@ function Commandes({ menu, prix = "400", photo }) {
         )
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error)
     }
   }
   return (
@@ -151,7 +151,7 @@ function Commandes({ menu, prix = "400", photo }) {
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values) => {
-          console.log(values)
+          // console.log(values)
           try {
             await commander(values)
             toast.success("Votre commande a bien été reçu", {

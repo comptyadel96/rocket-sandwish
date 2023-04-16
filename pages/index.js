@@ -14,9 +14,25 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import clientPromise from "../lib/dbConnect"
 import Menu from "../models/menu"
+// import axios from "axios"
 
 export default function Home({ menus }) {
+  // const [menu, setMenu] = useState([])
   const { t } = useTranslation("common")
+  // const getMenu = async () => {
+  //   try {
+  //     const menu = await axios.get(
+  //       `https://rocket-sandwish-2.vercel.app/api/menus/getMenus`
+  //     )
+  //     setMenu(menu.data)
+  //     console.log(menu.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // useEffect(() => {
+  //   getMenu()
+  // }, [])
   return (
     <div className=" h-full w-full">
       <Head>
@@ -97,7 +113,7 @@ export default function Home({ menus }) {
             }}
             className="xl:w-[95%] w-full py-10"
           >
-            {menus.slice(0,5).map((menu, index) => (
+            {menus.slice(0, 5).map((menu, index) => (
               <SwiperSlide key={index}>
                 <Link href={`/menus/${menu._id}`} key={index}>
                   <MenuCard
@@ -113,6 +129,7 @@ export default function Home({ menus }) {
               </SwiperSlide>
             ))}
           </Swiper>
+        
         </section>
         <div className="lg:my-8 my-5 relative">
           <h2 className="xl:text-7xl text-3xl lg:text-5xl text-center font-bold md:block hidden">

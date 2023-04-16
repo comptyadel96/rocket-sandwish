@@ -4,14 +4,15 @@ import User from "../../../models/user"
 import NextCors from "nextjs-cors"
 
 export default async function (req, res) {
+  clientPromise()
   try {
-    await NextCors(req, res, {
-      // Options
-      methods: ["GET", "HEAD", "PUT", "POST"],
-      origin: "*",
-      optionsSuccessStatus: 200,
-    })
-    clientPromise()
+    // await NextCors(req, res, {
+    //   // Options
+    //   methods: ["GET", "HEAD", "PUT", "POST"],
+    //   origin: "*",
+    //   optionsSuccessStatus: 200,
+    // })
+
     const {
       numClient,
       adresseClient,
@@ -22,9 +23,10 @@ export default async function (req, res) {
       photo,
       price,
       livrable,
+      location,
     } = req.body
     const currUser = await User.findOne({ userId: req.query._id })
-    const userId = currUser._id
+    const userId = currUser && currUser._id
     const commande = await Commande.create({
       menu,
       numClient,
@@ -36,11 +38,13 @@ export default async function (req, res) {
       photo,
       price,
       livrable,
+      location,
     })
-
+    if (!userId) {
+      res.status(400).send("no user Id ")
+    }
     res.status(200).send(commande)
   } catch (e) {
-    console.error(e)
-    throw new Error(e).message
+    console.log(e)
   }
 }

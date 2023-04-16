@@ -27,11 +27,11 @@ const commandeSchema = new mongoose.Schema(
       type: {
         type: String,
         enum: ["Point"], // Utiliser le type de données GeoJSON "Point"
-        required: true,
+        // required: true,
       },
       coordinates: {
         type: [Number], // Tableau de deux nombres : la longitude et la latitude
-        required: true,
+        // required: true,
       },
     },
   },
