@@ -26,6 +26,15 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"], // Utiliser le type de données GeoJSON "Point"
+      },
+      coordinates: {
+        type: [Number], // Tableau de deux nombres : la longitude et la latitude
+      },
+    },
   },
   { timestamps: true }
 )

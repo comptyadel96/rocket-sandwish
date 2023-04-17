@@ -123,11 +123,6 @@ function Commandes({ menu, prix = "400", photo }) {
           `https://rocket-sandwish-2.vercel.app/api/commande/commander?_id=${session.user.id}`,
           values
         )
-      } else {
-        await axios.post(
-          `https://rocket-sandwish-2.vercel.app/api/commande/commander`,
-          values
-        )
       }
     } catch (error) {
       console.log(error)

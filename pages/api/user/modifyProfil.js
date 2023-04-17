@@ -3,8 +3,14 @@ import User from "../../../models/user"
 
 export default async function (req, res) {
   clientPromise()
-  const { phoneNumber, adresseLivraison, hasCompletedProfil, name, userId } =
-    req.body
+  const {
+    phoneNumber,
+    adresseLivraison,
+    hasCompletedProfil,
+    name,
+    userId,
+    location,
+  } = req.body
   const id = req.query.id
   try {
     const user = await User.findByIdAndUpdate(
@@ -15,6 +21,7 @@ export default async function (req, res) {
         hasCompletedProfil,
         name,
         userId,
+        location,
       },
       {
         new: true,

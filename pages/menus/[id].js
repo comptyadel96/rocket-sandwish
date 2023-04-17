@@ -5,6 +5,8 @@ import Menu from "../../models/menu"
 import Commande from "../../form/Commandes"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
 export const getStaticPaths = async ({ locales }) => {
   clientPromise()
@@ -39,6 +41,8 @@ export const getStaticProps = async (context) => {
 }
 
 function menu({ menu }) {
+  const route = useRouter()
+  const { status } = useSession()
   const { t } = useTranslation("common")
   return (
     <div className="md:py-16 py-10 flex md:flex-row flex-wrap flex-col justify-evenly w-full bg-gray-100">
@@ -72,7 +76,26 @@ function menu({ menu }) {
             {t("apartirDe")} {menu.prix} {t("Da")}
           </p>
         </div>
-        <Commande prix={menu.prix} menu={menu.nom} photo={menu.photo} />
+        {status === "authenticated" ? (
+          <Commande prix={menu.prix} menu={menu.nom} photo={menu.photo} />
+        ) : (
+          <div className="bg-black rounded-t-[60px] rounded-b-lg md:px-5 p-3 flex flex-col items-center md:my-16">
+            <p className="md:text-4xl  font-semibold text-amber-300">
+              Vous n'étes pas connecter !
+            </p>
+            <p className="md:text-xl text-white text-lg max-w-md text-center md:mt-3">
+              Connecter vous pour pouvoir faire une commande
+            </p>
+            <button
+              onClick={() => {
+                route.push("/Login")
+              }}
+              className="bg-white transition-colors duration-700  hover:bg-red-600 hover:text-white text-red-600 font-semibold px-3 py-[2px] my-4 md:rounded-lg rounded"
+            >
+              c'est partie!
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
