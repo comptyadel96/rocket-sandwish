@@ -57,11 +57,11 @@ export default NextAuth({
       }
       return true
     },
-    async redirect({ url, baseUrl }) {
-      // return `${baseUrl}/Login`
-      return `https://rocket-sandwich.com/Login`
+    // async redirect({ url, baseUrl }) {
+    //   // return `${baseUrl}/Login`
+    //   return `https://rocket-sandwich.com/Login`
      
-    },
+    // },
     async session({ session, user, token }) {
       session.user.id = token.sub
       return session
