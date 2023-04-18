@@ -19,7 +19,7 @@ function menus({ menus, user }) {
   const deleteMenu = async () => {
     try {
       await axios.post(
-        `https://rocket-sandwish.com/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
+        `https://rocket-sandwich.com/api/menus/deleteMenu?userId=${user._id}&id=${menuId}`
       )
       router.reload()
     } catch (error) {
@@ -139,7 +139,7 @@ export async function getServerSideProps(context) {
   const session = await getSession(context)
   // verfifer si c'est l'admin qui publie le nouveau menu
   const res = await axios(
-    `https://rocket-sandwish.com/api/user/isAdmin?id=${
+    `https://rocket-sandwich.com/api/user/isAdmin?id=${
       session ? session.user.id : null
     }`
   )
@@ -147,7 +147,7 @@ export async function getServerSideProps(context) {
 
   //  get all menus
   const menus = await (
-    await axios(`https://rocket-sandwish.com/api/menus/getMenus`)
+    await axios(`https://rocket-sandwich.com/api/menus/getMenus`)
   ).data
 
   return {

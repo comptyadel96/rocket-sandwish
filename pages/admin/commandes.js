@@ -10,7 +10,7 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
   const modifyEtat = async (id, etat) => {
     try {
       await axios.post(
-        `https://rocket-sandwish.com/api/commande/modifyCommande?id=${id}`,
+        `https://rocket-sandwich.com/api/commande/modifyCommande?id=${id}`,
         { état: etat }
       )
     } catch (error) {
@@ -137,7 +137,7 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
             onClick={async () => {
               try {
                 await axios.delete(
-                  `https://rocket-sandwish.com/api/commande/modifyCommande?id=${commande._id}`
+                  `https://rocket-sandwich.com/api/commande/modifyCommande?id=${commande._id}`
                 )
                 router.reload({ scroll: false })
               } catch (error) {

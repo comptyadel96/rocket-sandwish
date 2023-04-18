@@ -31,7 +31,7 @@ export default function Login() {
   const getUserInfos = async () => {
     try {
       const user = await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/user/currentUser`,
+        `https://rocket-sandwich.com/api/user/currentUser`,
         {
           id: session && session.user ? session.user.id : null,
         }
@@ -46,7 +46,7 @@ export default function Login() {
   const getCommandes = async () => {
     try {
       const commande = await axios.get(
-        `https://rocket-sandwish-2.vercel.app/api/commande/userCommandes?id=${
+        `https://rocket-sandwich.com/api/commande/userCommandes?id=${
           users && users._id
         }`
       )
@@ -68,7 +68,7 @@ export default function Login() {
   const modifyUserInfos = async (values) => {
     try {
       await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/user/modifyProfil?id=${
+        `https://rocket-sandwich.com/api/user/modifyProfil?id=${
           users && users._id
         }`,
         values

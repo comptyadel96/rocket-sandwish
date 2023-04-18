@@ -17,7 +17,7 @@ export default function Login({ providers }) {
         className="mb-5 font-semibold mt-14 flex items-center px-3 py-2 rounded-lg shadow-md hover:bg-gray-100 border"
         onClick={(e) => {
           signIn("google", {
-            callbackUrl: `https://rocket-sandwish-2.vercel.app/Login`,
+            callbackUrl: `https://rocket-sandwich.com/Login`,
           })
         }}
       >
@@ -30,7 +30,7 @@ export default function Login({ providers }) {
         onClick={(e) => {
           e.preventDefault()
           signIn("facebook", {
-            callbackUrl: `https://rocket-sandwish-2.vercel.app/Login`,
+            callbackUrl: `https://rocket-sandwich.com/Login`,
           })
         }}
       >
