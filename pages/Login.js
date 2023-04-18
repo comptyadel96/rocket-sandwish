@@ -51,8 +51,8 @@ export default function Login() {
         }`
       )
       setCommandes(commande.data)
-
-      console.log(commande.data)
+      setUserFetched(true)
+      // console.log(commande.data)
     } catch (error) {
       console.log(error)
     }
@@ -63,7 +63,7 @@ export default function Login() {
 
   useEffect(() => {
     getCommandes()
-  }, [users])
+  }, [users, userFetched])
   // modify user infos
   const modifyUserInfos = async (values) => {
     try {
