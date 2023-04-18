@@ -5,8 +5,6 @@ import GoogleProvider from "next-auth/providers/google"
 import clientPromise from "../../../lib/dbConnect"
 import User from "../../../models/user"
 
-
-
 export default NextAuth({
   secret: process.env.SECRET,
   providers: [
@@ -60,7 +58,9 @@ export default NextAuth({
       return true
     },
     async redirect({ url, baseUrl }) {
-      return `${baseUrl}/Login`
+      // return `${baseUrl}/Login`
+      return `https://rocket-sandwich.com/Login`
+     
     },
     async session({ session, user, token }) {
       session.user.id = token.sub

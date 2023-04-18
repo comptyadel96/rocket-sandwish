@@ -5,7 +5,7 @@ import Link from "next/link"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 
-export default function Login({ providers }) {
+export default function Login() {
   const { t } = useTranslation("common")
   return (
     <div className="my-20 flex flex-col items-center  h-screen">
