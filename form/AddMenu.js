@@ -37,7 +37,7 @@ function AddMenu() {
 
   const addMenu = async (values) => {
     try {
-      await axios.post(`https://rocket-sandwich/api/menus/addMenu`, values)
+      await axios.post(`https://rocket-sandwich.com/api/menus/addMenu`, values)
       toast.success("Menu ajouter avec succées ! ", {
         position: toast.POSITION.BOTTOM_CENTER,
       })
