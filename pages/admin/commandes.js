@@ -11,6 +11,7 @@ function commandes() {
         `https://rocket-sandwich.com/api/commande/modifyCommande?id=${id}`,
         { état: etat }
       )
+      router.reload({ scroll: false })
     } catch (error) {
       console.log(error)
     }
@@ -59,7 +60,7 @@ function commandes() {
           >
             <p
               className={`absolute md:-top-3 top-0 font-semibold md:-right-8 right-[40%] bg-${
-                commande.état == "Livrer"
+                commande.état === "Livrer"
                   ? "green-400"
                   : commande.état === "Annuler"
                   ? "red-600"
