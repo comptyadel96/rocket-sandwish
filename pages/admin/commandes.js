@@ -154,9 +154,7 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
 }
 export const getServerSideProps = async (context) => {
   clientPromise()
-  const commandes = await Commande.find().populate(
-    "commanderPar",
-    "name email adresseLivraison _id phoneNumber location"
+  const commandes = await Commande.find().populate("commanderPar","name email adresseLivraison _id phoneNumber location"
   )
   const commandesAnnuler = await Commande.find({ état: "Annuler" })
   const commandesTerminer = await Commande.find({ état: "Livrer" })
