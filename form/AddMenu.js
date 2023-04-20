@@ -37,18 +37,7 @@ function AddMenu() {
 
   const addMenu = async (values) => {
     try {
-      await axios.post(
-        `https://rocket-sandwish-2.vercel.app/api/menus/addMenu`,
-        values,
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Credentials": "true",
-          },
-          withCredentials: true,
-        }
-      )
+      await axios.post(`https://rocket-sandwich/api/menus/addMenu`, values)
       toast.success("Menu ajouter avec succées ! ", {
         position: toast.POSITION.BOTTOM_CENTER,
       })
@@ -163,7 +152,7 @@ function AddMenu() {
               </p>
             ) : null}
             {/* prix points rocket */}
-            <div className="flex items-center md:my-3 my-2">
+            {/* <div className="flex items-center md:my-3 my-2">
               <label className="font-semibold mr-2" htmlFor="prixPoints">
                 Prix en points
               </label>
@@ -180,11 +169,10 @@ function AddMenu() {
                 }}
               />
               <p className="ml-3 font-semibold">Points</p>
-            </div>
+            </div> */}
             {errors.prixPoints && touched.prixPoints ? (
               <p className="text-red-600 text-xs font-semibold">
-                {" "}
-                {errors.prixPoints}{" "}
+                {errors.prixPoints}
               </p>
             ) : null}
             {/* description */}
@@ -201,8 +189,7 @@ function AddMenu() {
             </div>
             {errors.description && touched.description ? (
               <p className="text-red-600 text-xs font-semibold max-w-xs">
-                {" "}
-                {errors.description}{" "}
+                {errors.description}
               </p>
             ) : null}
             <p className="mb-2 font-bold">Marquer comme:</p>
@@ -210,18 +197,21 @@ function AddMenu() {
               <button
                 className="px-2 rounded-md text-sm font-semibold py-[1px] bg-blue-500 text-white"
                 onClick={() => setFieldValue("tag", "nouveau")}
+                role="button"
               >
                 Nouveau
               </button>
               <button
                 className="px-2 rounded-md text-sm font-semibold py-[1px] bg-red-500 text-white"
                 onClick={() => setFieldValue("tag", "le plus vendu")}
+                role="button"
               >
                 Le plus vendu
               </button>
               <button
                 className="px-2 rounded-md text-sm font-semibold py-[1px] bg-orange-400 text-white"
                 onClick={() => setFieldValue("tag", "en feu!")}
+                role="button"
               >
                 En feu !
               </button>
