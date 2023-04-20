@@ -46,7 +46,7 @@ function ModifyMenu({
   const addMenu = async (values) => {
     try {
       await axios.post(
-        `https://rocket-sandwich/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
+        `https://rocket-sandwich.com/api/menus/modifyMenu?userId=${userId}&id=${menuId}`,
         values
       )
       toast.success("Menu modifier avec succées !", {
