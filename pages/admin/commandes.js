@@ -1,11 +1,12 @@
 import axios from "axios"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
-import React from "react"
-import Commande from "../../models/commande"
-import clientPromise from "../../lib/dbConnect"
+import React, { useState, useEffect } from "react"
+import getCommandes from "../api/commande/getCommandes"
+// import clientPromise from "../../lib/dbConnect"
+// import Commande from "../../models/commande"
 
-function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
+function commandes() {
   const router = useRouter()
   const modifyEtat = async (id, etat) => {
     try {
@@ -17,23 +18,39 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
       console.log(error)
     }
   }
+  const [commandes, setCommandes] = useState([])
+
+  const getUsersCommandes = async () => {
+    try {
+      const commandes = await axios.get(
+        `https://rocket-sandwich.com/api/commande/getCommandes`
+      )
+      setCommandes(commandes.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getCommandes()
+  }, [])
+
   return (
     <div className="md:my-24 mt-10 flex flex-col items-center md:px-10 ">
       <h1 className="md:text-6xl md:mb-10 font-semibold">Commandes clients</h1>
       {/* statistiques */}
       <div className="flex items-center flex-wrap md:self-start md:ml-5 md:my-6 font-semibold">
         <p className="md:mx-3 mx-1">
-          Nombre total de commande:{" "}
-          <span className="text-red-600">{commandes.length} </span>{" "}
-        </p>{" "}
-        <p className="md:mx-3 mx-1">
-          Commandes Livrer/Terminer:{" "}
-          <span className="text-red-600">{commandesTerminer.length} </span>{" "}
+          Nombre total de commande:
+          <span className="text-red-600">{commandes.length} </span>
+        </p>
+        {/* <p className="md:mx-3 mx-1">
+          Commandes Livrer/Terminer:
+          <span className="text-red-600">{commandesTerminer.length} </span>
         </p>
         <p className="md:mx-3 mx-1">
-          Commandes annuler:{" "}
-          <span className="text-red-600">{commandesAnnuler.length} </span>{" "}
-        </p>
+          Commandes annuler:
+          <span className="text-red-600">{commandesAnnuler.length} </span>
+        </p> */}
       </div>
 
       {commandes.map((commande) => (
@@ -86,11 +103,11 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
           {commande.livrable && !commande.commanderPar ? (
             <div className="flex flex-col items-center font-semibold">
               <p className="text-red-600">
-                Adresse:{" "}
+                Adresse:
                 <span className="text-black">{commande.adresseClient}</span>
               </p>
               <p className="text-red-600">
-                Numéro client:{" "}
+                Numéro client:
                 <a className="text-black" href={`tel:${commande.numClient}`}>
                   {commande.numClient}
                 </a>
@@ -99,9 +116,7 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
           ) : commande.livrable && commande.commanderPar ? (
             <div className="flex flex-col items-center font-semibold text-sm">
               <p>Commander par: {commande.commanderPar.name} </p>
-              <p>
-                Adresse livraison: {commande.commanderPar.adresseLivraison}{" "}
-              </p>
+              <p>Adresse livraison: {commande.commanderPar.adresseLivraison}</p>
             </div>
           ) : (
             <p className="mt-2 font-semibold  text-purple-600">
@@ -109,7 +124,7 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
             </p>
           )}
           <p className="text-sm font-bold md:my-2 my-1">
-            Coût de la commande: {commande.price} Da{" "}
+            Coût de la commande: {commande.price} Da
           </p>
           <p className=" font-bold">Marquer comme: </p>
           <div className="flex items-center flex-wrap justify-evenly w-full font-semibold my-2">
@@ -153,19 +168,19 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
   )
 }
 export const getServerSideProps = async (context) => {
-  clientPromise()
-  const commandes = await Commande.find().populate(
-    "commanderPar",
-    "name email adresseLivraison _id phoneNumber location"
-  )
-  const commandesAnnuler = await Commande.find({ état: "Annuler" })
-  const commandesTerminer = await Commande.find({ état: "Livrer" })
+  // await clientPromise()
+  // const commandes = await Commande.find().populate(
+  //   "commanderPar",
+  //   "name email adresseLivraison _id phoneNumber location"
+  // )
+  // const commandesAnnuler = await Commande.find({ état: "Annuler" })
+  // const commandesTerminer = await Commande.find({ état: "Livrer" })
   // console.log(commandes)
   return {
     props: {
-      commandes: JSON.parse(JSON.stringify(commandes)),
-      commandesAnnuler: JSON.parse(JSON.stringify(commandesAnnuler)),
-      commandesTerminer: JSON.parse(JSON.stringify(commandesTerminer)),
+      // commandes: JSON.parse(JSON.stringify(commandes)),
+      // commandesAnnuler: JSON.parse(JSON.stringify(commandesAnnuler)),
+      // commandesTerminer: JSON.parse(JSON.stringify(commandesTerminer)),
       ...(await serverSideTranslations(context.locale, ["common"])),
     },
   }

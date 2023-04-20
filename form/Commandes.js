@@ -21,8 +21,8 @@ function Commandes({ menu, prix = "400", photo }) {
           { id: session ? session.user.id : null }
         )
         setCurrentUser(currUser.data)
-        console.log(session.user.id)
-        console.log(currUser.data)
+        // console.log(session.user.id)
+        // console.log(currUser.data)
       } catch (error) {
         console.log(error)
       }
@@ -152,7 +152,7 @@ function Commandes({ menu, prix = "400", photo }) {
             toast.success("Votre commande a bien été reçu", {
               position: toast.POSITION.BOTTOM_CENTER,
             })
-            console.log(values)
+            // console.log(values)
           } catch (error) {
             console.log(error.message)
           }
