@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import React from "react"
 import Commande from "../../models/commande"
 import clientPromise from "../../lib/dbConnect"
+import User from "../../models/user"
 
 function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
   const router = useRouter()
@@ -154,7 +155,10 @@ function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
 }
 export const getServerSideProps = async (context) => {
   clientPromise()
-  const commandes = await Commande.find()
+  const commandes = await Commande.find().populate({
+    path: "commanderPar",
+    model: "User",
+  })
   // .populate("commanderPar","name email adresseLivraison _id phoneNumber location"
   // )
   const commandesAnnuler = await Commande.find({ état: "Annuler" })
