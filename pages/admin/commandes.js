@@ -2,8 +2,8 @@ import axios from "axios"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
 import React from "react"
-import clientPromise from "../../lib/dbConnect"
 import Commande from "../../models/commande"
+import clientPromise from "../../lib/dbConnect"
 
 function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
   const router = useRouter()
@@ -156,11 +156,11 @@ export const getServerSideProps = async (context) => {
   clientPromise()
   const commandes = await Commande.find().populate(
     "commanderPar",
-    "name email adresseLivraison _id phoneNumber"
+    "name email adresseLivraison _id phoneNumber location"
   )
   const commandesAnnuler = await Commande.find({ état: "Annuler" })
   const commandesTerminer = await Commande.find({ état: "Livrer" })
-  console.log(commandes)
+  // console.log(commandes)
   return {
     props: {
       commandes: JSON.parse(JSON.stringify(commandes)),
