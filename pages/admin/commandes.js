@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import React from "react"
 import Commande from "../../models/commande"
 import clientPromise from "../../lib/dbConnect"
-import User from "../../models/user"
+// import User from "../../models/user"
 
 function commandes({ commandes, commandesAnnuler, commandesTerminer }) {
   const router = useRouter()

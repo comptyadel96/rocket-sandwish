@@ -39,5 +39,5 @@ const commandeSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export default mongoose.models.Commande ||
+export default mongoose.models?.Commande ||
   mongoose.model("Commande", commandeSchema)
