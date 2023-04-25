@@ -10,6 +10,7 @@ export default async function (req, res) {
     name,
     userId,
     location,
+    favories,
   } = req.body
   const id = req.query.id
   try {
@@ -22,6 +23,7 @@ export default async function (req, res) {
         name,
         userId,
         location,
+        favories,
       },
       {
         new: true,
