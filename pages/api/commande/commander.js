@@ -6,12 +6,12 @@ import NextCors from "nextjs-cors"
 export default async function (req, res) {
   clientPromise()
   try {
-    // await NextCors(req, res, {
-    //   // Options
-    //   methods: ["GET", "HEAD", "PUT", "POST"],
-    //   origin: "*",
-    //   optionsSuccessStatus: 200,
-    // })
+    await NextCors(req, res, {
+      // Options
+      methods: ["GET", "HEAD", "PUT", "POST"],
+      origin: "*",
+      optionsSuccessStatus: 200,
+    })
 
     const {
       numClient,

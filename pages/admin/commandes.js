@@ -24,7 +24,6 @@ function commandes() {
       const commandes = await axios.get(
         "https://rocket-sandwich.com/api/commande/getCommandes"
       )
-      console.log(commandes.data)
       setCommandes(commandes.data)
     } catch (error) {
       console.log(error)
@@ -40,7 +39,7 @@ function commandes() {
       <div className="flex items-center flex-wrap md:self-start md:ml-5 md:my-6 font-semibold">
         <p className="md:mx-3 mx-1">
           Nombre total de commande:{" "}
-          <span className="text-red-600">{commandes.length} </span>{" "}
+          <span className="text-red-600">{commandes.length} </span> {" "}
         </p>{" "}
         {/* <p className="md:mx-3 mx-1">
           Commandes Livrer/Terminer:{" "}

@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema(
         type: [Number], // Tableau de deux nombres : la longitude et la latitude
       },
     },
+    favories: [String],
   },
   { timestamps: true }
 )
