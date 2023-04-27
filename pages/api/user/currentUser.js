@@ -4,7 +4,10 @@ import User from "../../../models/user"
 export default async function (req, res) {
   clientPromise()
   try {
-    const user = await User.findOne({ userId: req.body.id })
+    const user = await User.findOne({ userId: req.body.id }).populate({
+      path: "favories",
+      model: "Menu",
+    })
     // if (!user) {
     //   return res.status(400).send("aucun uilisateur trouver avec cet id")
     // }

@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
         type: [Number], // Tableau de deux nombres : la longitude et la latitude
       },
     },
-    favories: [String],
+    favories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Menu" }],
   },
   { timestamps: true }
 )
