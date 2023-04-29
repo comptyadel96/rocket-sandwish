@@ -1,5 +1,6 @@
 import Commande from "../../../models/commande"
 import clientPromise from "../../../lib/dbConnect"
+import User from "../../../models/user"
 
 export default async function (req, res) {
   try {
@@ -7,7 +8,7 @@ export default async function (req, res) {
     const commandes = await Commande.find()
       .populate({
         path: "commanderPar",
-        model: "User",
+        model:User,
       })
       .sort({ createdAt: -1 })
     await res.status(200).send(commandes)
