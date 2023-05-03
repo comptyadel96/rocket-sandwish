@@ -12,6 +12,7 @@ export default async function (req, res) {
     phoneNumber,
     adresseLivraison,
     hasCompletedProfil,
+    location,
   } = req.body
   try {
     const user = await User.create({
@@ -23,6 +24,7 @@ export default async function (req, res) {
       phoneNumber,
       adresseLivraison,
       hasCompletedProfil,
+      location,
     })
 
     await res.status(200).send(user)
