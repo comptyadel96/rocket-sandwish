@@ -10,17 +10,17 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     name: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: { type: String },
     role: {
       type: String,
       default: "user",
     },
     picture: String,
     commandes: [],
-    rocketPts: {
-      type: String,
-      default: 0,
-    },
+    // rocketPts: {
+    //   type: String,
+    //   default: 0,
+    // },
     adresseLivraison: String,
     hasCompletedProfil: {
       type: Boolean,
