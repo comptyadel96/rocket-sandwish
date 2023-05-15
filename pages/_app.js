@@ -16,4 +16,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   )
 }
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(MyApp)
