@@ -7,14 +7,16 @@ const SocketHandler = (req, res) => {
     console.log("Socket is initializing")
     const io = new Server(res.socket.server, {
       cors: { origin: "https://rocket-sandwich.com" },
-      path:"/api/live"
+      path: "/api/live",
     })
     res.socket.server.io = io
 
     // io on connection
     io.on("connection", (socket) => {
+      socket.broadcast.emit("a user connected")
       socket.on("sendMsg", (msg) => {
-        socket.broadcast.emit("message sent", msg)
+        socket.broadcast.emit("sent from react native", msg)
+        console.log("message sent")
       })
     })
     io.on("connect_error", (err) => {
