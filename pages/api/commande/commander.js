@@ -2,7 +2,16 @@ import clientPromise from "../../../lib/dbConnect"
 import Commande from "../../../models/commande"
 import User from "../../../models/user"
 import NextCors from "nextjs-cors"
-import pusher from "../../../lib/pusher"
+// import pusher from "../../../lib/pusher"
+
+import Pusher from "pusher"
+const pusher = new Pusher({
+  appId: "1601549",
+  secret: "60404add5f99e4a7a2ad",
+  key: "2d69bd3e7210769d4d00",
+  cluster: "eu",
+  useTLS: true,
+})
 
 export default async function (req, res) {
   clientPromise()
@@ -41,7 +50,9 @@ export default async function (req, res) {
       livrable,
       location,
     })
-   await pusher.trigger("my-channel", "my-event", { message: "nouvelle commande" })
+    await pusher.trigger("my-channel", "my-event", {
+      message: "nouvelle commande",
+    })
     if (!userId) {
       res.status(400).send("no user Id ")
     }
