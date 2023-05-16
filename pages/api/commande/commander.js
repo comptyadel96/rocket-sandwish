@@ -2,6 +2,7 @@ import clientPromise from "../../../lib/dbConnect"
 import Commande from "../../../models/commande"
 import User from "../../../models/user"
 import NextCors from "nextjs-cors"
+import pusher from "../../../lib/pusher"
 
 export default async function (req, res) {
   clientPromise()
@@ -40,6 +41,7 @@ export default async function (req, res) {
       livrable,
       location,
     })
+    pusher.trigger("my-channel", "my-event", { message: "nouvelle commande" })
     if (!userId) {
       res.status(400).send("no user Id ")
     }
