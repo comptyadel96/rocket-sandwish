@@ -41,7 +41,7 @@ export default async function (req, res) {
       livrable,
       location,
     })
-    pusher.trigger("my-channel", "my-event", { message: "nouvelle commande" })
+   await pusher.trigger("my-channel", "my-event", { message: "nouvelle commande" })
     if (!userId) {
       res.status(400).send("no user Id ")
     }
