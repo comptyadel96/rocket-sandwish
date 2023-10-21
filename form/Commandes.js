@@ -70,13 +70,16 @@ function Commandes({ menu, prix = "400", photo }) {
   // validation schema
   const validationSchema = Yup.object().shape({
     numClient: Yup.string()
-      .min(10, "veuillez saisir un numéro de téléphone valide svp")
-      .when("livrable", {
-        is: true,
-        then: Yup.string().required(
-          "Veuillez saisir un numéro de téléphone valide s'il vous plait"
-        ),
-      }),
+      .matches(
+        /^[0-9]+$/,
+        "Le numéro de téléphone ne doit contenir que des chiffres."
+      )
+      .matches(
+        /^(05|06|07)\d{8}$/,
+        "Le numéro de téléphone doit commencer par 05, 06 ou 07 et comporter exactement 10 chiffres."
+      )
+      .min(10, "Veuillez entrer votre numéro complet s'il vous plait")
+      .required("Le numéro de téléphone est obligatoire."),
     adresseClient: Yup.string()
       .min(10, "l'adresse doit au-moins contenir 10 lettres")
       .when("location", {
@@ -605,6 +608,8 @@ function Commandes({ menu, prix = "400", photo }) {
                     name="numClient"
                     className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none"
                     placeholder={t("numTelephone")}
+                    maxlength={10}
+                    type="numeric"
                   />
                 </div>
                 {errors.numClient && touched.numClient ? (
