@@ -4,7 +4,7 @@ import * as Yup from "yup"
 import Image from "next/image"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { BsPinMap, BsTelephone } from "react-icons/bs"
+import { BsCheck, BsMapFill, BsPinMap, BsTelephone } from "react-icons/bs"
 import axios from "axios"
 import { useTranslation } from "next-i18next"
 import { useSession } from "next-auth/react"
@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react"
 function Commandes({ menu, prix = "400", photo }) {
   const [currentUser, setCurrentUser] = useState()
   const { data: session, status } = useSession()
+  const [position, setPosition] = useState(null)
   // get current user informations
   const getInfos = async () => {
     if (session) {
@@ -32,6 +33,38 @@ function Commandes({ menu, prix = "400", photo }) {
     getInfos()
   }, [session])
 
+  // avoir la localisation du client avec le navigateur
+  const getUserLocation = async () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const latitude = position.coords.latitude
+          const longitude = position.coords.longitude
+
+          setPosition({ type: "Point", coordinates: [latitude, longitude] })
+          // Faites ce que vous voulez avec latitude et longitude
+          console.log("Latitude : " + latitude)
+          console.log("Longitude : " + longitude)
+        },
+        function (error) {
+          // Géolocalisation non autorisée ou erreur de géolocalisation
+          console.error("Erreur de géolocalisation : " + error.message)
+          alert(
+            "Erreur de géolocalisation : vous n'avez pas autoriser l'accés à votre position ou bien votre navigateur ne supporte pas la géolocalisation, vous devez entrer votre adresse de livraison manuellement "
+          )
+        }
+      )
+    } else {
+      // La géolocalisation n'est pas disponible dans ce navigateur
+      console.error("La géolocalisation n'est pas disponible.")
+      alert(
+        "La géolocalisation n'est pas disponible pour votre navigateur, essayez avec mozilla firefox ou google chrome avec la derniére mise à jour"
+      )
+    }
+  }
+  useEffect(() => {
+    getUserLocation()
+  }, [])
   const { t } = useTranslation("common")
 
   // validation schema
@@ -46,13 +79,14 @@ function Commandes({ menu, prix = "400", photo }) {
       }),
     adresseClient: Yup.string()
       .min(10, "l'adresse doit au-moins contenir 10 lettres")
-      .when("livrable", {
-        is: true,
+      .when("location", {
+        is: null,
         then: Yup.string().required(
-          "Veuillez saisir une adresse de livraison valide"
+          "Vous devez soit entrer votre adresse manuelement, soit autoriser notre site web a accéder à votre localisation afin de finaliser votre commande"
         ),
       }),
     livrable: Yup.boolean(),
+    location: Yup.object(),
   })
   const mayoRef = useRef()
   const ketchupRef = useRef()
@@ -142,11 +176,12 @@ function Commandes({ menu, prix = "400", photo }) {
           livrable: aTable,
           photo,
           price: totalPrice,
+          location: position,
         }}
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={async (values) => {
-          // console.log(values)
+          console.log(values)
           try {
             await commander(values)
             toast.success("Votre commande a bien été reçu", {
@@ -155,6 +190,9 @@ function Commandes({ menu, prix = "400", photo }) {
             // console.log(values)
           } catch (error) {
             console.log(error.message)
+            alert(
+              "Une erreur s'est produite, si l'erreure persiste veuillez nous contacter"
+            )
           }
         }}
       >
@@ -533,19 +571,28 @@ function Commandes({ menu, prix = "400", photo }) {
             {/* infos personnelle client */}
             {!aTable && (
               <div>
-                <div className="flex items-center my-3">
-                  <BsPinMap className="mr-2 text-xl" />
-                  <Field
-                    onChange={(e) => {
-                      handleChange(e)
-                    }}
-                    name="adresseClient"
-                    className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none "
-                    placeholder={t("adresseLivraison")}
-                  />
-                </div>
+                {!position ? (
+                  <div className="flex items-center my-3">
+                    <BsPinMap className="mr-2 text-xl" />
+                    <Field
+                      onChange={(e) => {
+                        handleChange(e)
+                      }}
+                      name="adresseClient"
+                      className="bg-white px-3 py-1 rounded-md shadow-md focus:outline-none "
+                      placeholder={t("adresseLivraison")}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <BsCheck className="text-green-400 ml-2 text-4xl" />
+                    <p className="font-semibold">
+                      Localisation obtenu avec succées
+                    </p>
+                  </div>
+                )}
                 {errors.adresseClient && touched.adresseClient ? (
-                  <p className="text-red-600 text-xs font-semibold">
+                  <p className="text-red-600 text-xs font-semibold max-w-xs">
                     {errors.adresseClient}
                   </p>
                 ) : null}
@@ -572,6 +619,11 @@ function Commandes({ menu, prix = "400", photo }) {
             <p className="font-semibold mb-2">
               {t("totalePayer")}: {totalPrice} {t("Da")}{" "}
             </p>
+            {errors.location && touched.location ? (
+              <p className="text-red-600 text-xs font-semibold max-w-xs">
+                {errors.location}
+              </p>
+            ) : null}
             <button
               // onClick={handleSubmit}
               type="submit"
